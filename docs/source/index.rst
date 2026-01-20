@@ -37,7 +37,7 @@ The 3D4L framework consists of four main components:
 
 .. _CLS-Luigi: https://github.com/cls-python/cls-luigi
 
-.. figure:: docs/source/_static/3d4l_framework_v5.png
+.. figure:: _static/3d4l_framework_v5.png
    :alt: 3D4L Architecture
    :width: 100%
    :align: center

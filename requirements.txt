@@ -6,3 +6,9 @@ luigi==3.6.0
 jupyter
 orjson
 tqdm
+sphinx
+furo
+sphinx-autoapi
+sphinx_design
+sphinx_copybutton
+myst-nb
