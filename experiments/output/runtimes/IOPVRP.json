@@ -1,0 +1,1122 @@
+{
+  "LargeProblems_6_9": {
+    "load_domain": 0.8822217108681798,
+    "filter_and_import": 0.0008965139277279377,
+    "build_pipelines": 26.21295524807647,
+    "run_pipelines": 781.115018739365,
+    "total": 808.2110922122374
+  },
+  "LargeProblems_4_1": {
+    "load_domain": 0.7575116958469152,
+    "filter_and_import": 0.0009196782484650612,
+    "build_pipelines": 27.693487877957523,
+    "run_pipelines": 792.4529236969538,
+    "total": 820.9048429490067
+  },
+  "LargeProblems_8_8": {
+    "load_domain": 0.6461687628179789,
+    "filter_and_import": 0.0009016599506139755,
+    "build_pipelines": 28.182559963781387,
+    "run_pipelines": 787.9203777168877,
+    "total": 816.7500081034377
+  },
+  "LargeProblems_10_8": {
+    "load_domain": 0.689105877187103,
+    "filter_and_import": 0.001167969312518835,
+    "build_pipelines": 28.07293999986723,
+    "run_pipelines": 1066.6468802215531,
+    "total": 1095.41009406792
+  },
+  "LargeProblems_2_2": {
+    "load_domain": 0.6400939621962607,
+    "filter_and_import": 0.0009714900515973568,
+    "build_pipelines": 28.46016020467505,
+    "run_pipelines": 790.6781249088235,
+    "total": 819.7793505657464
+  },
+  "LargeProblems_11_7": {
+    "load_domain": 0.6911797570064664,
+    "filter_and_import": 0.0011311210691928864,
+    "build_pipelines": 27.934584899805486,
+    "run_pipelines": 1047.12173482636,
+    "total": 1075.748630604241
+  },
+  "LargeProblems_11_1": {
+    "load_domain": 0.6945527149364352,
+    "filter_and_import": 0.0012270952574908733,
+    "build_pipelines": 28.44573869695887,
+    "run_pipelines": 1113.834867535159,
+    "total": 1142.9763860423118
+  },
+  "LargeProblems_13_9": {
+    "load_domain": 0.6736322906799614,
+    "filter_and_import": 0.0011507878080010414,
+    "build_pipelines": 27.282422228716314,
+    "run_pipelines": 1100.137942683883,
+    "total": 1128.0951479910873
+  },
+  "LargeProblems_15_3": {
+    "load_domain": 0.7168525797314942,
+    "filter_and_import": 0.0011786315590143204,
+    "build_pipelines": 29.044537824112922,
+    "run_pipelines": 1080.7369600096717,
+    "total": 1110.4995290450752
+  },
+  "LargeProblems_6_3": {
+    "load_domain": 0.6203994560055435,
+    "filter_and_import": 0.0009640082716941833,
+    "build_pipelines": 27.148690657224506,
+    "run_pipelines": 790.4444479658268,
+    "total": 818.2145020873286
+  },
+  "LargeProblems_11_5": {
+    "load_domain": 0.6916168071329594,
+    "filter_and_import": 0.0012371880002319813,
+    "build_pipelines": 27.812454669270664,
+    "run_pipelines": 1070.8981382832862,
+    "total": 1099.40344694769
+  },
+  "LargeProblems_9_7": {
+    "load_domain": 1.878774425946176,
+    "filter_and_import": 0.0010771811939775944,
+    "build_pipelines": 27.49270769301802,
+    "run_pipelines": 1060.2898193639703,
+    "total": 1089.6623786641285
+  },
+  "LargeProblems_10_2": {
+    "load_domain": 0.7033049669116735,
+    "filter_and_import": 0.0012492560781538486,
+    "build_pipelines": 27.34762853430584,
+    "run_pipelines": 1069.848582081031,
+    "total": 1097.9007648383267
+  },
+  "LargeProblems_2_10": {
+    "load_domain": 0.6938214940018952,
+    "filter_and_import": 0.0009872359223663807,
+    "build_pipelines": 27.852568740956485,
+    "run_pipelines": 785.5520479050465,
+    "total": 814.0994253759272
+  },
+  "LargeProblems_14_4": {
+    "load_domain": 0.7282878793776035,
+    "filter_and_import": 0.0012991921976208687,
+    "build_pipelines": 27.989243024028838,
+    "run_pipelines": 1136.1185178016312,
+    "total": 1164.8373478972353
+  },
+  "LargeProblems_14_3": {
+    "load_domain": 0.7161756511777639,
+    "filter_and_import": 0.0013405089266598225,
+    "build_pipelines": 27.440333029720932,
+    "run_pipelines": 1077.5241709412076,
+    "total": 1105.682020131033
+  },
+  "LargeProblems_6_4": {
+    "load_domain": 0.6098753558471799,
+    "filter_and_import": 0.0008930899202823639,
+    "build_pipelines": 27.019753511995077,
+    "run_pipelines": 788.2858158876188,
+    "total": 815.9163378453813
+  },
+  "LargeProblems_4_2": {
+    "load_domain": 0.6965513923205435,
+    "filter_and_import": 0.001044098287820816,
+    "build_pipelines": 26.99049132410437,
+    "run_pipelines": 789.2582708438858,
+    "total": 816.9463576585986
+  },
+  "LargeProblems_4_5": {
+    "load_domain": 0.61229755776003,
+    "filter_and_import": 0.0010201591067016125,
+    "build_pipelines": 26.872579683549702,
+    "run_pipelines": 794.5418075751513,
+    "total": 822.0277049755678
+  },
+  "LargeProblems_5_1": {
+    "load_domain": 0.645579022821039,
+    "filter_and_import": 0.0009891889058053493,
+    "build_pipelines": 27.60109587619081,
+    "run_pipelines": 795.5630696481094,
+    "total": 823.810733736027
+  },
+  "LargeProblems_14_1": {
+    "load_domain": 0.7704997849650681,
+    "filter_and_import": 0.0012187683023512363,
+    "build_pipelines": 27.511134183965623,
+    "run_pipelines": 1102.0846138801426,
+    "total": 1130.3674666173756
+  },
+  "LargeProblems_11_10": {
+    "load_domain": 0.6779419970698655,
+    "filter_and_import": 0.0012456350959837437,
+    "build_pipelines": 29.865005664993078,
+    "run_pipelines": 1163.192158226855,
+    "total": 1193.736351524014
+  },
+  "LargeProblems_12_4": {
+    "load_domain": 0.7067024018615484,
+    "filter_and_import": 0.0012270770967006683,
+    "build_pipelines": 27.085441699717194,
+    "run_pipelines": 1138.5299853510223,
+    "total": 1166.3233565296978
+  },
+  "LargeProblems_5_7": {
+    "load_domain": 0.6013902109116316,
+    "filter_and_import": 0.0010365447960793972,
+    "build_pipelines": 26.84561048494652,
+    "run_pipelines": 785.1232775710523,
+    "total": 812.5713148117065
+  },
+  "LargeProblems_12_8": {
+    "load_domain": 0.6853233468718827,
+    "filter_and_import": 0.0011381651274859905,
+    "build_pipelines": 26.501437560655177,
+    "run_pipelines": 1071.3733392809518,
+    "total": 1098.5612383536063
+  },
+  "LargeProblems_9_4": {
+    "load_domain": 0.7053497689776123,
+    "filter_and_import": 0.001205849926918745,
+    "build_pipelines": 27.881352405063808,
+    "run_pipelines": 1131.6386387366802,
+    "total": 1160.2265467606485
+  },
+  "LargeProblems_6_2": {
+    "load_domain": 0.619495621882379,
+    "filter_and_import": 0.0009223190136253834,
+    "build_pipelines": 27.801002508960664,
+    "run_pipelines": 789.9859683769755,
+    "total": 818.4073888268322
+  },
+  "LargeProblems_10_7": {
+    "load_domain": 0.7041114862076938,
+    "filter_and_import": 0.0012598740868270397,
+    "build_pipelines": 30.9395622597076,
+    "run_pipelines": 1056.2183743650094,
+    "total": 1087.8633079850115
+  },
+  "LargeProblems_3_7": {
+    "load_domain": 0.6016237973235548,
+    "filter_and_import": 0.0008967840112745762,
+    "build_pipelines": 27.19614915503189,
+    "run_pipelines": 782.7198452521116,
+    "total": 810.5185149884783
+  },
+  "LargeProblems_12_9": {
+    "load_domain": 0.6619166890159249,
+    "filter_and_import": 0.0012026168406009674,
+    "build_pipelines": 25.948277147021145,
+    "run_pipelines": 1100.5451327119954,
+    "total": 1127.156529164873
+  },
+  "LargeProblems_7_5": {
+    "load_domain": 0.6345091639086604,
+    "filter_and_import": 0.0010515670292079449,
+    "build_pipelines": 27.811899084132165,
+    "run_pipelines": 797.992659848649,
+    "total": 826.4401196637191
+  },
+  "LargeProblems_3_8": {
+    "load_domain": 0.6331295967102051,
+    "filter_and_import": 0.0009370180778205395,
+    "build_pipelines": 27.450891049113125,
+    "run_pipelines": 787.6172303790227,
+    "total": 815.7021880429238
+  },
+  "LargeProblems_10_10": {
+    "load_domain": 0.7209222139790654,
+    "filter_and_import": 0.0013345829211175442,
+    "build_pipelines": 27.71781688183546,
+    "run_pipelines": 1162.4087333530188,
+    "total": 1190.8488070317544
+  },
+  "LargeProblems_11_6": {
+    "load_domain": 0.7071542297489941,
+    "filter_and_import": 0.0012748218141496181,
+    "build_pipelines": 26.505316221155226,
+    "run_pipelines": 1088.7292138081975,
+    "total": 1115.942959080916
+  },
+  "LargeProblems_16_4": {
+    "load_domain": 0.675288035068661,
+    "filter_and_import": 0.0013458533212542534,
+    "build_pipelines": 27.85650704614818,
+    "run_pipelines": 1129.0140343508683,
+    "total": 1157.5471752854064
+  },
+  "LargeProblems_8_6": {
+    "load_domain": 0.6965742260217667,
+    "filter_and_import": 0.0009606159292161465,
+    "build_pipelines": 28.088631342165172,
+    "run_pipelines": 777.6608873158693,
+    "total": 806.4470534999855
+  },
+  "LargeProblems_12_6": {
+    "load_domain": 0.7062599300406873,
+    "filter_and_import": 0.0011868663132190704,
+    "build_pipelines": 27.562377313151956,
+    "run_pipelines": 1081.9469512016512,
+    "total": 1110.216775311157
+  },
+  "LargeProblems_7_7": {
+    "load_domain": 0.686225725337863,
+    "filter_and_import": 0.0010270769707858562,
+    "build_pipelines": 31.10656285006553,
+    "run_pipelines": 781.3860749336891,
+    "total": 813.1798905860633
+  },
+  "LargeProblems_5_3": {
+    "load_domain": 0.6516371769830585,
+    "filter_and_import": 0.0009555690921843052,
+    "build_pipelines": 26.734626878984272,
+    "run_pipelines": 790.6245228350163,
+    "total": 818.0117424600758
+  },
+  "LargeProblems_9_1": {
+    "load_domain": 0.7072942377999425,
+    "filter_and_import": 0.0013457583263516426,
+    "build_pipelines": 27.85018900455907,
+    "run_pipelines": 1103.851612918079,
+    "total": 1132.4104419187643
+  },
+  "LargeProblems_13_2": {
+    "load_domain": 0.6979999709874392,
+    "filter_and_import": 0.0012340070679783821,
+    "build_pipelines": 32.52489687502384,
+    "run_pipelines": 1065.0040281089023,
+    "total": 1098.2281589619815
+  },
+  "LargeProblems_2_1": {
+    "load_domain": 0.6738379830494523,
+    "filter_and_import": 0.0009413179941475391,
+    "build_pipelines": 27.547469325363636,
+    "run_pipelines": 794.8483034833334,
+    "total": 823.0705521097407
+  },
+  "LargeProblems_2_6": {
+    "load_domain": 0.7069392600096762,
+    "filter_and_import": 0.0010493816807866096,
+    "build_pipelines": 26.804964986629784,
+    "run_pipelines": 771.6045654029585,
+    "total": 799.1175190312788
+  },
+  "LargeProblems_5_4": {
+    "load_domain": 0.6546773738227785,
+    "filter_and_import": 0.0010212929919362068,
+    "build_pipelines": 26.414647455327213,
+    "run_pipelines": 789.4145934688859,
+    "total": 816.4849395910278
+  },
+  "LargeProblems_2_7": {
+    "load_domain": 0.6077022198587656,
+    "filter_and_import": 0.0010093310847878456,
+    "build_pipelines": 27.18850051704794,
+    "run_pipelines": 787.3849060060456,
+    "total": 815.1821180740371
+  },
+  "LargeProblems_4_3": {
+    "load_domain": 0.6354667721316218,
+    "filter_and_import": 0.001040430273860693,
+    "build_pipelines": 27.915131297893822,
+    "run_pipelines": 787.2917189677246,
+    "total": 815.8433574680239
+  },
+  "LargeProblems_4_4": {
+    "load_domain": 0.6386368833482265,
+    "filter_and_import": 0.0010052700527012348,
+    "build_pipelines": 27.781177225057036,
+    "run_pipelines": 792.1729733087122,
+    "total": 820.5937926871702
+  },
+  "LargeProblems_13_8": {
+    "load_domain": 0.7401712629944086,
+    "filter_and_import": 0.0013665780425071716,
+    "build_pipelines": 27.975412680767477,
+    "run_pipelines": 1066.5618513496593,
+    "total": 1095.2788018714637
+  },
+  "LargeProblems_7_8": {
+    "load_domain": 0.6416381569579244,
+    "filter_and_import": 0.0010620169341564178,
+    "build_pipelines": 27.995770667213947,
+    "run_pipelines": 787.2962661120109,
+    "total": 815.934736953117
+  },
+  "LargeProblems_11_9": {
+    "load_domain": 0.7633100100792944,
+    "filter_and_import": 0.0012586102820932865,
+    "build_pipelines": 27.886611084919423,
+    "run_pipelines": 1091.984077216126,
+    "total": 1120.6352569214068
+  },
+  "LargeProblems_14_8": {
+    "load_domain": 0.7286585499532521,
+    "filter_and_import": 0.0015180078335106373,
+    "build_pipelines": 27.779335924889892,
+    "run_pipelines": 1069.921655537095,
+    "total": 1098.4311680197716
+  },
+  "LargeProblems_7_2": {
+    "load_domain": 0.5996026960201561,
+    "filter_and_import": 0.0009167059324681759,
+    "build_pipelines": 27.324426050297916,
+    "run_pipelines": 787.067789634224,
+    "total": 814.9927350864746
+  },
+  "LargeProblems_13_3": {
+    "load_domain": 0.7270486648194492,
+    "filter_and_import": 0.0012412481009960175,
+    "build_pipelines": 34.786772730760276,
+    "run_pipelines": 1082.2510194610804,
+    "total": 1117.7660821047612
+  },
+  "LargeProblems_5_8": {
+    "load_domain": 0.6310920957475901,
+    "filter_and_import": 0.0009181401692330837,
+    "build_pipelines": 27.75370733300224,
+    "run_pipelines": 783.9053970053792,
+    "total": 812.2911145742983
+  },
+  "LargeProblems_12_2": {
+    "load_domain": 0.726353500969708,
+    "filter_and_import": 0.0013071591965854168,
+    "build_pipelines": 27.879706734791398,
+    "run_pipelines": 1063.3832605667412,
+    "total": 1091.990627961699
+  },
+  "LargeProblems_13_6": {
+    "load_domain": 0.7106440118514001,
+    "filter_and_import": 0.0012644072994589806,
+    "build_pipelines": 27.8888244968839,
+    "run_pipelines": 1088.0712565896101,
+    "total": 1116.671989505645
+  },
+  "LargeProblems_14_10": {
+    "load_domain": 0.7114594052545726,
+    "filter_and_import": 0.0011840322986245155,
+    "build_pipelines": 27.33622945798561,
+    "run_pipelines": 1161.7989174127579,
+    "total": 1189.8477903082967
+  },
+  "LargeProblems_9_3": {
+    "load_domain": 0.7108996836468577,
+    "filter_and_import": 0.0012073377147316933,
+    "build_pipelines": 27.066257372964174,
+    "run_pipelines": 1080.0165381729603,
+    "total": 1107.794902567286
+  },
+  "LargeProblems_9_10": {
+    "load_domain": 0.7046385360881686,
+    "filter_and_import": 0.001365607138723135,
+    "build_pipelines": 28.06288596894592,
+    "run_pipelines": 1158.9227614779957,
+    "total": 1187.6916515901685
+  },
+  "LargeProblems_10_3": {
+    "load_domain": 0.7077402011491358,
+    "filter_and_import": 0.0013225739821791649,
+    "build_pipelines": 27.7775415671058,
+    "run_pipelines": 1085.3260179799981,
+    "total": 1113.8126223222353
+  },
+  "LargeProblems_2_4": {
+    "load_domain": 0.6350983460433781,
+    "filter_and_import": 0.0010549118742346764,
+    "build_pipelines": 28.036317796912044,
+    "run_pipelines": 793.4580008960329,
+    "total": 822.1304719508626
+  },
+  "LargeProblems_4_9": {
+    "load_domain": 0.6446062829345465,
+    "filter_and_import": 0.0010049650445580482,
+    "build_pipelines": 27.667327331844717,
+    "run_pipelines": 780.8766234372742,
+    "total": 809.1895620170981
+  },
+  "LargeProblems_15_5": {
+    "load_domain": 0.7654748102650046,
+    "filter_and_import": 0.0011794231832027435,
+    "build_pipelines": 26.361671284772456,
+    "run_pipelines": 1068.8888498418964,
+    "total": 1096.017175360117
+  },
+  "LargeProblems_15_7": {
+    "load_domain": 0.7557169483043253,
+    "filter_and_import": 0.0011358321644365788,
+    "build_pipelines": 27.95571555569768,
+    "run_pipelines": 1059.6866500722244,
+    "total": 1088.3992184083909
+  },
+  "LargeProblems_11_4": {
+    "load_domain": 0.7232896420173347,
+    "filter_and_import": 0.0013164030387997627,
+    "build_pipelines": 28.165268468204886,
+    "run_pipelines": 1137.319202595856,
+    "total": 1166.209077109117
+  },
+  "LargeProblems_16_1": {
+    "load_domain": 0.7200474250130355,
+    "filter_and_import": 0.001366178970783949,
+    "build_pipelines": 27.634045145008713,
+    "run_pipelines": 1112.1837596232072,
+    "total": 1140.5392183721997
+  },
+  "LargeProblems_1_1": {
+    "load_domain": 0.6191212250851095,
+    "filter_and_import": 0.0009843651205301285,
+    "build_pipelines": 27.55412152595818,
+    "run_pipelines": 792.8339124410413,
+    "total": 821.0081395572051
+  },
+  "LargeProblems_3_5": {
+    "load_domain": 0.6498011033982038,
+    "filter_and_import": 0.0010163518600165844,
+    "build_pipelines": 27.794798438902944,
+    "run_pipelines": 800.0798822091892,
+    "total": 828.5254981033504
+  },
+  "LargeProblems_10_4": {
+    "load_domain": 0.7777338549494743,
+    "filter_and_import": 0.001291212160140276,
+    "build_pipelines": 28.694002693984658,
+    "run_pipelines": 1165.9051276501268,
+    "total": 1195.378155411221
+  },
+  "LargeProblems_13_4": {
+    "load_domain": 0.7199738379567862,
+    "filter_and_import": 0.001215845812112093,
+    "build_pipelines": 34.99576431605965,
+    "run_pipelines": 1124.5169867221266,
+    "total": 1160.2339407219552
+  },
+  "LargeProblems_8_2": {
+    "load_domain": 0.6713787671178579,
+    "filter_and_import": 0.0009819413535296917,
+    "build_pipelines": 27.360213418956846,
+    "run_pipelines": 794.585914182011,
+    "total": 822.6184883094393
+  },
+  "LargeProblems_10_9": {
+    "load_domain": 0.707881520036608,
+    "filter_and_import": 0.0013056080788373947,
+    "build_pipelines": 27.8224058970809,
+    "run_pipelines": 1098.7936878511682,
+    "total": 1127.3252808763646
+  },
+  "LargeProblems_9_9": {
+    "load_domain": 0.7044929238036275,
+    "filter_and_import": 0.0013336441479623318,
+    "build_pipelines": 27.90218148799613,
+    "run_pipelines": 1085.6642611809075,
+    "total": 1114.2722692368552
+  },
+  "LargeProblems_11_3": {
+    "load_domain": 0.7794026089832187,
+    "filter_and_import": 0.0012677740305662155,
+    "build_pipelines": 27.79141190694645,
+    "run_pipelines": 1082.724324178882,
+    "total": 1111.2964064688422
+  },
+  "LargeProblems_6_5": {
+    "load_domain": 0.6599362976849079,
+    "filter_and_import": 0.0010815663263201714,
+    "build_pipelines": 27.42192823672667,
+    "run_pipelines": 800.546154779382,
+    "total": 828.62910088012
+  },
+  "LargeProblems_8_3": {
+    "load_domain": 0.6394832441583276,
+    "filter_and_import": 0.00098362285643816,
+    "build_pipelines": 27.861983228940517,
+    "run_pipelines": 787.3693631300703,
+    "total": 815.8718132260256
+  },
+  "LargeProblems_14_9": {
+    "load_domain": 0.7143720011226833,
+    "filter_and_import": 0.0012702490203082561,
+    "build_pipelines": 27.83050427911803,
+    "run_pipelines": 1089.7423359118402,
+    "total": 1118.2884824411012
+  },
+  "LargeProblems_7_6": {
+    "load_domain": 0.6164840701967478,
+    "filter_and_import": 0.0009060190059244633,
+    "build_pipelines": 27.260701997671276,
+    "run_pipelines": 774.5446564806625,
+    "total": 802.4227485675365
+  },
+  "LargeProblems_16_10": {
+    "load_domain": 0.7058290578424931,
+    "filter_and_import": 0.0012334766797721386,
+    "build_pipelines": 27.775675531942397,
+    "run_pipelines": 1161.905179221183,
+    "total": 1190.3879172876477
+  },
+  "LargeProblems_3_10": {
+    "load_domain": 0.6207999298349023,
+    "filter_and_import": 0.0010454300791025162,
+    "build_pipelines": 26.35903054429218,
+    "run_pipelines": 783.1667001959868,
+    "total": 810.147576100193
+  },
+  "LargeProblems_1_4": {
+    "load_domain": 0.647348958067596,
+    "filter_and_import": 0.001000997144728899,
+    "build_pipelines": 27.505744374357164,
+    "run_pipelines": 792.863947995007,
+    "total": 821.0180423245765
+  },
+  "LargeProblems_4_8": {
+    "load_domain": 0.7072148001752794,
+    "filter_and_import": 0.0010486319661140442,
+    "build_pipelines": 27.186228619888425,
+    "run_pipelines": 785.8994465209544,
+    "total": 813.7939385729842
+  },
+  "LargeProblems_4_7": {
+    "load_domain": 0.6277320845983922,
+    "filter_and_import": 0.0009982772171497345,
+    "build_pipelines": 27.14952089684084,
+    "run_pipelines": 780.7334851650521,
+    "total": 808.5117364237085
+  },
+  "LargeProblems_11_2": {
+    "load_domain": 0.6845873086713254,
+    "filter_and_import": 0.0011759470216929913,
+    "build_pipelines": 26.99981162464246,
+    "run_pipelines": 1064.414499094244,
+    "total": 1092.1000739745796
+  },
+  "LargeProblems_13_5": {
+    "load_domain": 0.7084158561192453,
+    "filter_and_import": 0.001251725945621729,
+    "build_pipelines": 27.19726247387007,
+    "run_pipelines": 1091.4903033366427,
+    "total": 1119.3972333925776
+  },
+  "LargeProblems_1_9": {
+    "load_domain": 0.628284886945039,
+    "filter_and_import": 0.000958773773163557,
+    "build_pipelines": 28.016266230028123,
+    "run_pipelines": 781.0002884580754,
+    "total": 809.6457983488217
+  },
+  "LargeProblems_3_4": {
+    "load_domain": 0.6038654525764287,
+    "filter_and_import": 0.0009800312109291553,
+    "build_pipelines": 26.954651144798845,
+    "run_pipelines": 786.6234511649236,
+    "total": 814.1829477935098
+  },
+  "LargeProblems_16_3": {
+    "load_domain": 0.6935161799192429,
+    "filter_and_import": 0.001300870906561613,
+    "build_pipelines": 27.055590585805476,
+    "run_pipelines": 1081.560006663669,
+    "total": 1109.3104143003002
+  },
+  "LargeProblems_15_9": {
+    "load_domain": 0.6679096799343824,
+    "filter_and_import": 0.0012459470890462399,
+    "build_pipelines": 27.556901963893324,
+    "run_pipelines": 1102.7893845769577,
+    "total": 1131.0154421678744
+  },
+  "LargeProblems_7_3": {
+    "load_domain": 0.6437895060516894,
+    "filter_and_import": 0.0010344740003347397,
+    "build_pipelines": 27.195520440116525,
+    "run_pipelines": 789.1705879648216,
+    "total": 817.0109323849902
+  },
+  "LargeProblems_14_5": {
+    "load_domain": 0.6963562099263072,
+    "filter_and_import": 0.0012321658432483673,
+    "build_pipelines": 27.552638225257397,
+    "run_pipelines": 1072.8754806499928,
+    "total": 1101.1257072510198
+  },
+  "LargeProblems_1_2": {
+    "load_domain": 0.647267784923315,
+    "filter_and_import": 0.0011051930487155914,
+    "build_pipelines": 27.18265971681103,
+    "run_pipelines": 787.2579837851226,
+    "total": 815.0890164799057
+  },
+  "LargeProblems_8_7": {
+    "load_domain": 0.6387547529302537,
+    "filter_and_import": 0.0009600808843970299,
+    "build_pipelines": 27.950710099190474,
+    "run_pipelines": 780.4747936250642,
+    "total": 809.0652185580693
+  },
+  "LargeProblems_7_10": {
+    "load_domain": 0.6530093881301582,
+    "filter_and_import": 0.0009737140499055386,
+    "build_pipelines": 27.124788424000144,
+    "run_pipelines": 793.2444881252013,
+    "total": 821.0232596513815
+  },
+  "LargeProblems_16_8": {
+    "load_domain": 0.7097039530053735,
+    "filter_and_import": 0.0013608071021735668,
+    "build_pipelines": 27.93728750711307,
+    "run_pipelines": 1069.03747516172,
+    "total": 1097.6858274289407
+  },
+  "LargeProblems_3_2": {
+    "load_domain": 0.6444692830555141,
+    "filter_and_import": 0.0010439748875796795,
+    "build_pipelines": 27.57576831197366,
+    "run_pipelines": 784.6597388139926,
+    "total": 812.8810203839093
+  },
+  "LargeProblems_3_6": {
+    "load_domain": 0.6217491370625794,
+    "filter_and_import": 0.0009149899706244469,
+    "build_pipelines": 26.51179782534018,
+    "run_pipelines": 784.1597288739868,
+    "total": 811.2941908263601
+  },
+  "LargeProblems_1_8": {
+    "load_domain": 0.6347919669933617,
+    "filter_and_import": 0.0010363687761127949,
+    "build_pipelines": 28.689081707969308,
+    "run_pipelines": 783.8805576297455,
+    "total": 813.2054676734842
+  },
+  "LargeProblems_9_6": {
+    "load_domain": 0.7102875709533691,
+    "filter_and_import": 0.0012253541499376297,
+    "build_pipelines": 27.517569578252733,
+    "run_pipelines": 1099.1441037049517,
+    "total": 1127.3731862083077
+  },
+  "LargeProblems_16_5": {
+    "load_domain": 0.6812745169736445,
+    "filter_and_import": 0.00125155970454216,
+    "build_pipelines": 27.34776617307216,
+    "run_pipelines": 1062.6038764030673,
+    "total": 1090.6341686528176
+  },
+  "LargeProblems_8_4": {
+    "load_domain": 0.6365284463390708,
+    "filter_and_import": 0.000996217131614685,
+    "build_pipelines": 27.667478469200432,
+    "run_pipelines": 785.8789840121754,
+    "total": 814.1839871448465
+  },
+  "LargeProblems_12_7": {
+    "load_domain": 0.7295277221128345,
+    "filter_and_import": 0.0011419500224292278,
+    "build_pipelines": 27.469315336085856,
+    "run_pipelines": 1059.6010111379437,
+    "total": 1087.8009961461648
+  },
+  "LargeProblems_8_1": {
+    "load_domain": 0.6510882810689509,
+    "filter_and_import": 0.0010324749164283276,
+    "build_pipelines": 28.31992088397965,
+    "run_pipelines": 790.2110018441454,
+    "total": 819.1830434841104
+  },
+  "LargeProblems_14_7": {
+    "load_domain": 0.7071427381597459,
+    "filter_and_import": 0.0012442641891539097,
+    "build_pipelines": 27.184727985877544,
+    "run_pipelines": 1058.1885937270708,
+    "total": 1086.0817087152973
+  },
+  "LargeProblems_12_1": {
+    "load_domain": 0.7206854112446308,
+    "filter_and_import": 0.0013979938812553883,
+    "build_pipelines": 27.512355043087155,
+    "run_pipelines": 1105.2895301929675,
+    "total": 1133.5239686411805
+  },
+  "LargeProblems_1_3": {
+    "load_domain": 0.6173462960869074,
+    "filter_and_import": 0.0009668469429016113,
+    "build_pipelines": 28.153958795126528,
+    "run_pipelines": 797.5745224109851,
+    "total": 826.3467943491414
+  },
+  "LargeProblems_12_10": {
+    "load_domain": 0.7738440139219165,
+    "filter_and_import": 0.0013160300441086292,
+    "build_pipelines": 28.10265806876123,
+    "run_pipelines": 1150.7009165082127,
+    "total": 1179.57873462094
+  },
+  "LargeProblems_15_8": {
+    "load_domain": 0.7065997808240354,
+    "filter_and_import": 0.0013755583204329014,
+    "build_pipelines": 28.325784293934703,
+    "run_pipelines": 1073.9942055651918,
+    "total": 1103.027965198271
+  },
+  "LargeProblems_3_1": {
+    "load_domain": 0.645971919875592,
+    "filter_and_import": 0.0009664497338235378,
+    "build_pipelines": 27.703873296733946,
+    "run_pipelines": 790.5987285538577,
+    "total": 818.949540220201
+  },
+  "LargeProblems_15_10": {
+    "load_domain": 0.7136950739659369,
+    "filter_and_import": 0.0013203378766775131,
+    "build_pipelines": 26.606595991179347,
+    "run_pipelines": 1157.5161616229452,
+    "total": 1184.8377730259672
+  },
+  "LargeProblems_3_9": {
+    "load_domain": 0.6482573570683599,
+    "filter_and_import": 0.0009662392549216747,
+    "build_pipelines": 27.967048123013228,
+    "run_pipelines": 781.0210843128152,
+    "total": 809.6373560321517
+  },
+  "LargeProblems_1_5": {
+    "load_domain": 0.698274509049952,
+    "filter_and_import": 0.0010752049274742603,
+    "build_pipelines": 27.392463927157223,
+    "run_pipelines": 790.5188755048439,
+    "total": 818.6106891459785
+  },
+  "LargeProblems_5_9": {
+    "load_domain": 0.6533276797272265,
+    "filter_and_import": 0.0009010839276015759,
+    "build_pipelines": 27.198814739938825,
+    "run_pipelines": 780.5006022308953,
+    "total": 808.353645734489
+  },
+  "LargeProblems_9_8": {
+    "load_domain": 0.7075351648963988,
+    "filter_and_import": 0.0012627597898244858,
+    "build_pipelines": 27.277495537884533,
+    "run_pipelines": 1071.420090478845,
+    "total": 1099.4063839414157
+  },
+  "LargeProblems_1_10": {
+    "load_domain": 0.6178900641389191,
+    "filter_and_import": 0.0009756367653608322,
+    "build_pipelines": 27.146506463177502,
+    "run_pipelines": 786.2662202962674,
+    "total": 814.0315924603492
+  },
+  "LargeProblems_4_6": {
+    "load_domain": 0.7054786747321486,
+    "filter_and_import": 0.000991856213659048,
+    "build_pipelines": 27.995395682752132,
+    "run_pipelines": 773.5975170871243,
+    "total": 802.2993833008222
+  },
+  "LargeProblems_7_9": {
+    "load_domain": 0.694437984842807,
+    "filter_and_import": 0.0009108078666031361,
+    "build_pipelines": 27.414886715821922,
+    "run_pipelines": 792.6111807483248,
+    "total": 820.7214162568562
+  },
+  "LargeProblems_15_1": {
+    "load_domain": 0.7133553670719266,
+    "filter_and_import": 0.0012754020281136036,
+    "build_pipelines": 28.303360477089882,
+    "run_pipelines": 1097.4309801976196,
+    "total": 1126.4489714438096
+  },
+  "LargeProblems_5_10": {
+    "load_domain": 0.6477816603146493,
+    "filter_and_import": 0.0010520652867853642,
+    "build_pipelines": 28.598288563080132,
+    "run_pipelines": 781.5704799229279,
+    "total": 810.8176022116095
+  },
+  "LargeProblems_13_7": {
+    "load_domain": 0.708462581038475,
+    "filter_and_import": 0.001184237189590931,
+    "build_pipelines": 27.643264993093908,
+    "run_pipelines": 1071.7838633572683,
+    "total": 1100.1367751685902
+  },
+  "LargeProblems_8_9": {
+    "load_domain": 0.6270912513136864,
+    "filter_and_import": 0.001071256585419178,
+    "build_pipelines": 27.331726395059377,
+    "run_pipelines": 783.4288401468657,
+    "total": 811.3887290498242
+  },
+  "LargeProblems_16_6": {
+    "load_domain": 0.7131251567043364,
+    "filter_and_import": 0.0012904820032417774,
+    "build_pipelines": 27.945626304950565,
+    "run_pipelines": 1086.44168263115,
+    "total": 1115.101724574808
+  },
+  "LargeProblems_2_3": {
+    "load_domain": 0.6356504405848682,
+    "filter_and_import": 0.0010066567920148373,
+    "build_pipelines": 27.63549506571144,
+    "run_pipelines": 786.5985207813792,
+    "total": 814.8706729444675
+  },
+  "LargeProblems_2_9": {
+    "load_domain": 0.640885186381638,
+    "filter_and_import": 0.0009550168178975582,
+    "build_pipelines": 27.951628151815385,
+    "run_pipelines": 780.2402549278922,
+    "total": 808.8337232829072
+  },
+  "LargeProblems_6_7": {
+    "load_domain": 0.5981231699697673,
+    "filter_and_import": 0.0009599882178008556,
+    "build_pipelines": 27.160116069950163,
+    "run_pipelines": 782.2079670750536,
+    "total": 809.9671663031913
+  },
+  "LargeProblems_5_2": {
+    "load_domain": 0.6550547643564641,
+    "filter_and_import": 0.0010052602738142014,
+    "build_pipelines": 27.686616928782314,
+    "run_pipelines": 797.6754116578959,
+    "total": 826.0180886113085
+  },
+  "LargeProblems_1_6": {
+    "load_domain": 0.5947440187446773,
+    "filter_and_import": 0.0009562843479216099,
+    "build_pipelines": 28.812898471020162,
+    "run_pipelines": 776.7938201329671,
+    "total": 806.2024189070798
+  },
+  "LargeProblems_12_3": {
+    "load_domain": 0.7117740768007934,
+    "filter_and_import": 0.0012266570702195168,
+    "build_pipelines": 28.27975884731859,
+    "run_pipelines": 1069.1816545301117,
+    "total": 1098.1744141113013
+  },
+  "LargeProblems_8_10": {
+    "load_domain": 0.6188695281744003,
+    "filter_and_import": 0.0009226310066878796,
+    "build_pipelines": 27.507578110788018,
+    "run_pipelines": 782.3956317650154,
+    "total": 810.5230020349845
+  },
+  "LargeProblems_14_2": {
+    "load_domain": 0.7044168980792165,
+    "filter_and_import": 0.0013381987810134888,
+    "build_pipelines": 28.161886353977025,
+    "run_pipelines": 1063.6158886407502,
+    "total": 1092.4835300915875
+  },
+  "LargeProblems_5_5": {
+    "load_domain": 0.6412098612636328,
+    "filter_and_import": 0.0011269641108810902,
+    "build_pipelines": 28.523683603852987,
+    "run_pipelines": 793.9535050070845,
+    "total": 823.119525436312
+  },
+  "LargeProblems_15_2": {
+    "load_domain": 0.7238246221095324,
+    "filter_and_import": 0.001344179268926382,
+    "build_pipelines": 28.3961318586953,
+    "run_pipelines": 1080.766812699847,
+    "total": 1109.8881133599207
+  },
+  "LargeProblems_7_4": {
+    "load_domain": 0.6443002060987055,
+    "filter_and_import": 0.0010553929023444653,
+    "build_pipelines": 28.323716034181416,
+    "run_pipelines": 784.975118722301,
+    "total": 813.9441903554834
+  },
+  "LargeProblems_16_9": {
+    "load_domain": 0.6866758116520941,
+    "filter_and_import": 0.001241947989910841,
+    "build_pipelines": 26.905434141866863,
+    "run_pipelines": 1082.8703938610852,
+    "total": 1110.463745762594
+  },
+  "LargeProblems_7_1": {
+    "load_domain": 0.6304754591546953,
+    "filter_and_import": 0.0009984513744711876,
+    "build_pipelines": 28.050287728197873,
+    "run_pipelines": 789.6609566477127,
+    "total": 818.3427182864398
+  },
+  "LargeProblems_9_2": {
+    "load_domain": 0.6963938078843057,
+    "filter_and_import": 0.0012548710219562054,
+    "build_pipelines": 27.823743439745158,
+    "run_pipelines": 1064.0715326941572,
+    "total": 1092.5929248128086
+  },
+  "LargeProblems_13_1": {
+    "load_domain": 0.7784795453771949,
+    "filter_and_import": 0.0013617631047964096,
+    "build_pipelines": 28.37857012404129,
+    "run_pipelines": 1102.4204746778123,
+    "total": 1131.5788861103356
+  },
+  "LargeProblems_6_8": {
+    "load_domain": 0.6401426559314132,
+    "filter_and_import": 0.00100726168602705,
+    "build_pipelines": 28.22797703789547,
+    "run_pipelines": 784.1698245150037,
+    "total": 813.0389514705166
+  },
+  "LargeProblems_12_5": {
+    "load_domain": 0.7109806900843978,
+    "filter_and_import": 0.0012401528656482697,
+    "build_pipelines": 27.24907956365496,
+    "run_pipelines": 1082.0696484451182,
+    "total": 1110.0309488517232
+  },
+  "LargeProblems_5_6": {
+    "load_domain": 0.6259619467891753,
+    "filter_and_import": 0.0010238061659038067,
+    "build_pipelines": 28.44829781120643,
+    "run_pipelines": 775.1113026831299,
+    "total": 804.1865862472914
+  },
+  "LargeProblems_10_6": {
+    "load_domain": 0.715297746937722,
+    "filter_and_import": 0.001282761339098215,
+    "build_pipelines": 27.297434329986572,
+    "run_pipelines": 1072.799986146856,
+    "total": 1100.8140009851195
+  },
+  "LargeProblems_1_7": {
+    "load_domain": 0.6137735620141029,
+    "filter_and_import": 0.0009591109119355679,
+    "build_pipelines": 27.40977711090818,
+    "run_pipelines": 800.4279300640337,
+    "total": 828.4524398478679
+  },
+  "LargeProblems_6_1": {
+    "load_domain": 0.6226473650895059,
+    "filter_and_import": 0.0010630269534885883,
+    "build_pipelines": 27.914132058620453,
+    "run_pipelines": 791.7451951117255,
+    "total": 820.2830375623889
+  },
+  "LargeProblems_16_7": {
+    "load_domain": 0.73239343194291,
+    "filter_and_import": 0.0011804308742284775,
+    "build_pipelines": 27.43246818240732,
+    "run_pipelines": 1048.51598793827,
+    "total": 1076.6820299834944
+  },
+  "LargeProblems_15_6": {
+    "load_domain": 0.7073799748905003,
+    "filter_and_import": 0.0012855497188866138,
+    "build_pipelines": 27.867262660060078,
+    "run_pipelines": 1094.4406833369285,
+    "total": 1123.016611521598
+  },
+  "LargeProblems_6_10": {
+    "load_domain": 0.6120144561864436,
+    "filter_and_import": 0.0009789899922907352,
+    "build_pipelines": 28.616927887313068,
+    "run_pipelines": 780.9562518377788,
+    "total": 810.1861731712706
+  },
+  "LargeProblems_13_10": {
+    "load_domain": 0.7794543388299644,
+    "filter_and_import": 0.001397745218127966,
+    "build_pipelines": 28.47512679407373,
+    "run_pipelines": 1144.2837330331095,
+    "total": 1173.5397119112313
+  },
+  "LargeProblems_14_6": {
+    "load_domain": 0.6832130919210613,
+    "filter_and_import": 0.001172750722616911,
+    "build_pipelines": 28.03880938794464,
+    "run_pipelines": 1084.873042209074,
+    "total": 1113.5962374396622
+  },
+  "LargeProblems_8_5": {
+    "load_domain": 0.6891003428027034,
+    "filter_and_import": 0.0010833349078893661,
+    "build_pipelines": 27.30439244490117,
+    "run_pipelines": 793.9777534198947,
+    "total": 821.9723295425065
+  },
+  "LargeProblems_2_5": {
+    "load_domain": 0.6392891430296004,
+    "filter_and_import": 0.0010512880980968475,
+    "build_pipelines": 28.456924282945693,
+    "run_pipelines": 789.4982278179377,
+    "total": 818.5954925320111
+  },
+  "LargeProblems_9_5": {
+    "load_domain": 0.6927521387115121,
+    "filter_and_import": 0.0011922921985387802,
+    "build_pipelines": 27.868403003085405,
+    "run_pipelines": 1067.5297858701088,
+    "total": 1096.0921333041042
+  },
+  "LargeProblems_10_5": {
+    "load_domain": 0.7141098300926387,
+    "filter_and_import": 0.001305153127759695,
+    "build_pipelines": 27.573437639977783,
+    "run_pipelines": 1079.6888997838832,
+    "total": 1107.9777524070814
+  },
+  "LargeProblems_11_8": {
+    "load_domain": 0.7228749482892454,
+    "filter_and_import": 0.001353065948933363,
+    "build_pipelines": 28.529418534133583,
+    "run_pipelines": 1069.5051982263103,
+    "total": 1098.758844774682
+  },
+  "LargeProblems_10_1": {
+    "load_domain": 0.7431564899161458,
+    "filter_and_import": 0.0013465932570397854,
+    "build_pipelines": 28.002977568656206,
+    "run_pipelines": 1122.095906744711,
+    "total": 1150.8433873965405
+  },
+  "LargeProblems_3_3": {
+    "load_domain": 0.6324892030097544,
+    "filter_and_import": 0.0010073049925267696,
+    "build_pipelines": 28.7074667038396,
+    "run_pipelines": 788.7859641700052,
+    "total": 818.126927381847
+  },
+  "LargeProblems_16_2": {
+    "load_domain": 0.7563801747746766,
+    "filter_and_import": 0.0012590019032359123,
+    "build_pipelines": 27.718776723835617,
+    "run_pipelines": 1057.0743332519196,
+    "total": 1085.5507491524331
+  },
+  "LargeProblems_6_6": {
+    "load_domain": 0.6148690669797361,
+    "filter_and_import": 0.0009829909540712833,
+    "build_pipelines": 27.80861074384302,
+    "run_pipelines": 773.2457483909093,
+    "total": 801.6702111926861
+  },
+  "LargeProblems_2_8": {
+    "load_domain": 0.6034728540107608,
+    "filter_and_import": 0.0009373980574309826,
+    "build_pipelines": 28.35767131811008,
+    "run_pipelines": 785.0054909498431,
+    "total": 813.9675725200213
+  },
+  "LargeProblems_15_4": {
+    "load_domain": 0.724090273026377,
+    "filter_and_import": 0.001320243813097477,
+    "build_pipelines": 45.534350481815636,
+    "run_pipelines": 1130.9067961280234,
+    "total": 1177.1665571266785
+  },
+  "LargeProblems_4_10": {
+    "load_domain": 0.6047934843227267,
+    "filter_and_import": 0.0009243078529834747,
+    "build_pipelines": 27.279558843933046,
+    "run_pipelines": 780.2786000492051,
+    "total": 808.1638766853139
+  }
+}

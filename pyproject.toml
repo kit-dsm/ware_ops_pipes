@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ware_ops_pipes"
+version = "0.1.0"
+description = "Pipeline tool to build and run automated warehouse optimization."
+requires-python = ">=3.11"
+dependencies = [
+    "pandas~=2.3.3",
+    "ware_ops_algos~=0.1.0",
+    "cls-luigi==0.1.1",
+    "cls-python==0.1.4",
+    "luigi==3.6.0",
+    "jupyter",
+    "orjson",
+    "tqdm"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
