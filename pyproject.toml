@@ -15,7 +15,13 @@ dependencies = [
     "luigi==3.6.0",
     "jupyter",
     "orjson",
-    "tqdm"
+    "tqdm",
+    "sphinx",
+    "furo",
+    "sphinx-autoapi",
+    "sphinx_design",
+    "sphinx_copybutton",
+    "myst-nb",
 ]
 
 [project.optional-dependencies]

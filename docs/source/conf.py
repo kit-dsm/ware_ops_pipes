@@ -11,7 +11,7 @@ import shutil
 
 sys.path.insert(0, os.path.abspath('../../src'))
 
-project = 'ware_ops_algos'
+project = 'ware_ops_pipes'
 author = 'Janik Bischoff'
 release = '0.1'
 
@@ -35,9 +35,7 @@ extensions = [
 autoapi_type = 'python'
 # Updated to point to new src structure
 autoapi_dirs = [
-    '../../src/ware_ops_algos/algorithms',
-    '../../src/ware_ops_algos/domain_models',
-    '../../src/ware_ops_algos/utils',
+    '../../src/ware_ops_pipes'
 ]
 
 # AutoAPI options
@@ -50,17 +48,17 @@ autoapi_options = [
 ]
 
 # Copy examples to docs
-# DOCS_EXAMPLES = '../../docs/source/examples'
-# if os.path.exists(DOCS_EXAMPLES):
-#     shutil.rmtree(DOCS_EXAMPLES)
-# if not os.path.exists(DOCS_EXAMPLES):
-#     os.makedirs(DOCS_EXAMPLES)
+DOCS_EXAMPLES = '../../docs/source/examples'
+if os.path.exists(DOCS_EXAMPLES):
+    shutil.rmtree(DOCS_EXAMPLES)
+if not os.path.exists(DOCS_EXAMPLES):
+    os.makedirs(DOCS_EXAMPLES)
 
 # Check if examples directory exists before copying
-# EXAMPLES_DIR = '../../examples'
-# if os.path.exists(EXAMPLES_DIR):
-#     shutil.copytree(EXAMPLES_DIR, DOCS_EXAMPLES, dirs_exist_ok=True)
-#
+EXAMPLES_DIR = '../../examples'
+if os.path.exists(EXAMPLES_DIR):
+    shutil.copytree(EXAMPLES_DIR, DOCS_EXAMPLES, dirs_exist_ok=True)
+
 # if os.path.exists('examples.rst'):
 #     os.remove('examples.rst')
 #
@@ -106,11 +104,11 @@ html_theme_options = {
     "sidebar_hide_name": True,
 }
 
-html_title = "ware_ops_algos: Algorithms for warehouse operations"
+html_title = "ware_ops_pipes: Automated pipeline synthesis for warehouse operations algorithms"
 html_short_title = "4D4L"
 
 html_meta = {
-    'description': 'Open source implementation of algorithms for warehouse operations',
+    'description': 'Automated pipeline synthesis for warehouse operations algorithms',
     'keywords': 'warehouse optimization, order picking, algorithm selection, logistics, operations research',
 }
 

@@ -44,6 +44,7 @@ class RankingEvaluatorDistance(RankingEvaluator):
     def __init__(self, output_dir: str, instance_name: str):
 
         super().__init__(output_dir, instance_name)
+        self.df_result = None
 
     def evaluate(self, metric_path: str = "tours_summary.total_distance",
                  minimize: bool = True) -> pd.DataFrame:
@@ -66,7 +67,6 @@ class RankingEvaluatorDistance(RankingEvaluator):
             metric_value = self._get_metric(summary, metric_path)
             if metric_value is None:
                 continue
-            print("file", str(file))
 
             # Extract pipeline info
             pipeline_id = f"{summary.get('item_assignment_algo')}+{summary.get('batching_algo')}+{summary.get('routing_algo')}"
@@ -102,6 +102,7 @@ class RankingEvaluatorDistance(RankingEvaluator):
         print(df[['rank', 'pipeline_id', 'value', 'gap_pct']].head().to_string(index=False))
         print(f"\nSaved: {output_file}\n")
 
+        self.df_result = df
         return df
 
     def _get_metric(self, summary: Dict, metric_path: str):
@@ -370,7 +371,7 @@ class PipelineRunner(ABC):
                                                         {'background': None,
                                                          'logdir': None,
                                                          'logging_conf_file': None,
-                                                         'log_level': 'INFO'  # <<<<<<<<<<
+                                                         'log_level': 'CRITICAL'  # <<<<<<<<<<
                                                          }))
             luigi.build(pipelines, local_scheduler=True)
 
