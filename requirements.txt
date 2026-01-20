@@ -1,0 +1,8 @@
+pandas~=2.3.3
+ware_ops_algos~=0.1.0
+cls-luigi==0.1.1
+cls-python==0.1.4
+luigi==3.6.0
+jupyter
+orjson
+tqdm
