@@ -479,7 +479,7 @@ class PipelineRunner(ABC):
 
     def save_runtimes(self):
         output_folder = (
-                self.project_root / "experiments" / "offline" / "output"
+                self.project_root / "experiments" / "output"
                 / "runtimes"
         )
         output_folder.mkdir(parents=True, exist_ok=True)
