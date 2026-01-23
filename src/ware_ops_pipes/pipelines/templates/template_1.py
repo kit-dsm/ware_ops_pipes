@@ -541,6 +541,23 @@ class AbstractResultAggregation(BaseComponent):
         summary["instance_set"] = self.pipeline_params.instance_set_name
         return summary
 
+    def _compute_distance_summary(self, plan: PlanningState) -> dict:
+        tour_distances = {}
+        routing_times = {}
+        total_distance = 0
+
+        for tour_id, sol in enumerate(plan.routing_solutions):
+            routing_times[f"tour_{tour_id}_time"] = sol.execution_time
+            distance = sol.route.distance
+            tour_distances[f"tour_{tour_id}_distance"] = distance
+            total_distance += distance
+
+        return {
+            "tour_distances": tour_distances,
+            "total_distance": total_distance,
+            "routing_input_time": plan.batching_solutions.execution_time,
+            "time_per_tour": routing_times,
+        }
 
 class ResultAggregationDistance(AbstractResultAggregation):
     abstract = False
@@ -592,52 +609,52 @@ class ResultAggregationDistance(AbstractResultAggregation):
         }
 
 
-class ResultAggregationMakespan(AbstractResultAggregation):
-    abstract = False
-    routing_plan = ClsParameter(tpe=AbstractPickerRouting.return_type())
-    scheduling_plan = ClsParameter(tpe=AbstractScheduling.return_type())
-
-    def requires(self):
-        return {
-            "routing_plan": self.routing_plan(),
-            "scheduling_plan": self.scheduling_plan()
-        }
-
-    def output(self):
-        return {
-            "summary": self.get_luigi_local_target_with_task_id(
-                "summary.json"
-            )
-        }
-
-    def run(self):
-        summary = {}
-        summary = self._build_base_summary(summary)
-        # scheduling_algo_name = self.requires()["scheduling_plan"].__class__.__name__
-        plan: PlanningState = load_pickle(self.input()["scheduling_plan"]["scheduling_plan"].path)
-        sequencing_algo_name = plan.provenance["sequencing"]["algo"]
-        summary["scheduling_algo"] = sequencing_algo_name
-
-        scheduling_data = load_pickle(self.input()["scheduling_plan"]["scheduling_plan"].path)
-        sequencing = plan.sequencing_solutions.jobs
-
-        df = pd.DataFrame(sequencing)
-        df["release_dt"] = df["release_time"].apply(lambda x: x)
-        df["start_dt"] = df["start_time"].apply(lambda x: x)
-        df["end_dt"] = df["end_time"].apply(lambda x: x)
-
-        util = (
-            df.groupby("picker_id")[["travel_time", "handling_time"]]
-            .sum()
-            .assign(total=lambda x: x["travel_time"] + x["handling_time"])
-        )
-        print("\nUtilization summary (busy time by picker):")
-        print(util.to_string())
-
-        makespan = df["end_time"].max()
-        summary["makespan"] = makespan
-
-        dump_json(self.output()["summary"].path, summary)
+# class ResultAggregationMakespan(AbstractResultAggregation):
+#     abstract = False
+#     routing_plan = ClsParameter(tpe=AbstractPickerRouting.return_type())
+#     scheduling_plan = ClsParameter(tpe=AbstractScheduling.return_type())
+#
+#     def requires(self):
+#         return {
+#             "routing_plan": self.routing_plan(),
+#             "scheduling_plan": self.scheduling_plan()
+#         }
+#
+#     def output(self):
+#         return {
+#             "summary": self.get_luigi_local_target_with_task_id(
+#                 "summary.json"
+#             )
+#         }
+#
+#     def run(self):
+#         summary = {}
+#         summary = self._build_base_summary(summary)
+#         # scheduling_algo_name = self.requires()["scheduling_plan"].__class__.__name__
+#         plan: PlanningState = load_pickle(self.input()["scheduling_plan"]["scheduling_plan"].path)
+#         sequencing_algo_name = plan.provenance["sequencing"]["algo"]
+#         summary["scheduling_algo"] = sequencing_algo_name
+#
+#         scheduling_data = load_pickle(self.input()["scheduling_plan"]["scheduling_plan"].path)
+#         sequencing = plan.sequencing_solutions.jobs
+#
+#         df = pd.DataFrame(sequencing)
+#         df["release_dt"] = df["release_time"].apply(lambda x: x)
+#         df["start_dt"] = df["start_time"].apply(lambda x: x)
+#         df["end_dt"] = df["end_time"].apply(lambda x: x)
+#
+#         util = (
+#             df.groupby("picker_id")[["travel_time", "handling_time"]]
+#             .sum()
+#             .assign(total=lambda x: x["travel_time"] + x["handling_time"])
+#         )
+#         print("\nUtilization summary (busy time by picker):")
+#         print(util.to_string())
+#
+#         makespan = df["end_time"].max()
+#         summary["makespan"] = makespan
+#
+#         dump_json(self.output()["summary"].path, summary)
 
 
 class ResultAggregationDueDate(AbstractResultAggregation):
@@ -695,9 +712,65 @@ class ResultAggregationDueDate(AbstractResultAggregation):
         # scheduling_algo_name = self.requires()["scheduling_plan"].__class__.__name__
         # summary["scheduling_algo"] = scheduling_algo_name
 
+        routing_plan: PlanningState = load_pickle(self.input()["routing_plan"]["routing_plan"].path)
+        summary["tours_summary"] = {}
+
+        routing_input_time = routing_plan.batching_solutions.execution_time
+
+        tour_distances = {}
+        routing_times = {}
+
+        total_distance = 0
+        routing_sols = routing_plan.routing_solutions
+        tour_id = 0
+        tours = []
+
+        for sol in routing_sols:
+            tours.append(sol.route)
+            routing_times[f"tour_{tour_id}_time"] = sol.execution_time
+
+        for tour in tours:
+            distance = tour.distance
+            tour_id += 1
+            tour_distances[f"tour_{tour_id}_distance"] = distance
+            total_distance += distance
+        summary["tours_summary"]["tour_distances"] = tour_distances
+        summary["tours_summary"]["total_distance"] = total_distance
+        summary["tours_summary"]["routing_input_time"] = routing_input_time
+        summary["tours_summary"]["time_per_tour"] = routing_times
+
         plan: PlanningState = load_pickle(self.input()["scheduling_plan"]["scheduling_plan"].path)
         sequencing_algo_name = plan.provenance["sequencing"]["algo"]
         summary["scheduling_algo"] = sequencing_algo_name
+
+        summary["tours_summary"] = {}
+
+        routing_input_time = plan.batching_solutions.execution_time
+        scheduling_time = plan.sequencing_solutions.execution_time
+
+        tour_distances = {}
+        routing_times = {}
+
+        total_distance = 0
+        routing_sols = plan.routing_solutions
+        tour_id = 0
+        tours = []
+
+        for sol in routing_sols:
+            tours.append(sol.route)
+            routing_times[f"tour_{tour_id}_time"] = sol.execution_time
+
+        for tour in tours:
+            distance = tour.distance
+            tour_id += 1
+            tour_distances[f"tour_{tour_id}_distance"] = distance
+            total_distance += distance
+        summary["tours_summary"]["tour_distances"] = tour_distances
+        summary["tours_summary"]["total_distance"] = total_distance
+        summary["tours_summary"]["routing_input_time"] = routing_input_time
+        summary["tours_summary"]["time_per_tour"] = routing_times
+        summary["tours_summary"]["scheduling_time"] = scheduling_time
+
 
         # scheduling_data = load_pickle(self.input()["scheduling_plan"]["scheduling_plan"].path)
         orders = load_pickle(self.input()["instance"]["orders"].path)
@@ -710,6 +783,22 @@ class ResultAggregationDueDate(AbstractResultAggregation):
         avg_tardiness = float(due_eval["tardiness"].mean())
         max_lateness = float(due_eval["lateness"].max())
         max_tardiness = float(due_eval["tardiness"].max())
+
+        df = pd.DataFrame(sequencing)
+        df["release_dt"] = df["release_time"].apply(lambda x: x)
+        df["start_dt"] = df["start_time"].apply(lambda x: x)
+        df["end_dt"] = df["end_time"].apply(lambda x: x)
+
+        util = (
+            df.groupby("picker_id")[["travel_time", "handling_time"]]
+            .sum()
+            .assign(total=lambda x: x["travel_time"] + x["handling_time"])
+        )
+        print("\nUtilization summary (busy time by picker):")
+        print(util.to_string())
+
+        makespan = df["end_time"].max()
+        summary["makespan"] = makespan
 
         summary["on_time_rate"] = on_time_rate
         summary["avg_lateness"] = avg_lateness
