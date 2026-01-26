@@ -234,7 +234,10 @@ class PipelineRunner(ABC):
         # Component implementations
         self.implementation_module = {
             "GreedyIA": "ware_ops_pipes.pipelines.components.item_assignment.greedy_item_assignment",
-            "NNItemAssignment": "ware_ops_pipes.pipelines.components.item_assignment.nn_item_assignment",
+            "NNIA": "ware_ops_pipes.pipelines.components.item_assignment.nn_item_assignment",
+            "SinglePosIA": "ware_ops_pipes.pipelines.components.item_assignment.single_pos_item_assignment",
+            "MinMinIA": "ware_ops_pipes.pipelines.components.item_assignment.min_min_item_assignment",
+            "MinMaxIA": "ware_ops_pipes.pipelines.components.item_assignment.min_max_item_assignment",
             "DummyOS": "ware_ops_pipes.pipelines.components.order_selection.dummy_order_selection",
             "MinMaxArticlesOS": "ware_ops_pipes.pipelines.components.order_selection.min_max_articles_os",
             "MinMaxAislesOS": "ware_ops_pipes.pipelines.components.order_selection.min_max_aisles_os",
