@@ -1,0 +1,30 @@
+batching.seed_shared_articles
+=============================
+
+.. py:module:: batching.seed_shared_articles
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   batching.seed_shared_articles.ClosestDepotMaxSharedArticlesSeedBatching
+
+
+Module Contents
+---------------
+
+.. py:class:: ClosestDepotMaxSharedArticlesSeedBatching(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: get_inited_batcher()
+
+

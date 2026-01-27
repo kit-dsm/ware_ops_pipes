@@ -1,0 +1,27 @@
+sequencing.lpt_scheduling
+=========================
+
+.. py:module:: sequencing.lpt_scheduling
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   sequencing.lpt_scheduling.LPTScheduler
+
+
+Module Contents
+---------------
+
+.. py:class:: LPTScheduler(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+

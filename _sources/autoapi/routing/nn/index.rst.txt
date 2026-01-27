@@ -1,0 +1,27 @@
+routing.nn
+==========
+
+.. py:module:: routing.nn
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   routing.nn.NearestNeighbourhood
+
+
+Module Contents
+---------------
+
+.. py:class:: NearestNeighbourhood(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.PickerRouting`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+

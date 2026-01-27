@@ -1,0 +1,1798 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#"><link rel="search" title="Search" href="search.html">
+        <link rel="prefetch" href="_static/favicon.png" as="image">
+
+    <link rel="shortcut icon" href="_static/favicon.svg"><!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 --><title>Index - ware_ops_pipes: Automated pipeline synthesis for warehouse operations algorithms</title>
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=acfd86a5" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #0080c0;
+  --color-brand-content: #0080c0;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #00b4d8;
+  --color-brand-content: #00b4d8;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #00b4d8;
+  --color-brand-content: #00b4d8;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">ware_ops_pipes: Automated pipeline synthesis for warehouse operations algorithms</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/favicon.png" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          
+<section class="genindex-section">
+  <h1 id="index">Index</h1>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a></div>
+</section>
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/batching/clark_and_wright_nn/index.html#batching.clark_and_wright_nn.ClarkAndWrightNN.abstract">abstract (batching.clark_and_wright_nn.ClarkAndWrightNN attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/batching/clark_and_wright_rr/index.html#batching.clark_and_wright_rr.ClarkAndWrightRR.abstract">(batching.clark_and_wright_rr.ClarkAndWrightRR attribute)</a>
+</li>
+          <li><a href="autoapi/batching/clark_and_wright_sshape/index.html#batching.clark_and_wright_sshape.ClarkAndWrightSShape.abstract">(batching.clark_and_wright_sshape.ClarkAndWrightSShape attribute)</a>
+</li>
+          <li><a href="autoapi/batching/due_date/index.html#batching.due_date.DueDate.abstract">(batching.due_date.DueDate attribute)</a>
+</li>
+          <li><a href="autoapi/batching/fifo/index.html#batching.fifo.FiFo.abstract">(batching.fifo.FiFo attribute)</a>
+</li>
+          <li><a href="autoapi/batching/ls_nn_due/index.html#batching.ls_nn_due.LSBatchingNNDueDate.abstract">(batching.ls_nn_due.LSBatchingNNDueDate attribute)</a>
+</li>
+          <li><a href="autoapi/batching/ls_nn_fifo/index.html#batching.ls_nn_fifo.LSBatchingNNFiFo.abstract">(batching.ls_nn_fifo.LSBatchingNNFiFo attribute)</a>
+</li>
+          <li><a href="autoapi/batching/ls_nn_rand/index.html#batching.ls_nn_rand.LSBatchingNNRand.abstract">(batching.ls_nn_rand.LSBatchingNNRand attribute)</a>
+</li>
+          <li><a href="autoapi/batching/ls_rr/index.html#batching.ls_rr.LSBatchingRR.abstract">(batching.ls_rr.LSBatchingRR attribute)</a>
+</li>
+          <li><a href="autoapi/batching/order_nr_fifo/index.html#batching.order_nr_fifo.OrderNrFiFo.abstract">(batching.order_nr_fifo.OrderNrFiFo attribute)</a>
+</li>
+          <li><a href="autoapi/batching/random/index.html#batching.random.Random.abstract">(batching.random.Random attribute)</a>
+</li>
+          <li><a href="autoapi/batching/seed/index.html#batching.seed.ClosestDepotMinDistanceSeedBatching.abstract">(batching.seed.ClosestDepotMinDistanceSeedBatching attribute)</a>
+</li>
+          <li><a href="autoapi/batching/seed_shared_articles/index.html#batching.seed_shared_articles.ClosestDepotMaxSharedArticlesSeedBatching.abstract">(batching.seed_shared_articles.ClosestDepotMaxSharedArticlesSeedBatching attribute)</a>
+</li>
+          <li><a href="autoapi/item_assignment/greedy_item_assignment/index.html#item_assignment.greedy_item_assignment.GreedyIA.abstract">(item_assignment.greedy_item_assignment.GreedyIA attribute)</a>
+</li>
+          <li><a href="autoapi/item_assignment/min_max_item_assignment/index.html#item_assignment.min_max_item_assignment.MinMaxIA.abstract">(item_assignment.min_max_item_assignment.MinMaxIA attribute)</a>
+</li>
+          <li><a href="autoapi/item_assignment/min_min_item_assignment/index.html#item_assignment.min_min_item_assignment.MinMinIA.abstract">(item_assignment.min_min_item_assignment.MinMinIA attribute)</a>
+</li>
+          <li><a href="autoapi/item_assignment/nn_item_assignment/index.html#item_assignment.nn_item_assignment.NNIA.abstract">(item_assignment.nn_item_assignment.NNIA attribute)</a>
+</li>
+          <li><a href="autoapi/item_assignment/single_pos_item_assignment/index.html#item_assignment.single_pos_item_assignment.SinglePosIA.abstract">(item_assignment.single_pos_item_assignment.SinglePosIA attribute)</a>
+</li>
+          <li><a href="autoapi/order_selection/dummy_order_selection/index.html#order_selection.dummy_order_selection.DummyOS.abstract">(order_selection.dummy_order_selection.DummyOS attribute)</a>
+</li>
+          <li><a href="autoapi/order_selection/greedy_order_selection/index.html#order_selection.greedy_order_selection.GreedyOS.abstract">(order_selection.greedy_order_selection.GreedyOS attribute)</a>
+</li>
+          <li><a href="autoapi/order_selection/min_dist_os/index.html#order_selection.min_dist_os.MinDistOS.abstract">(order_selection.min_dist_os.MinDistOS attribute)</a>
+</li>
+          <li><a href="autoapi/order_selection/min_max_aisles_os/index.html#order_selection.min_max_aisles_os.MinMaxAislesOS.abstract">(order_selection.min_max_aisles_os.MinMaxAislesOS attribute)</a>
+</li>
+          <li><a href="autoapi/order_selection/min_max_articles_os/index.html#order_selection.min_max_articles_os.MinMaxArticlesOS.abstract">(order_selection.min_max_articles_os.MinMaxArticlesOS attribute)</a>
+</li>
+          <li><a href="autoapi/order_selection/min_shared_aisles_os/index.html#order_selection.min_shared_aisles_os.MinSharedAislesOS.abstract">(order_selection.min_shared_aisles_os.MinSharedAislesOS attribute)</a>
+</li>
+          <li><a href="autoapi/picker_assignment/round_robin_assignment/index.html#picker_assignment.round_robin_assignment.RRAssigner.abstract">(picker_assignment.round_robin_assignment.RRAssigner attribute)</a>
+</li>
+          <li><a href="autoapi/routing/exact_algo/index.html#routing.exact_algo.ExactSolving.abstract">(routing.exact_algo.ExactSolving attribute)</a>
+</li>
+          <li><a href="autoapi/routing/joint_batching_routing_assigning/index.html#routing.joint_batching_routing_assigning.CombinedBatchingRoutingAssigning.abstract">(routing.joint_batching_routing_assigning.CombinedBatchingRoutingAssigning attribute)</a>
+</li>
+          <li><a href="autoapi/routing/largest_gap/index.html#routing.largest_gap.LargestGap.abstract">(routing.largest_gap.LargestGap attribute)</a>
+</li>
+          <li><a href="autoapi/routing/midpoint/index.html#routing.midpoint.Midpoint.abstract">(routing.midpoint.Midpoint attribute)</a>
+</li>
+          <li><a href="autoapi/routing/nn/index.html#routing.nn.NearestNeighbourhood.abstract">(routing.nn.NearestNeighbourhood attribute)</a>
+</li>
+          <li><a href="autoapi/routing/pl/index.html#routing.pl.PLRouting.abstract">(routing.pl.PLRouting attribute)</a>
+</li>
+          <li><a href="autoapi/routing/return_algo/index.html#routing.return_algo.Return.abstract">(routing.return_algo.Return attribute)</a>
+</li>
+          <li><a href="autoapi/routing/s_shape/index.html#routing.s_shape.SShape.abstract">(routing.s_shape.SShape attribute)</a>
+</li>
+          <li><a href="autoapi/routing/sprp/index.html#routing.sprp.RatliffRosenthal.abstract">(routing.sprp.RatliffRosenthal attribute)</a>
+</li>
+          <li><a href="autoapi/routing_config/exact_config/index.html#routing_config.exact_config.ExactConfig.abstract">(routing_config.exact_config.ExactConfig attribute)</a>
+</li>
+          <li><a href="autoapi/routing_config/exact_config_1/index.html#routing_config.exact_config_1.ExactConfig1.abstract">(routing_config.exact_config_1.ExactConfig1 attribute)</a>
+</li>
+          <li><a href="autoapi/sequencing/edd_scheduling/index.html#sequencing.edd_scheduling.EDDScheduler.abstract">(sequencing.edd_scheduling.EDDScheduler attribute)</a>
+</li>
+          <li><a href="autoapi/sequencing/edd_sequencing/index.html#sequencing.edd_sequencing.EDDSequencing.abstract">(sequencing.edd_sequencing.EDDSequencing attribute)</a>
+</li>
+          <li><a href="autoapi/sequencing/lpt_scheduling/index.html#sequencing.lpt_scheduling.LPTScheduler.abstract">(sequencing.lpt_scheduling.LPTScheduler attribute)</a>
+</li>
+          <li><a href="autoapi/sequencing/spt_scheduling/index.html#sequencing.spt_scheduling.SPTScheduler.abstract">(sequencing.spt_scheduling.SPTScheduler attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.BaseComponent.abstract">(ware_ops_pipes.BaseComponent attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/base_component/index.html#ware_ops_pipes.pipelines.base_component.BaseComponent.abstract">(ware_ops_pipes.pipelines.base_component.BaseComponent attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.BaseComponent.abstract">(ware_ops_pipes.pipelines.BaseComponent attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractItemAssignment.abstract">(ware_ops_pipes.pipelines.templates.AbstractItemAssignment attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractOrderSelection.abstract">(ware_ops_pipes.pipelines.templates.AbstractOrderSelection attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerAssignment.abstract">(ware_ops_pipes.pipelines.templates.AbstractPickerAssignment attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerRouting.abstract">(ware_ops_pipes.pipelines.templates.AbstractPickerRouting attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickListGeneration.abstract">(ware_ops_pipes.pipelines.templates.AbstractPickListGeneration attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractResultAggregation.abstract">(ware_ops_pipes.pipelines.templates.AbstractResultAggregation attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractScheduling.abstract">(ware_ops_pipes.pipelines.templates.AbstractScheduling attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractSequencing.abstract">(ware_ops_pipes.pipelines.templates.AbstractSequencing attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.BaseComponent.abstract">(ware_ops_pipes.pipelines.templates.BaseComponent attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.BatchedPickListGeneration.abstract">(ware_ops_pipes.pipelines.templates.BatchedPickListGeneration attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.CombinedBR.abstract">(ware_ops_pipes.pipelines.templates.CombinedBR attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.InstanceLoader.abstract">(ware_ops_pipes.pipelines.templates.InstanceLoader attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.PickerRouting.abstract">(ware_ops_pipes.pipelines.templates.PickerRouting attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.RawPickListGeneration.abstract">(ware_ops_pipes.pipelines.templates.RawPickListGeneration attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDistance.abstract">(ware_ops_pipes.pipelines.templates.ResultAggregationDistance attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDueDate.abstract">(ware_ops_pipes.pipelines.templates.ResultAggregationDueDate attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.RoutingNeutralSequencing.abstract">(ware_ops_pipes.pipelines.templates.RoutingNeutralSequencing attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment.abstract">(ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection.abstract">(ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment.abstract">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerRouting.abstract">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickerRouting attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration.abstract">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractResultAggregation.abstract">(ware_ops_pipes.pipelines.templates.template_1.AbstractResultAggregation attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling.abstract">(ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing.abstract">(ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration.abstract">(ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.CombinedBR.abstract">(ware_ops_pipes.pipelines.templates.template_1.CombinedBR attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.InstanceLoader.abstract">(ware_ops_pipes.pipelines.templates.template_1.InstanceLoader attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.PickerRouting.abstract">(ware_ops_pipes.pipelines.templates.template_1.PickerRouting attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.RawPickListGeneration.abstract">(ware_ops_pipes.pipelines.templates.template_1.RawPickListGeneration attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance.abstract">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate.abstract">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.RoutingNeutralSequencing.abstract">(ware_ops_pipes.pipelines.templates.template_1.RoutingNeutralSequencing attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractItemAssignment">AbstractItemAssignment (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractOrderSelection">AbstractOrderSelection (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerAssignment">AbstractPickerAssignment (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerRouting">AbstractPickerRouting (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerRouting">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickListGeneration">AbstractPickListGeneration (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractResultAggregation">AbstractResultAggregation (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractResultAggregation">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractScheduling">AbstractScheduling (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractSequencing">AbstractSequencing (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="B" class="genindex-section">
+  <h2>B</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.BaseComponent">BaseComponent (class in ware_ops_pipes)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.BaseComponent">(class in ware_ops_pipes.pipelines)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/base_component/index.html#ware_ops_pipes.pipelines.base_component.BaseComponent">(class in ware_ops_pipes.pipelines.base_component)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.BaseComponent">(class in ware_ops_pipes.pipelines.templates)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.BatchedPickListGeneration">BatchedPickListGeneration (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li>
+    batching
+
+        <ul>
+          <li><a href="autoapi/batching/index.html#module-batching">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.clark_and_wright_nn
+
+        <ul>
+          <li><a href="autoapi/batching/clark_and_wright_nn/index.html#module-batching.clark_and_wright_nn">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.clark_and_wright_rr
+
+        <ul>
+          <li><a href="autoapi/batching/clark_and_wright_rr/index.html#module-batching.clark_and_wright_rr">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.clark_and_wright_sshape
+
+        <ul>
+          <li><a href="autoapi/batching/clark_and_wright_sshape/index.html#module-batching.clark_and_wright_sshape">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.due_date
+
+        <ul>
+          <li><a href="autoapi/batching/due_date/index.html#module-batching.due_date">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.fifo
+
+        <ul>
+          <li><a href="autoapi/batching/fifo/index.html#module-batching.fifo">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    batching.ls_nn_due
+
+        <ul>
+          <li><a href="autoapi/batching/ls_nn_due/index.html#module-batching.ls_nn_due">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.ls_nn_fifo
+
+        <ul>
+          <li><a href="autoapi/batching/ls_nn_fifo/index.html#module-batching.ls_nn_fifo">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.ls_nn_rand
+
+        <ul>
+          <li><a href="autoapi/batching/ls_nn_rand/index.html#module-batching.ls_nn_rand">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.ls_rr
+
+        <ul>
+          <li><a href="autoapi/batching/ls_rr/index.html#module-batching.ls_rr">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.order_nr_fifo
+
+        <ul>
+          <li><a href="autoapi/batching/order_nr_fifo/index.html#module-batching.order_nr_fifo">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.random
+
+        <ul>
+          <li><a href="autoapi/batching/random/index.html#module-batching.random">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.seed
+
+        <ul>
+          <li><a href="autoapi/batching/seed/index.html#module-batching.seed">module</a>
+</li>
+        </ul></li>
+        <li>
+    batching.seed_shared_articles
+
+        <ul>
+          <li><a href="autoapi/batching/seed_shared_articles/index.html#module-batching.seed_shared_articles">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="C" class="genindex-section">
+  <h2>C</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.cache_dir">cache_dir (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.cache_path">cache_path (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+        <li><a href="autoapi/batching/clark_and_wright_nn/index.html#batching.clark_and_wright_nn.ClarkAndWrightNN">ClarkAndWrightNN (class in batching.clark_and_wright_nn)</a>
+</li>
+        <li><a href="autoapi/batching/clark_and_wright_rr/index.html#batching.clark_and_wright_rr.ClarkAndWrightRR">ClarkAndWrightRR (class in batching.clark_and_wright_rr)</a>
+</li>
+        <li><a href="autoapi/batching/clark_and_wright_sshape/index.html#batching.clark_and_wright_sshape.ClarkAndWrightSShape">ClarkAndWrightSShape (class in batching.clark_and_wright_sshape)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.cleanup">cleanup (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/batching/seed_shared_articles/index.html#batching.seed_shared_articles.ClosestDepotMaxSharedArticlesSeedBatching">ClosestDepotMaxSharedArticlesSeedBatching (class in batching.seed_shared_articles)</a>
+</li>
+        <li><a href="autoapi/batching/seed/index.html#batching.seed.ClosestDepotMinDistanceSeedBatching">ClosestDepotMinDistanceSeedBatching (class in batching.seed)</a>
+</li>
+        <li><a href="autoapi/routing/joint_batching_routing_assigning/index.html#routing.joint_batching_routing_assigning.CombinedBatchingRoutingAssigning">CombinedBatchingRoutingAssigning (class in routing.joint_batching_routing_assigning)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.CombinedBR">CombinedBR (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.CombinedBR">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.create_ranking">create_ranking() (ware_ops_pipes.utils.experiment_utils.PipelineRunner method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="D" class="genindex-section">
+  <h2>D</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.RankingEvaluatorDistance.df_result">df_result (ware_ops_pipes.utils.experiment_utils.RankingEvaluatorDistance attribute)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.discover_instances">discover_instances() (ware_ops_pipes.utils.experiment_utils.PipelineRunner method)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.PipelineParams.domain_path">domain_path (ware_ops_pipes.PipelineParams attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipeline_params/index.html#ware_ops_pipes.pipelines.pipeline_params.PipelineParams.domain_path">(ware_ops_pipes.pipelines.pipeline_params.PipelineParams attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#id6">(ware_ops_pipes.pipelines.PipelineParams attribute)</a>, <a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.PipelineParams.domain_path">[1]</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/batching/due_date/index.html#batching.due_date.DueDate">DueDate (class in batching.due_date)</a>
+</li>
+        <li><a href="autoapi/order_selection/dummy_order_selection/index.html#order_selection.dummy_order_selection.DummyOS">DummyOS (class in order_selection.dummy_order_selection)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.dump_json">dump_json() (in module ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/utils/io_helpers/index.html#ware_ops_pipes.utils.io_helpers.dump_json">(in module ware_ops_pipes.utils.io_helpers)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.dump_pickle">dump_pickle() (in module ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/utils/io_helpers/index.html#ware_ops_pipes.utils.io_helpers.dump_pickle">(in module ware_ops_pipes.utils.io_helpers)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="E" class="genindex-section">
+  <h2>E</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/sequencing/edd_scheduling/index.html#sequencing.edd_scheduling.EDDScheduler">EDDScheduler (class in sequencing.edd_scheduling)</a>
+</li>
+        <li><a href="autoapi/sequencing/edd_sequencing/index.html#sequencing.edd_sequencing.EDDSequencing">EDDSequencing (class in sequencing.edd_sequencing)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.RankingEvaluator.evaluate">evaluate() (ware_ops_pipes.utils.experiment_utils.RankingEvaluator method)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.RankingEvaluatorDistance.evaluate">(ware_ops_pipes.utils.experiment_utils.RankingEvaluatorDistance method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.RankingEvaluatorSequencing.evaluate">(ware_ops_pipes.utils.experiment_utils.RankingEvaluatorSequencing method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/routing_config/exact_config/index.html#routing_config.exact_config.ExactConfig">ExactConfig (class in routing_config.exact_config)</a>
+</li>
+        <li><a href="autoapi/routing_config/exact_config_1/index.html#routing_config.exact_config_1.ExactConfig1">ExactConfig1 (class in routing_config.exact_config_1)</a>
+</li>
+        <li><a href="autoapi/routing/exact_algo/index.html#routing.exact_algo.ExactSolving">ExactSolving (class in routing.exact_algo)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="F" class="genindex-section">
+  <h2>F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/batching/fifo/index.html#batching.fifo.FiFo">FiFo (class in batching.fifo)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="G" class="genindex-section">
+  <h2>G</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/batching/clark_and_wright_nn/index.html#batching.clark_and_wright_nn.ClarkAndWrightNN.get_inited_batcher">get_inited_batcher() (batching.clark_and_wright_nn.ClarkAndWrightNN method)</a>
+
+        <ul>
+          <li><a href="autoapi/batching/clark_and_wright_rr/index.html#batching.clark_and_wright_rr.ClarkAndWrightRR.get_inited_batcher">(batching.clark_and_wright_rr.ClarkAndWrightRR method)</a>
+</li>
+          <li><a href="autoapi/batching/clark_and_wright_sshape/index.html#batching.clark_and_wright_sshape.ClarkAndWrightSShape.get_inited_batcher">(batching.clark_and_wright_sshape.ClarkAndWrightSShape method)</a>
+</li>
+          <li><a href="autoapi/batching/due_date/index.html#batching.due_date.DueDate.get_inited_batcher">(batching.due_date.DueDate method)</a>
+</li>
+          <li><a href="autoapi/batching/fifo/index.html#batching.fifo.FiFo.get_inited_batcher">(batching.fifo.FiFo method)</a>
+</li>
+          <li><a href="autoapi/batching/ls_nn_due/index.html#batching.ls_nn_due.LSBatchingNNDueDate.get_inited_batcher">(batching.ls_nn_due.LSBatchingNNDueDate method)</a>
+</li>
+          <li><a href="autoapi/batching/ls_nn_fifo/index.html#batching.ls_nn_fifo.LSBatchingNNFiFo.get_inited_batcher">(batching.ls_nn_fifo.LSBatchingNNFiFo method)</a>
+</li>
+          <li><a href="autoapi/batching/ls_nn_rand/index.html#batching.ls_nn_rand.LSBatchingNNRand.get_inited_batcher">(batching.ls_nn_rand.LSBatchingNNRand method)</a>
+</li>
+          <li><a href="autoapi/batching/ls_rr/index.html#batching.ls_rr.LSBatchingRR.get_inited_batcher">(batching.ls_rr.LSBatchingRR method)</a>
+</li>
+          <li><a href="autoapi/batching/order_nr_fifo/index.html#batching.order_nr_fifo.OrderNrFiFo.get_inited_batcher">(batching.order_nr_fifo.OrderNrFiFo method)</a>
+</li>
+          <li><a href="autoapi/batching/random/index.html#batching.random.Random.get_inited_batcher">(batching.random.Random method)</a>
+</li>
+          <li><a href="autoapi/batching/seed/index.html#batching.seed.ClosestDepotMinDistanceSeedBatching.get_inited_batcher">(batching.seed.ClosestDepotMinDistanceSeedBatching method)</a>
+</li>
+          <li><a href="autoapi/batching/seed_shared_articles/index.html#batching.seed_shared_articles.ClosestDepotMaxSharedArticlesSeedBatching.get_inited_batcher">(batching.seed_shared_articles.ClosestDepotMaxSharedArticlesSeedBatching method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.BatchedPickListGeneration.get_inited_batcher">(ware_ops_pipes.pipelines.templates.BatchedPickListGeneration method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration.get_inited_batcher">(ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/item_assignment/greedy_item_assignment/index.html#item_assignment.greedy_item_assignment.GreedyIA.get_inited_item_assigner">get_inited_item_assigner() (item_assignment.greedy_item_assignment.GreedyIA method)</a>
+
+        <ul>
+          <li><a href="autoapi/item_assignment/min_max_item_assignment/index.html#item_assignment.min_max_item_assignment.MinMaxIA.get_inited_item_assigner">(item_assignment.min_max_item_assignment.MinMaxIA method)</a>
+</li>
+          <li><a href="autoapi/item_assignment/min_min_item_assignment/index.html#item_assignment.min_min_item_assignment.MinMinIA.get_inited_item_assigner">(item_assignment.min_min_item_assignment.MinMinIA method)</a>
+</li>
+          <li><a href="autoapi/item_assignment/nn_item_assignment/index.html#item_assignment.nn_item_assignment.NNIA.get_inited_item_assigner">(item_assignment.nn_item_assignment.NNIA method)</a>
+</li>
+          <li><a href="autoapi/item_assignment/single_pos_item_assignment/index.html#item_assignment.single_pos_item_assignment.SinglePosIA.get_inited_item_assigner">(item_assignment.single_pos_item_assignment.SinglePosIA method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractItemAssignment.get_inited_item_assigner">(ware_ops_pipes.pipelines.templates.AbstractItemAssignment method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment.get_inited_item_assigner">(ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/order_selection/dummy_order_selection/index.html#order_selection.dummy_order_selection.DummyOS.get_inited_order_selector">get_inited_order_selector() (order_selection.dummy_order_selection.DummyOS method)</a>
+
+        <ul>
+          <li><a href="autoapi/order_selection/greedy_order_selection/index.html#order_selection.greedy_order_selection.GreedyOS.get_inited_order_selector">(order_selection.greedy_order_selection.GreedyOS method)</a>
+</li>
+          <li><a href="autoapi/order_selection/min_dist_os/index.html#order_selection.min_dist_os.MinDistOS.get_inited_order_selector">(order_selection.min_dist_os.MinDistOS method)</a>
+</li>
+          <li><a href="autoapi/order_selection/min_max_aisles_os/index.html#order_selection.min_max_aisles_os.MinMaxAislesOS.get_inited_order_selector">(order_selection.min_max_aisles_os.MinMaxAislesOS method)</a>
+</li>
+          <li><a href="autoapi/order_selection/min_max_articles_os/index.html#order_selection.min_max_articles_os.MinMaxArticlesOS.get_inited_order_selector">(order_selection.min_max_articles_os.MinMaxArticlesOS method)</a>
+</li>
+          <li><a href="autoapi/order_selection/min_shared_aisles_os/index.html#order_selection.min_shared_aisles_os.MinSharedAislesOS.get_inited_order_selector">(order_selection.min_shared_aisles_os.MinSharedAislesOS method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractOrderSelection.get_inited_order_selector">(ware_ops_pipes.pipelines.templates.AbstractOrderSelection method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection.get_inited_order_selector">(ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.BaseComponent.get_luigi_local_target_with_task_id">get_luigi_local_target_with_task_id() (ware_ops_pipes.BaseComponent method)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/base_component/index.html#ware_ops_pipes.pipelines.base_component.BaseComponent.get_luigi_local_target_with_task_id">(ware_ops_pipes.pipelines.base_component.BaseComponent method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.BaseComponent.get_luigi_local_target_with_task_id">(ware_ops_pipes.pipelines.BaseComponent method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.BaseComponent.get_luigi_local_target_with_task_id">(ware_ops_pipes.pipelines.templates.BaseComponent method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/item_assignment/greedy_item_assignment/index.html#item_assignment.greedy_item_assignment.GreedyIA">GreedyIA (class in item_assignment.greedy_item_assignment)</a>
+</li>
+        <li><a href="autoapi/order_selection/greedy_order_selection/index.html#order_selection.greedy_order_selection.GreedyOS">GreedyOS (class in order_selection.greedy_order_selection)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="I" class="genindex-section">
+  <h2>I</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.implementation_module">implementation_module (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.inhabit">inhabit() (in module ware_ops_pipes)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.inhabit">(in module ware_ops_pipes.pipelines)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipelines_utils/index.html#ware_ops_pipes.pipelines.pipelines_utils.inhabit">(in module ware_ops_pipes.pipelines.pipelines_utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractItemAssignment.instance">instance (ware_ops_pipes.pipelines.templates.AbstractItemAssignment attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractOrderSelection.instance">(ware_ops_pipes.pipelines.templates.AbstractOrderSelection attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerAssignment.instance">(ware_ops_pipes.pipelines.templates.AbstractPickerAssignment attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerRouting.instance">(ware_ops_pipes.pipelines.templates.AbstractPickerRouting attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickListGeneration.instance">(ware_ops_pipes.pipelines.templates.AbstractPickListGeneration attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractScheduling.instance">(ware_ops_pipes.pipelines.templates.AbstractScheduling attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractSequencing.instance">(ware_ops_pipes.pipelines.templates.AbstractSequencing attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDueDate.instance">(ware_ops_pipes.pipelines.templates.ResultAggregationDueDate attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment.instance">(ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection.instance">(ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment.instance">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerRouting.instance">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickerRouting attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration.instance">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling.instance">(ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing.instance">(ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate.instance">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.PipelineParams.instance_name">instance_name (ware_ops_pipes.PipelineParams attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipeline_params/index.html#ware_ops_pipes.pipelines.pipeline_params.PipelineParams.instance_name">(ware_ops_pipes.pipelines.pipeline_params.PipelineParams attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#id4">(ware_ops_pipes.pipelines.PipelineParams attribute)</a>, <a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.PipelineParams.instance_name">[1]</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.RankingEvaluator.instance_name">(ware_ops_pipes.utils.experiment_utils.RankingEvaluator attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.PipelineParams.instance_path">instance_path (ware_ops_pipes.PipelineParams attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipeline_params/index.html#ware_ops_pipes.pipelines.pipeline_params.PipelineParams.instance_path">(ware_ops_pipes.pipelines.pipeline_params.PipelineParams attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#id5">(ware_ops_pipes.pipelines.PipelineParams attribute)</a>, <a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.PipelineParams.instance_path">[1]</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.PipelineParams.instance_set_name">instance_set_name (ware_ops_pipes.PipelineParams attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipeline_params/index.html#ware_ops_pipes.pipelines.pipeline_params.PipelineParams.instance_set_name">(ware_ops_pipes.pipelines.pipeline_params.PipelineParams attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#id3">(ware_ops_pipes.pipelines.PipelineParams attribute)</a>, <a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.PipelineParams.instance_set_name">[1]</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.instance_set_name">(ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.InstanceLoader">InstanceLoader (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.InstanceLoader">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.instances_dir">instances_dir (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+        <li>
+    item_assignment
+
+        <ul>
+          <li><a href="autoapi/item_assignment/index.html#module-item_assignment">module</a>
+</li>
+        </ul></li>
+        <li>
+    item_assignment.greedy_item_assignment
+
+        <ul>
+          <li><a href="autoapi/item_assignment/greedy_item_assignment/index.html#module-item_assignment.greedy_item_assignment">module</a>
+</li>
+        </ul></li>
+        <li>
+    item_assignment.min_max_item_assignment
+
+        <ul>
+          <li><a href="autoapi/item_assignment/min_max_item_assignment/index.html#module-item_assignment.min_max_item_assignment">module</a>
+</li>
+        </ul></li>
+        <li>
+    item_assignment.min_min_item_assignment
+
+        <ul>
+          <li><a href="autoapi/item_assignment/min_min_item_assignment/index.html#module-item_assignment.min_min_item_assignment">module</a>
+</li>
+        </ul></li>
+        <li>
+    item_assignment.nn_item_assignment
+
+        <ul>
+          <li><a href="autoapi/item_assignment/nn_item_assignment/index.html#module-item_assignment.nn_item_assignment">module</a>
+</li>
+        </ul></li>
+        <li>
+    item_assignment.single_pos_item_assignment
+
+        <ul>
+          <li><a href="autoapi/item_assignment/single_pos_item_assignment/index.html#module-item_assignment.single_pos_item_assignment">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractOrderSelection.item_assignment_plan">item_assignment_plan (ware_ops_pipes.pipelines.templates.AbstractOrderSelection attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.CombinedBR.item_assignment_plan">(ware_ops_pipes.pipelines.templates.CombinedBR attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection.item_assignment_plan">(ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.CombinedBR.item_assignment_plan">(ware_ops_pipes.pipelines.templates.template_1.CombinedBR attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="L" class="genindex-section">
+  <h2>L</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/routing/largest_gap/index.html#routing.largest_gap.LargestGap">LargestGap (class in routing.largest_gap)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.load_domain">load_domain() (ware_ops_pipes.utils.experiment_utils.PipelineRunner method)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.load_json">load_json() (in module ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/utils/io_helpers/index.html#ware_ops_pipes.utils.io_helpers.load_json">(in module ware_ops_pipes.utils.io_helpers)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.load_pickle">load_pickle() (in module ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/utils/io_helpers/index.html#ware_ops_pipes.utils.io_helpers.load_pickle">(in module ware_ops_pipes.utils.io_helpers)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.RankingEvaluatorSequencing.load_sequencing_solutions">load_sequencing_solutions() (ware_ops_pipes.utils.experiment_utils.RankingEvaluatorSequencing static method)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.loader">loader (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+        <li><a href="autoapi/sequencing/lpt_scheduling/index.html#sequencing.lpt_scheduling.LPTScheduler">LPTScheduler (class in sequencing.lpt_scheduling)</a>
+</li>
+        <li><a href="autoapi/batching/ls_nn_due/index.html#batching.ls_nn_due.LSBatchingNNDueDate">LSBatchingNNDueDate (class in batching.ls_nn_due)</a>
+</li>
+        <li><a href="autoapi/batching/ls_nn_fifo/index.html#batching.ls_nn_fifo.LSBatchingNNFiFo">LSBatchingNNFiFo (class in batching.ls_nn_fifo)</a>
+</li>
+        <li><a href="autoapi/batching/ls_nn_rand/index.html#batching.ls_nn_rand.LSBatchingNNRand">LSBatchingNNRand (class in batching.ls_nn_rand)</a>
+</li>
+        <li><a href="autoapi/batching/ls_rr/index.html#batching.ls_rr.LSBatchingRR">LSBatchingRR (class in batching.ls_rr)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.max_pipelines">max_pipelines (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+        <li><a href="autoapi/routing/midpoint/index.html#routing.midpoint.Midpoint">Midpoint (class in routing.midpoint)</a>
+</li>
+        <li><a href="autoapi/order_selection/min_dist_os/index.html#order_selection.min_dist_os.MinDistOS">MinDistOS (class in order_selection.min_dist_os)</a>
+</li>
+        <li><a href="autoapi/order_selection/min_max_aisles_os/index.html#order_selection.min_max_aisles_os.MinMaxAislesOS">MinMaxAislesOS (class in order_selection.min_max_aisles_os)</a>
+</li>
+        <li><a href="autoapi/order_selection/min_max_articles_os/index.html#order_selection.min_max_articles_os.MinMaxArticlesOS">MinMaxArticlesOS (class in order_selection.min_max_articles_os)</a>
+</li>
+        <li><a href="autoapi/item_assignment/min_max_item_assignment/index.html#item_assignment.min_max_item_assignment.MinMaxIA">MinMaxIA (class in item_assignment.min_max_item_assignment)</a>
+</li>
+        <li><a href="autoapi/item_assignment/min_min_item_assignment/index.html#item_assignment.min_min_item_assignment.MinMinIA">MinMinIA (class in item_assignment.min_min_item_assignment)</a>
+</li>
+        <li><a href="autoapi/order_selection/min_shared_aisles_os/index.html#order_selection.min_shared_aisles_os.MinSharedAislesOS">MinSharedAislesOS (class in order_selection.min_shared_aisles_os)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.models">models (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+        <li>
+    module
+
+        <ul>
+          <li><a href="autoapi/batching/index.html#module-batching">batching</a>
+</li>
+          <li><a href="autoapi/batching/clark_and_wright_nn/index.html#module-batching.clark_and_wright_nn">batching.clark_and_wright_nn</a>
+</li>
+          <li><a href="autoapi/batching/clark_and_wright_rr/index.html#module-batching.clark_and_wright_rr">batching.clark_and_wright_rr</a>
+</li>
+          <li><a href="autoapi/batching/clark_and_wright_sshape/index.html#module-batching.clark_and_wright_sshape">batching.clark_and_wright_sshape</a>
+</li>
+          <li><a href="autoapi/batching/due_date/index.html#module-batching.due_date">batching.due_date</a>
+</li>
+          <li><a href="autoapi/batching/fifo/index.html#module-batching.fifo">batching.fifo</a>
+</li>
+          <li><a href="autoapi/batching/ls_nn_due/index.html#module-batching.ls_nn_due">batching.ls_nn_due</a>
+</li>
+          <li><a href="autoapi/batching/ls_nn_fifo/index.html#module-batching.ls_nn_fifo">batching.ls_nn_fifo</a>
+</li>
+          <li><a href="autoapi/batching/ls_nn_rand/index.html#module-batching.ls_nn_rand">batching.ls_nn_rand</a>
+</li>
+          <li><a href="autoapi/batching/ls_rr/index.html#module-batching.ls_rr">batching.ls_rr</a>
+</li>
+          <li><a href="autoapi/batching/order_nr_fifo/index.html#module-batching.order_nr_fifo">batching.order_nr_fifo</a>
+</li>
+          <li><a href="autoapi/batching/random/index.html#module-batching.random">batching.random</a>
+</li>
+          <li><a href="autoapi/batching/seed/index.html#module-batching.seed">batching.seed</a>
+</li>
+          <li><a href="autoapi/batching/seed_shared_articles/index.html#module-batching.seed_shared_articles">batching.seed_shared_articles</a>
+</li>
+          <li><a href="autoapi/item_assignment/index.html#module-item_assignment">item_assignment</a>
+</li>
+          <li><a href="autoapi/item_assignment/greedy_item_assignment/index.html#module-item_assignment.greedy_item_assignment">item_assignment.greedy_item_assignment</a>
+</li>
+          <li><a href="autoapi/item_assignment/min_max_item_assignment/index.html#module-item_assignment.min_max_item_assignment">item_assignment.min_max_item_assignment</a>
+</li>
+          <li><a href="autoapi/item_assignment/min_min_item_assignment/index.html#module-item_assignment.min_min_item_assignment">item_assignment.min_min_item_assignment</a>
+</li>
+          <li><a href="autoapi/item_assignment/nn_item_assignment/index.html#module-item_assignment.nn_item_assignment">item_assignment.nn_item_assignment</a>
+</li>
+          <li><a href="autoapi/item_assignment/single_pos_item_assignment/index.html#module-item_assignment.single_pos_item_assignment">item_assignment.single_pos_item_assignment</a>
+</li>
+          <li><a href="autoapi/order_selection/index.html#module-order_selection">order_selection</a>
+</li>
+          <li><a href="autoapi/order_selection/dummy_order_selection/index.html#module-order_selection.dummy_order_selection">order_selection.dummy_order_selection</a>
+</li>
+          <li><a href="autoapi/order_selection/greedy_order_selection/index.html#module-order_selection.greedy_order_selection">order_selection.greedy_order_selection</a>
+</li>
+          <li><a href="autoapi/order_selection/min_dist_os/index.html#module-order_selection.min_dist_os">order_selection.min_dist_os</a>
+</li>
+          <li><a href="autoapi/order_selection/min_max_aisles_os/index.html#module-order_selection.min_max_aisles_os">order_selection.min_max_aisles_os</a>
+</li>
+          <li><a href="autoapi/order_selection/min_max_articles_os/index.html#module-order_selection.min_max_articles_os">order_selection.min_max_articles_os</a>
+</li>
+          <li><a href="autoapi/order_selection/min_shared_aisles_os/index.html#module-order_selection.min_shared_aisles_os">order_selection.min_shared_aisles_os</a>
+</li>
+          <li><a href="autoapi/picker_assignment/index.html#module-picker_assignment">picker_assignment</a>
+</li>
+          <li><a href="autoapi/picker_assignment/round_robin_assignment/index.html#module-picker_assignment.round_robin_assignment">picker_assignment.round_robin_assignment</a>
+</li>
+          <li><a href="autoapi/routing/index.html#module-routing">routing</a>
+</li>
+          <li><a href="autoapi/routing/exact_algo/index.html#module-routing.exact_algo">routing.exact_algo</a>
+</li>
+          <li><a href="autoapi/routing/joint_batching_routing_assigning/index.html#module-routing.joint_batching_routing_assigning">routing.joint_batching_routing_assigning</a>
+</li>
+          <li><a href="autoapi/routing/largest_gap/index.html#module-routing.largest_gap">routing.largest_gap</a>
+</li>
+          <li><a href="autoapi/routing/midpoint/index.html#module-routing.midpoint">routing.midpoint</a>
+</li>
+          <li><a href="autoapi/routing/nn/index.html#module-routing.nn">routing.nn</a>
+</li>
+          <li><a href="autoapi/routing/pl/index.html#module-routing.pl">routing.pl</a>
+</li>
+          <li><a href="autoapi/routing/return_algo/index.html#module-routing.return_algo">routing.return_algo</a>
+</li>
+          <li><a href="autoapi/routing/s_shape/index.html#module-routing.s_shape">routing.s_shape</a>
+</li>
+          <li><a href="autoapi/routing/sprp/index.html#module-routing.sprp">routing.sprp</a>
+</li>
+          <li><a href="autoapi/routing_config/index.html#module-routing_config">routing_config</a>
+</li>
+          <li><a href="autoapi/routing_config/exact_config/index.html#module-routing_config.exact_config">routing_config.exact_config</a>
+</li>
+          <li><a href="autoapi/routing_config/exact_config_1/index.html#module-routing_config.exact_config_1">routing_config.exact_config_1</a>
+</li>
+          <li><a href="autoapi/sequencing/index.html#module-sequencing">sequencing</a>
+</li>
+          <li><a href="autoapi/sequencing/edd_scheduling/index.html#module-sequencing.edd_scheduling">sequencing.edd_scheduling</a>
+</li>
+          <li><a href="autoapi/sequencing/edd_sequencing/index.html#module-sequencing.edd_sequencing">sequencing.edd_sequencing</a>
+</li>
+          <li><a href="autoapi/sequencing/lpt_scheduling/index.html#module-sequencing.lpt_scheduling">sequencing.lpt_scheduling</a>
+</li>
+          <li><a href="autoapi/sequencing/spt_scheduling/index.html#module-sequencing.spt_scheduling">sequencing.spt_scheduling</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/index.html#module-ware_ops_pipes">ware_ops_pipes</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#module-ware_ops_pipes.pipelines">ware_ops_pipes.pipelines</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/base_component/index.html#module-ware_ops_pipes.pipelines.base_component">ware_ops_pipes.pipelines.base_component</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipeline_params/index.html#module-ware_ops_pipes.pipelines.pipeline_params">ware_ops_pipes.pipelines.pipeline_params</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipelines_utils/index.html#module-ware_ops_pipes.pipelines.pipelines_utils">ware_ops_pipes.pipelines.pipelines_utils</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#module-ware_ops_pipes.pipelines.templates">ware_ops_pipes.pipelines.templates</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#module-ware_ops_pipes.pipelines.templates.template_1">ware_ops_pipes.pipelines.templates.template_1</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/utils/index.html#module-ware_ops_pipes.utils">ware_ops_pipes.utils</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#module-ware_ops_pipes.utils.experiment_utils">ware_ops_pipes.utils.experiment_utils</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/utils/io_helpers/index.html#module-ware_ops_pipes.utils.io_helpers">ware_ops_pipes.utils.io_helpers</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="N" class="genindex-section">
+  <h2>N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/routing/nn/index.html#routing.nn.NearestNeighbourhood">NearestNeighbourhood (class in routing.nn)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/item_assignment/nn_item_assignment/index.html#item_assignment.nn_item_assignment.NNIA">NNIA (class in item_assignment.nn_item_assignment)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.Node">Node (in module ware_ops_pipes.utils.experiment_utils)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="O" class="genindex-section">
+  <h2>O</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    order_selection
+
+        <ul>
+          <li><a href="autoapi/order_selection/index.html#module-order_selection">module</a>
+</li>
+        </ul></li>
+        <li>
+    order_selection.dummy_order_selection
+
+        <ul>
+          <li><a href="autoapi/order_selection/dummy_order_selection/index.html#module-order_selection.dummy_order_selection">module</a>
+</li>
+        </ul></li>
+        <li>
+    order_selection.greedy_order_selection
+
+        <ul>
+          <li><a href="autoapi/order_selection/greedy_order_selection/index.html#module-order_selection.greedy_order_selection">module</a>
+</li>
+        </ul></li>
+        <li>
+    order_selection.min_dist_os
+
+        <ul>
+          <li><a href="autoapi/order_selection/min_dist_os/index.html#module-order_selection.min_dist_os">module</a>
+</li>
+        </ul></li>
+        <li>
+    order_selection.min_max_aisles_os
+
+        <ul>
+          <li><a href="autoapi/order_selection/min_max_aisles_os/index.html#module-order_selection.min_max_aisles_os">module</a>
+</li>
+        </ul></li>
+        <li>
+    order_selection.min_max_articles_os
+
+        <ul>
+          <li><a href="autoapi/order_selection/min_max_articles_os/index.html#module-order_selection.min_max_articles_os">module</a>
+</li>
+        </ul></li>
+        <li>
+    order_selection.min_shared_aisles_os
+
+        <ul>
+          <li><a href="autoapi/order_selection/min_shared_aisles_os/index.html#module-order_selection.min_shared_aisles_os">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickListGeneration.order_selection_plan">order_selection_plan (ware_ops_pipes.pipelines.templates.AbstractPickListGeneration attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration.order_selection_plan">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/batching/order_nr_fifo/index.html#batching.order_nr_fifo.OrderNrFiFo">OrderNrFiFo (class in batching.order_nr_fifo)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractItemAssignment.output">output() (ware_ops_pipes.pipelines.templates.AbstractItemAssignment method)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractOrderSelection.output">(ware_ops_pipes.pipelines.templates.AbstractOrderSelection method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerAssignment.output">(ware_ops_pipes.pipelines.templates.AbstractPickerAssignment method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerRouting.output">(ware_ops_pipes.pipelines.templates.AbstractPickerRouting method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickListGeneration.output">(ware_ops_pipes.pipelines.templates.AbstractPickListGeneration method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractResultAggregation.output">(ware_ops_pipes.pipelines.templates.AbstractResultAggregation method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractScheduling.output">(ware_ops_pipes.pipelines.templates.AbstractScheduling method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractSequencing.output">(ware_ops_pipes.pipelines.templates.AbstractSequencing method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.InstanceLoader.output">(ware_ops_pipes.pipelines.templates.InstanceLoader method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDistance.output">(ware_ops_pipes.pipelines.templates.ResultAggregationDistance method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDueDate.output">(ware_ops_pipes.pipelines.templates.ResultAggregationDueDate method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment.output">(ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection.output">(ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment.output">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerRouting.output">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickerRouting method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration.output">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractResultAggregation.output">(ware_ops_pipes.pipelines.templates.template_1.AbstractResultAggregation method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling.output">(ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing.output">(ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.InstanceLoader.output">(ware_ops_pipes.pipelines.templates.template_1.InstanceLoader method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance.output">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate.output">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.RankingEvaluator.output_dir">output_dir (ware_ops_pipes.utils.experiment_utils.RankingEvaluator attribute)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.PipelineParams.output_folder">output_folder (ware_ops_pipes.PipelineParams attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipeline_params/index.html#ware_ops_pipes.pipelines.pipeline_params.PipelineParams.output_folder">(ware_ops_pipes.pipelines.pipeline_params.PipelineParams attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#id1">(ware_ops_pipes.pipelines.PipelineParams attribute)</a>, <a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.PipelineParams.output_folder">[1]</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="P" class="genindex-section">
+  <h2>P</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerAssignment.pick_list_plan">pick_list_plan (ware_ops_pipes.pipelines.templates.AbstractPickerAssignment attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractSequencing.pick_list_plan">(ware_ops_pipes.pipelines.templates.AbstractSequencing attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.PickerRouting.pick_list_plan">(ware_ops_pipes.pipelines.templates.PickerRouting attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment.pick_list_plan">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing.pick_list_plan">(ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.PickerRouting.pick_list_plan">(ware_ops_pipes.pipelines.templates.template_1.PickerRouting attribute)</a>
+</li>
+        </ul></li>
+        <li>
+    picker_assignment
+
+        <ul>
+          <li><a href="autoapi/picker_assignment/index.html#module-picker_assignment">module</a>
+</li>
+        </ul></li>
+        <li>
+    picker_assignment.round_robin_assignment
+
+        <ul>
+          <li><a href="autoapi/picker_assignment/round_robin_assignment/index.html#module-picker_assignment.round_robin_assignment">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.PickerRouting">PickerRouting (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.PickerRouting">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.BaseComponent.pipeline_params">pipeline_params (ware_ops_pipes.BaseComponent attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/base_component/index.html#ware_ops_pipes.pipelines.base_component.BaseComponent.pipeline_params">(ware_ops_pipes.pipelines.base_component.BaseComponent attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.BaseComponent.pipeline_params">(ware_ops_pipes.pipelines.BaseComponent attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.BaseComponent.pipeline_params">(ware_ops_pipes.pipelines.templates.BaseComponent attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.pipeline_runtimes">pipeline_runtimes (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.PipelineParams">PipelineParams (class in ware_ops_pipes)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#id0">(class in ware_ops_pipes.pipelines)</a>, <a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.PipelineParams">[1]</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipeline_params/index.html#ware_ops_pipes.pipelines.pipeline_params.PipelineParams">(class in ware_ops_pipes.pipelines.pipeline_params)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner">PipelineRunner (class in ware_ops_pipes.utils.experiment_utils)</a>
+</li>
+        <li><a href="autoapi/routing/pl/index.html#routing.pl.PLRouting">PLRouting (class in routing.pl)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.print_tree">print_tree() (in module ware_ops_pipes)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.print_tree">(in module ware_ops_pipes.pipelines)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipelines_utils/index.html#ware_ops_pipes.pipelines.pipelines_utils.print_tree">(in module ware_ops_pipes.pipelines.pipelines_utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.project_root">project_root (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/batching/random/index.html#batching.random.Random">Random (class in batching.random)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.ranker">ranker (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.RankingEvaluator">RankingEvaluator (class in ware_ops_pipes.utils.experiment_utils)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.RankingEvaluatorDistance">RankingEvaluatorDistance (class in ware_ops_pipes.utils.experiment_utils)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.RankingEvaluatorSequencing">RankingEvaluatorSequencing (class in ware_ops_pipes.utils.experiment_utils)</a>
+</li>
+        <li><a href="autoapi/routing/sprp/index.html#routing.sprp.RatliffRosenthal">RatliffRosenthal (class in routing.sprp)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.RawPickListGeneration">RawPickListGeneration (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.RawPickListGeneration">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractItemAssignment.requires">requires() (ware_ops_pipes.pipelines.templates.AbstractItemAssignment method)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractOrderSelection.requires">(ware_ops_pipes.pipelines.templates.AbstractOrderSelection method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerAssignment.requires">(ware_ops_pipes.pipelines.templates.AbstractPickerAssignment method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerRouting.requires">(ware_ops_pipes.pipelines.templates.AbstractPickerRouting method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickListGeneration.requires">(ware_ops_pipes.pipelines.templates.AbstractPickListGeneration method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractResultAggregation.requires">(ware_ops_pipes.pipelines.templates.AbstractResultAggregation method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractScheduling.requires">(ware_ops_pipes.pipelines.templates.AbstractScheduling method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractSequencing.requires">(ware_ops_pipes.pipelines.templates.AbstractSequencing method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.CombinedBR.requires">(ware_ops_pipes.pipelines.templates.CombinedBR method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.PickerRouting.requires">(ware_ops_pipes.pipelines.templates.PickerRouting method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDistance.requires">(ware_ops_pipes.pipelines.templates.ResultAggregationDistance method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDueDate.requires">(ware_ops_pipes.pipelines.templates.ResultAggregationDueDate method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.RoutingNeutralSequencing.requires">(ware_ops_pipes.pipelines.templates.RoutingNeutralSequencing method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment.requires">(ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection.requires">(ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment.requires">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerRouting.requires">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickerRouting method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration.requires">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractResultAggregation.requires">(ware_ops_pipes.pipelines.templates.template_1.AbstractResultAggregation method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling.requires">(ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing.requires">(ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.CombinedBR.requires">(ware_ops_pipes.pipelines.templates.template_1.CombinedBR method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.PickerRouting.requires">(ware_ops_pipes.pipelines.templates.template_1.PickerRouting method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance.requires">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate.requires">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.RoutingNeutralSequencing.requires">(ware_ops_pipes.pipelines.templates.template_1.RoutingNeutralSequencing method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDistance">ResultAggregationDistance (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDueDate">ResultAggregationDueDate (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/routing/return_algo/index.html#routing.return_algo.Return">Return (class in routing.return_algo)</a>
+</li>
+        <li>
+    routing
+
+        <ul>
+          <li><a href="autoapi/routing/index.html#module-routing">module</a>
+</li>
+        </ul></li>
+        <li>
+    routing.exact_algo
+
+        <ul>
+          <li><a href="autoapi/routing/exact_algo/index.html#module-routing.exact_algo">module</a>
+</li>
+        </ul></li>
+        <li>
+    routing.joint_batching_routing_assigning
+
+        <ul>
+          <li><a href="autoapi/routing/joint_batching_routing_assigning/index.html#module-routing.joint_batching_routing_assigning">module</a>
+</li>
+        </ul></li>
+        <li>
+    routing.largest_gap
+
+        <ul>
+          <li><a href="autoapi/routing/largest_gap/index.html#module-routing.largest_gap">module</a>
+</li>
+        </ul></li>
+        <li>
+    routing.midpoint
+
+        <ul>
+          <li><a href="autoapi/routing/midpoint/index.html#module-routing.midpoint">module</a>
+</li>
+        </ul></li>
+        <li>
+    routing.nn
+
+        <ul>
+          <li><a href="autoapi/routing/nn/index.html#module-routing.nn">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    routing.pl
+
+        <ul>
+          <li><a href="autoapi/routing/pl/index.html#module-routing.pl">module</a>
+</li>
+        </ul></li>
+        <li>
+    routing.return_algo
+
+        <ul>
+          <li><a href="autoapi/routing/return_algo/index.html#module-routing.return_algo">module</a>
+</li>
+        </ul></li>
+        <li>
+    routing.s_shape
+
+        <ul>
+          <li><a href="autoapi/routing/s_shape/index.html#module-routing.s_shape">module</a>
+</li>
+        </ul></li>
+        <li>
+    routing.sprp
+
+        <ul>
+          <li><a href="autoapi/routing/sprp/index.html#module-routing.sprp">module</a>
+</li>
+        </ul></li>
+        <li>
+    routing_config
+
+        <ul>
+          <li><a href="autoapi/routing_config/index.html#module-routing_config">module</a>
+</li>
+        </ul></li>
+        <li>
+    routing_config.exact_config
+
+        <ul>
+          <li><a href="autoapi/routing_config/exact_config/index.html#module-routing_config.exact_config">module</a>
+</li>
+        </ul></li>
+        <li>
+    routing_config.exact_config_1
+
+        <ul>
+          <li><a href="autoapi/routing_config/exact_config_1/index.html#module-routing_config.exact_config_1">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractResultAggregation.routing_plan">routing_plan (ware_ops_pipes.pipelines.templates.AbstractResultAggregation attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractScheduling.routing_plan">(ware_ops_pipes.pipelines.templates.AbstractScheduling attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDistance.routing_plan">(ware_ops_pipes.pipelines.templates.ResultAggregationDistance attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDueDate.routing_plan">(ware_ops_pipes.pipelines.templates.ResultAggregationDueDate attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractResultAggregation.routing_plan">(ware_ops_pipes.pipelines.templates.template_1.AbstractResultAggregation attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling.routing_plan">(ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance.routing_plan">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate.routing_plan">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.RoutingNeutralSequencing">RoutingNeutralSequencing (class in ware_ops_pipes.pipelines.templates)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.RoutingNeutralSequencing">(class in ware_ops_pipes.pipelines.templates.template_1)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/picker_assignment/round_robin_assignment/index.html#picker_assignment.round_robin_assignment.RRAssigner">RRAssigner (class in picker_assignment.round_robin_assignment)</a>
+</li>
+        <li><a href="autoapi/routing_config/exact_config_1/index.html#routing_config.exact_config_1.ExactConfig1.run">run() (routing_config.exact_config_1.ExactConfig1 method)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractItemAssignment.run">(ware_ops_pipes.pipelines.templates.AbstractItemAssignment method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractOrderSelection.run">(ware_ops_pipes.pipelines.templates.AbstractOrderSelection method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractPickerAssignment.run">(ware_ops_pipes.pipelines.templates.AbstractPickerAssignment method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.AbstractScheduling.run">(ware_ops_pipes.pipelines.templates.AbstractScheduling method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.BatchedPickListGeneration.run">(ware_ops_pipes.pipelines.templates.BatchedPickListGeneration method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.CombinedBR.run">(ware_ops_pipes.pipelines.templates.CombinedBR method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.InstanceLoader.run">(ware_ops_pipes.pipelines.templates.InstanceLoader method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.PickerRouting.run">(ware_ops_pipes.pipelines.templates.PickerRouting method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.RawPickListGeneration.run">(ware_ops_pipes.pipelines.templates.RawPickListGeneration method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDistance.run">(ware_ops_pipes.pipelines.templates.ResultAggregationDistance method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDueDate.run">(ware_ops_pipes.pipelines.templates.ResultAggregationDueDate method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.RoutingNeutralSequencing.run">(ware_ops_pipes.pipelines.templates.RoutingNeutralSequencing method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment.run">(ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection.run">(ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment.run">(ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling.run">(ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration.run">(ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.CombinedBR.run">(ware_ops_pipes.pipelines.templates.template_1.CombinedBR method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.InstanceLoader.run">(ware_ops_pipes.pipelines.templates.template_1.InstanceLoader method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.PickerRouting.run">(ware_ops_pipes.pipelines.templates.template_1.PickerRouting method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.RawPickListGeneration.run">(ware_ops_pipes.pipelines.templates.template_1.RawPickListGeneration method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance.run">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate.run">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate method)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.RoutingNeutralSequencing.run">(ware_ops_pipes.pipelines.templates.template_1.RoutingNeutralSequencing method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.run_all">run_all() (ware_ops_pipes.utils.experiment_utils.PipelineRunner method)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.run_instance">run_instance() (ware_ops_pipes.utils.experiment_utils.PipelineRunner method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="S" class="genindex-section">
+  <h2>S</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.save_runtimes">save_runtimes() (ware_ops_pipes.utils.experiment_utils.PipelineRunner method)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#ware_ops_pipes.pipelines.templates.ResultAggregationDueDate.scheduling_plan">scheduling_plan (ware_ops_pipes.pipelines.templates.ResultAggregationDueDate attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate.scheduling_plan">(ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.PipelineParams.seed">seed (ware_ops_pipes.PipelineParams attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipeline_params/index.html#ware_ops_pipes.pipelines.pipeline_params.PipelineParams.seed">(ware_ops_pipes.pipelines.pipeline_params.PipelineParams attribute)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#id2">(ware_ops_pipes.pipelines.PipelineParams attribute)</a>, <a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.PipelineParams.seed">[1]</a>
+</li>
+        </ul></li>
+        <li>
+    sequencing
+
+        <ul>
+          <li><a href="autoapi/sequencing/index.html#module-sequencing">module</a>
+</li>
+        </ul></li>
+        <li>
+    sequencing.edd_scheduling
+
+        <ul>
+          <li><a href="autoapi/sequencing/edd_scheduling/index.html#module-sequencing.edd_scheduling">module</a>
+</li>
+        </ul></li>
+        <li>
+    sequencing.edd_sequencing
+
+        <ul>
+          <li><a href="autoapi/sequencing/edd_sequencing/index.html#module-sequencing.edd_sequencing">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    sequencing.lpt_scheduling
+
+        <ul>
+          <li><a href="autoapi/sequencing/lpt_scheduling/index.html#module-sequencing.lpt_scheduling">module</a>
+</li>
+        </ul></li>
+        <li>
+    sequencing.spt_scheduling
+
+        <ul>
+          <li><a href="autoapi/sequencing/spt_scheduling/index.html#module-sequencing.spt_scheduling">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/ware_ops_pipes/index.html#ware_ops_pipes.set_pipeline_params">set_pipeline_params() (in module ware_ops_pipes)</a>
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#ware_ops_pipes.pipelines.set_pipeline_params">(in module ware_ops_pipes.pipelines)</a>
+</li>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipelines_utils/index.html#ware_ops_pipes.pipelines.pipelines_utils.set_pipeline_params">(in module ware_ops_pipes.pipelines.pipelines_utils)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/item_assignment/single_pos_item_assignment/index.html#item_assignment.single_pos_item_assignment.SinglePosIA">SinglePosIA (class in item_assignment.single_pos_item_assignment)</a>
+</li>
+        <li><a href="autoapi/sequencing/spt_scheduling/index.html#sequencing.spt_scheduling.SPTScheduler">SPTScheduler (class in sequencing.spt_scheduling)</a>
+</li>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.src_dir">src_dir (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+        <li><a href="autoapi/routing/s_shape/index.html#routing.s_shape.SShape">SShape (class in routing.s_shape)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="V" class="genindex-section">
+  <h2>V</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#ware_ops_pipes.utils.experiment_utils.PipelineRunner.verbose">verbose (ware_ops_pipes.utils.experiment_utils.PipelineRunner attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="W" class="genindex-section">
+  <h2>W</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    ware_ops_pipes
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/index.html#module-ware_ops_pipes">module</a>
+</li>
+        </ul></li>
+        <li>
+    ware_ops_pipes.pipelines
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/index.html#module-ware_ops_pipes.pipelines">module</a>
+</li>
+        </ul></li>
+        <li>
+    ware_ops_pipes.pipelines.base_component
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/base_component/index.html#module-ware_ops_pipes.pipelines.base_component">module</a>
+</li>
+        </ul></li>
+        <li>
+    ware_ops_pipes.pipelines.pipeline_params
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipeline_params/index.html#module-ware_ops_pipes.pipelines.pipeline_params">module</a>
+</li>
+        </ul></li>
+        <li>
+    ware_ops_pipes.pipelines.pipelines_utils
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/pipelines_utils/index.html#module-ware_ops_pipes.pipelines.pipelines_utils">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    ware_ops_pipes.pipelines.templates
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/index.html#module-ware_ops_pipes.pipelines.templates">module</a>
+</li>
+        </ul></li>
+        <li>
+    ware_ops_pipes.pipelines.templates.template_1
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/pipelines/templates/template_1/index.html#module-ware_ops_pipes.pipelines.templates.template_1">module</a>
+</li>
+        </ul></li>
+        <li>
+    ware_ops_pipes.utils
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/utils/index.html#module-ware_ops_pipes.utils">module</a>
+</li>
+        </ul></li>
+        <li>
+    ware_ops_pipes.utils.experiment_utils
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/utils/experiment_utils/index.html#module-ware_ops_pipes.utils.experiment_utils">module</a>
+</li>
+        </ul></li>
+        <li>
+    ware_ops_pipes.utils.io_helpers
+
+        <ul>
+          <li><a href="autoapi/ware_ops_pipes/utils/io_helpers/index.html#module-ware_ops_pipes.utils.io_helpers">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    </body>
+</html>

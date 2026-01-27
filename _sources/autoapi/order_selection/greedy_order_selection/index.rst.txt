@@ -1,0 +1,30 @@
+order_selection.greedy_order_selection
+======================================
+
+.. py:module:: order_selection.greedy_order_selection
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   order_selection.greedy_order_selection.GreedyOS
+
+
+Module Contents
+---------------
+
+.. py:class:: GreedyOS(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: get_inited_order_selector()
+
+

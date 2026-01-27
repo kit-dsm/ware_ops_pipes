@@ -1,0 +1,30 @@
+batching.fifo
+=============
+
+.. py:module:: batching.fifo
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   batching.fifo.FiFo
+
+
+Module Contents
+---------------
+
+.. py:class:: FiFo(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: get_inited_batcher()
+
+

@@ -1,0 +1,20 @@
+order_selection
+===============
+
+.. py:module:: order_selection
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/order_selection/dummy_order_selection/index
+   /autoapi/order_selection/greedy_order_selection/index
+   /autoapi/order_selection/min_dist_os/index
+   /autoapi/order_selection/min_max_aisles_os/index
+   /autoapi/order_selection/min_max_articles_os/index
+   /autoapi/order_selection/min_shared_aisles_os/index
+
+

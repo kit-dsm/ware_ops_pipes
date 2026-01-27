@@ -1,0 +1,30 @@
+batching.due_date
+=================
+
+.. py:module:: batching.due_date
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   batching.due_date.DueDate
+
+
+Module Contents
+---------------
+
+.. py:class:: DueDate(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: get_inited_batcher()
+
+

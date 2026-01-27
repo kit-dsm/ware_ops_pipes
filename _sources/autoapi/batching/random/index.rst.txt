@@ -1,0 +1,30 @@
+batching.random
+===============
+
+.. py:module:: batching.random
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   batching.random.Random
+
+
+Module Contents
+---------------
+
+.. py:class:: Random(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: get_inited_batcher()
+
+

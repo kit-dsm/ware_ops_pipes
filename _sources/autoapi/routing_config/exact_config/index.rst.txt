@@ -1,0 +1,27 @@
+routing_config.exact_config
+===========================
+
+.. py:module:: routing_config.exact_config
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   routing_config.exact_config.ExactConfig
+
+
+Module Contents
+---------------
+
+.. py:class:: ExactConfig
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.RoutingConfig`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+

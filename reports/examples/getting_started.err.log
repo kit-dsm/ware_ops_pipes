@@ -1,0 +1,62 @@
+Traceback (most recent call last):
+  File "/home/runner/.local/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/home/runner/.local/lib/python3.12/site-packages/nbclient/client.py", line 1323, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/home/runner/.local/lib/python3.12/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/runner/.local/lib/python3.12/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from ware_ops_algos.domain_models import BaseWarehouseDomain
+from ware_ops_algos.data_loaders import FoodmartLoader
+from ware_ops_pipes.utils.experiment_utils import PipelineRunner, RankingEvaluatorDistance
+
+
+class SimpleRunner(PipelineRunner):
+    def __init__(self, instance_set_name: str, 
+                 instances_dir: Path, 
+                 cache_dir: Path, 
+                 project_root: Path):
+        super().__init__(instance_set_name, 
+                         instances_dir, 
+                         cache_dir, 
+                         project_root)
+        
+        self.loader = FoodmartLoader(str(instances_dir), 
+                                     str(cache_dir))
+        self.ranker = RankingEvaluatorDistance
+        
+    def discover_instances(self) -> list[Tuple[str, list[Path]]]:
+        pass
+    
+    def load_domain(self, instance_name: str, 
+                    file_paths: list[Path]) -> BaseWarehouseDomain:
+        return self.loader.load(file_paths[0].name, use_cache=True)
+
+runner = SimpleRunner("FoodmartData", instances_base / "FoodmartData",
+                        cache_base / "FoodmartData", PROJECT_ROOT)
+
+runner.run_instance(instance_name="instances_d5_ord5_MAL.txt", file_paths=[Path("data/instances/FoodmartData/instances_d5_ord5_MAL.txt")])
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 1[39m
+[32m----> [39m[32m1[39m [38;5;28;01mfrom[39;00m [34;01mware_ops_algos[39;00m[34;01m.[39;00m[34;01mdomain_models[39;00m [38;5;28;01mimport[39;00m BaseWarehouseDomain
+[32m      2[39m [38;5;28;01mfrom[39;00m [34;01mware_ops_algos[39;00m[34;01m.[39;00m[34;01mdata_loaders[39;00m [38;5;28;01mimport[39;00m FoodmartLoader
+[32m      3[39m [38;5;28;01mfrom[39;00m [34;01mware_ops_pipes[39;00m[34;01m.[39;00m[34;01mutils[39;00m[34;01m.[39;00m[34;01mexperiment_utils[39;00m [38;5;28;01mimport[39;00m PipelineRunner, RankingEvaluatorDistance
+
+[31mModuleNotFoundError[39m: No module named 'ware_ops_algos'
+

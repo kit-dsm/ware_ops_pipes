@@ -1,0 +1,18 @@
+API Reference
+=============
+
+This page contains auto-generated API reference documentation [#f1]_.
+
+.. toctree::
+   :titlesonly:
+
+   /autoapi/routing/index
+   /autoapi/batching/index
+   /autoapi/sequencing/index
+   /autoapi/ware_ops_pipes/index
+   /autoapi/routing_config/index
+   /autoapi/order_selection/index
+   /autoapi/item_assignment/index
+   /autoapi/picker_assignment/index
+
+.. [#f1] Created with `sphinx-autoapi <https://github.com/readthedocs/sphinx-autoapi>`_

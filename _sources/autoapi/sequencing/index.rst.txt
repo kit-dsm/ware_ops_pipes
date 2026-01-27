@@ -1,0 +1,18 @@
+sequencing
+==========
+
+.. py:module:: sequencing
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/sequencing/edd_scheduling/index
+   /autoapi/sequencing/edd_sequencing/index
+   /autoapi/sequencing/lpt_scheduling/index
+   /autoapi/sequencing/spt_scheduling/index
+
+

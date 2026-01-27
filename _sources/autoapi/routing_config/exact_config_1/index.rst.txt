@@ -1,0 +1,30 @@
+routing_config.exact_config_1
+=============================
+
+.. py:module:: routing_config.exact_config_1
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   routing_config.exact_config_1.ExactConfig1
+
+
+Module Contents
+---------------
+
+.. py:class:: ExactConfig1
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.components.routing_config.exact_config.ExactConfig`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: run()
+
+

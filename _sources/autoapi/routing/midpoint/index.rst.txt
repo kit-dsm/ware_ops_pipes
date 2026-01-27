@@ -1,0 +1,27 @@
+routing.midpoint
+================
+
+.. py:module:: routing.midpoint
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   routing.midpoint.Midpoint
+
+
+Module Contents
+---------------
+
+.. py:class:: Midpoint(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.PickerRouting`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+

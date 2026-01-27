@@ -1,0 +1,15 @@
+picker_assignment
+=================
+
+.. py:module:: picker_assignment
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/picker_assignment/round_robin_assignment/index
+
+

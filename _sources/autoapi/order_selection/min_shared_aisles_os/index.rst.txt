@@ -1,0 +1,30 @@
+order_selection.min_shared_aisles_os
+====================================
+
+.. py:module:: order_selection.min_shared_aisles_os
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   order_selection.min_shared_aisles_os.MinSharedAislesOS
+
+
+Module Contents
+---------------
+
+.. py:class:: MinSharedAislesOS(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.AbstractOrderSelection`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: get_inited_order_selector()
+
+

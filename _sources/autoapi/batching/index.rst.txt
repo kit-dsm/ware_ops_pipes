@@ -1,0 +1,27 @@
+batching
+========
+
+.. py:module:: batching
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/batching/clark_and_wright_nn/index
+   /autoapi/batching/clark_and_wright_rr/index
+   /autoapi/batching/clark_and_wright_sshape/index
+   /autoapi/batching/due_date/index
+   /autoapi/batching/fifo/index
+   /autoapi/batching/ls_nn_due/index
+   /autoapi/batching/ls_nn_fifo/index
+   /autoapi/batching/ls_nn_rand/index
+   /autoapi/batching/ls_rr/index
+   /autoapi/batching/order_nr_fifo/index
+   /autoapi/batching/random/index
+   /autoapi/batching/seed/index
+   /autoapi/batching/seed_shared_articles/index
+
+
