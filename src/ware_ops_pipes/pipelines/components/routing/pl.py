@@ -22,7 +22,8 @@ class PLRouting(PickerRouting):
             gen_item_sequence=True,
             node_list=layout_network.node_list,
             node_to_idx={node: idx for idx, node in enumerate(list(layout_network.graph.nodes))},
-            idx_to_node={idx: node for idx, node in enumerate(list(layout_network.graph.nodes))}
+            idx_to_node={idx: node for idx, node in enumerate(list(layout_network.graph.nodes))},
+            fixed_depot=False
         )
 
         return router
