@@ -25,10 +25,11 @@ class ClarkAndWrightNN(BatchedPickListGeneration):
                          }
 
         batcher = ClarkAndWrightBatching(
-                                         # capacity=resources.resources[0].capacity,
-                                         pick_cart=resources.resources[0].pick_cart,
-                                         articles=articles,
-                                         routing_class=NearestNeighbourhoodRouting,
-                                         routing_class_kwargs=routing_kwargs)
+            pick_cart=resources.resources[0].pick_cart,
+            articles=articles,
+            routing_class=NearestNeighbourhoodRouting,
+            routing_class_kwargs=routing_kwargs,
+            time_limit=240
+        )
         return batcher
 

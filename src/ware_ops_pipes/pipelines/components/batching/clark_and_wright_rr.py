@@ -32,9 +32,12 @@ class ClarkAndWrightRR(BatchedPickListGeneration):
                          "gen_item_sequence": False,
                          }
 
-        batcher = ClarkAndWrightBatching(pick_cart=resources.resources[0].pick_cart,
-                                         articles=articles,
-                                         routing_class=RatliffRosenthalRouting,
-                                         routing_class_kwargs=routing_kwargs)
+        batcher = ClarkAndWrightBatching(
+            pick_cart=resources.resources[0].pick_cart,
+            articles=articles,
+            routing_class=RatliffRosenthalRouting,
+            routing_class_kwargs=routing_kwargs,
+            time_limit=240
+        )
         return batcher
 
