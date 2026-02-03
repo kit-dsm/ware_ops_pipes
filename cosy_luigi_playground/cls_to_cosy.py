@@ -86,7 +86,7 @@ class InstanceLoader(BaseComponent):
 
 
 class GreedyIA(BaseComponent):
-    instance = luigi.TaskParameter(InstanceLoader())
+    instance = luigi.TaskParameter()
 
 
     def requires(self):
@@ -122,8 +122,8 @@ class GreedyIA(BaseComponent):
 ########## batching ##############
 
 class Fifo(BaseComponent): # -> BatchedPickListGeneration
-    instance = luigi.TaskParameter(InstanceLoader())
-    item_assignment_plan = luigi.TaskParameter(GreedyIA())
+    instance = luigi.TaskParameter()
+    item_assignment_plan = luigi.TaskParameter()
 
     def requires(self):
         return {
@@ -242,16 +242,17 @@ def main():
         ),
         (
             "GreedyIA",
-            lambda concrete: GreedyIA(concrete),
+            lambda instance: GreedyIA(instance),
             SpecificationBuilder()
-            .argument("concrete", Constructor("InstanceLoader"))
+            .argument("instance", Constructor("InstanceLoader"))
             .suffix(Constructor("GreedyIA"))
         ),
         (
             "Fifo",
-            lambda concrete: Fifo(concrete),
+            lambda instance, ia_plan: Fifo(instance, ia_plan),
             SpecificationBuilder()
-            .argument("concrete", Constructor("InstanceLoader"))
+            .argument("instance", Constructor("InstanceLoader"))
+            .argument("item_assignment_plan", Constructor("GreedyIA"))
             .suffix(Constructor("Fifo"))
         )
     ]
