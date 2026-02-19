@@ -265,6 +265,7 @@ class PipelineRunner(ABC):
             "LSBatchingNNRand": "ware_ops_pipes.pipelines.components.batching.ls_nn_rand",
             "LSBatchingNNDueDate": "ware_ops_pipes.pipelines.components.batching.ls_nn_due",
             "LSBatchingNNFiFo": "ware_ops_pipes.pipelines.components.batching.ls_nn_fifo",
+            "LSBatchingNNFiFoOrderNr": "ware_ops_pipes.pipelines.components.batching.ls_nn_fifo_ord_nr",
             "SPTScheduling": "ware_ops_pipes.pipelines.components.sequencing.spt_scheduling",
             "LPTScheduling": "ware_ops_pipes.pipelines.components.sequencing.lpt_scheduling",
             "EDDScheduling": "ware_ops_pipes.pipelines.components.sequencing.edd_scheduling",
