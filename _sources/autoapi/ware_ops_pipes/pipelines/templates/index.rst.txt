@@ -1,0 +1,411 @@
+ware_ops_pipes.pipelines.templates
+==================================
+
+.. py:module:: ware_ops_pipes.pipelines.templates
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/ware_ops_pipes/pipelines/templates/template_1/index
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   ware_ops_pipes.pipelines.templates.BaseComponent
+   ware_ops_pipes.pipelines.templates.InstanceLoader
+   ware_ops_pipes.pipelines.templates.AbstractItemAssignment
+   ware_ops_pipes.pipelines.templates.AbstractOrderSelection
+   ware_ops_pipes.pipelines.templates.AbstractPickListGeneration
+   ware_ops_pipes.pipelines.templates.RawPickListGeneration
+   ware_ops_pipes.pipelines.templates.BatchedPickListGeneration
+   ware_ops_pipes.pipelines.templates.AbstractSequencing
+   ware_ops_pipes.pipelines.templates.RoutingNeutralSequencing
+   ware_ops_pipes.pipelines.templates.AbstractPickerAssignment
+   ware_ops_pipes.pipelines.templates.AbstractPickerRouting
+   ware_ops_pipes.pipelines.templates.PickerRouting
+   ware_ops_pipes.pipelines.templates.CombinedBR
+   ware_ops_pipes.pipelines.templates.AbstractScheduling
+   ware_ops_pipes.pipelines.templates.AbstractResultAggregation
+   ware_ops_pipes.pipelines.templates.ResultAggregationDistance
+   ware_ops_pipes.pipelines.templates.ResultAggregationDueDate
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   ware_ops_pipes.pipelines.templates.dump_pickle
+   ware_ops_pipes.pipelines.templates.load_pickle
+   ware_ops_pipes.pipelines.templates.load_json
+   ware_ops_pipes.pipelines.templates.dump_json
+
+
+Package Contents
+----------------
+
+.. py:class:: BaseComponent(*args, **kwargs)
+
+   Bases: :py:obj:`luigi.Task`, :py:obj:`cls_luigi.inhabitation_task.LuigiCombinator`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: pipeline_params
+
+
+   .. py:method:: get_luigi_local_target_with_task_id(out_name) -> luigi.LocalTarget
+
+
+.. py:function:: dump_pickle(path: str, data: Any, mode: str = 'wb') -> None
+
+.. py:function:: load_pickle(path: str, mode: str = 'rb') -> Any
+
+.. py:function:: load_json(path: str, mode: str = 'r') -> Dict
+
+.. py:function:: dump_json(path: str, data: Dict, encoder_cls: Type[json.JSONEncoder] | None = None, mode: str = 'w', indent: int = 4) -> None
+
+.. py:class:: InstanceLoader(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: output()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractItemAssignment(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: instance
+
+
+   .. py:method:: get_inited_item_assigner() -> ware_ops_algos.algorithms.ItemAssignment
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractOrderSelection(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: instance
+
+
+   .. py:attribute:: item_assignment_plan
+
+
+   .. py:method:: get_inited_order_selector() -> ware_ops_algos.algorithms.order_selection.OrderSelection
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractPickListGeneration(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: instance
+
+
+   .. py:attribute:: order_selection_plan
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+.. py:class:: RawPickListGeneration(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractPickListGeneration`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: run()
+
+
+.. py:class:: BatchedPickListGeneration(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractPickListGeneration`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:method:: get_inited_batcher() -> ware_ops_algos.algorithms.Batching
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractSequencing(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: instance
+
+
+   .. py:attribute:: pick_list_plan
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+.. py:class:: RoutingNeutralSequencing(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractSequencing`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractPickerAssignment(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: instance
+
+
+   .. py:attribute:: pick_list_plan
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractPickerRouting(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: instance
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+.. py:class:: PickerRouting(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractPickerRouting`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: pick_list_plan
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: CombinedBR(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractPickerRouting`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: item_assignment_plan
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractScheduling(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: routing_plan
+
+
+   .. py:attribute:: instance
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractResultAggregation(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: routing_plan
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+.. py:class:: ResultAggregationDistance(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractResultAggregation`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:attribute:: routing_plan
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: run()
+
+
+   .. py:method:: output()
+
+
+.. py:class:: ResultAggregationDueDate(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractResultAggregation`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:attribute:: routing_plan
+
+
+   .. py:attribute:: scheduling_plan
+
+
+   .. py:attribute:: instance
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+   .. py:method:: run()
+
+

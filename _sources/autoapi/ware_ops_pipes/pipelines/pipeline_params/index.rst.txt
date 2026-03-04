@@ -1,0 +1,40 @@
+ware_ops_pipes.pipelines.pipeline_params
+========================================
+
+.. py:module:: ware_ops_pipes.pipelines.pipeline_params
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   ware_ops_pipes.pipelines.pipeline_params.PipelineParams
+
+
+Module Contents
+---------------
+
+.. py:class:: PipelineParams
+
+   Bases: :py:obj:`luigi.Config`
+
+
+   .. py:attribute:: output_folder
+
+
+   .. py:attribute:: seed
+
+
+   .. py:attribute:: instance_set_name
+
+
+   .. py:attribute:: instance_name
+
+
+   .. py:attribute:: instance_path
+
+
+   .. py:attribute:: domain_path
+
+

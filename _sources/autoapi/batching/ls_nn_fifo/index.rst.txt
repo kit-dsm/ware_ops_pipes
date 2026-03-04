@@ -1,0 +1,30 @@
+batching.ls_nn_fifo
+===================
+
+.. py:module:: batching.ls_nn_fifo
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   batching.ls_nn_fifo.LSBatchingNNFiFo
+
+
+Module Contents
+---------------
+
+.. py:class:: LSBatchingNNFiFo(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: get_inited_batcher()
+
+

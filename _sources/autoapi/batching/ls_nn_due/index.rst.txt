@@ -1,0 +1,30 @@
+batching.ls_nn_due
+==================
+
+.. py:module:: batching.ls_nn_due
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   batching.ls_nn_due.LSBatchingNNDueDate
+
+
+Module Contents
+---------------
+
+.. py:class:: LSBatchingNNDueDate(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: get_inited_batcher()
+
+

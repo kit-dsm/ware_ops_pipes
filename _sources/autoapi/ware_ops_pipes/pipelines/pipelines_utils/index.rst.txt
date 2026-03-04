@@ -1,0 +1,25 @@
+ware_ops_pipes.pipelines.pipelines_utils
+========================================
+
+.. py:module:: ware_ops_pipes.pipelines.pipelines_utils
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   ware_ops_pipes.pipelines.pipelines_utils.inhabit
+   ware_ops_pipes.pipelines.pipelines_utils.print_tree
+   ware_ops_pipes.pipelines.pipelines_utils.set_pipeline_params
+
+
+Module Contents
+---------------
+
+.. py:function:: inhabit(start: Union[cls_luigi.inhabitation_task.RepoMeta, List[cls_luigi.inhabitation_task.RepoMeta]])
+
+.. py:function:: print_tree(task, indent='', last=True)
+
+.. py:function:: set_pipeline_params(instance_set_name, instance_name, instance_path, output_folder, domain_path) -> None
+
