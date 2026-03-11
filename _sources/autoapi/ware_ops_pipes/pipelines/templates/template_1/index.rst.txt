@@ -1,0 +1,361 @@
+ware_ops_pipes.pipelines.templates.template_1
+=============================================
+
+.. py:module:: ware_ops_pipes.pipelines.templates.template_1
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   ware_ops_pipes.pipelines.templates.template_1.InstanceLoader
+   ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment
+   ware_ops_pipes.pipelines.templates.template_1.AbstractPickListGeneration
+   ware_ops_pipes.pipelines.templates.template_1.RawPickListGeneration
+   ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration
+   ware_ops_pipes.pipelines.templates.template_1.AbstractSequencing
+   ware_ops_pipes.pipelines.templates.template_1.RoutingNeutralSequencing
+   ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment
+   ware_ops_pipes.pipelines.templates.template_1.AbstractPickerRouting
+   ware_ops_pipes.pipelines.templates.template_1.PickerRouting
+   ware_ops_pipes.pipelines.templates.template_1.CombinedBR
+   ware_ops_pipes.pipelines.templates.template_1.AbstractScheduling
+   ware_ops_pipes.pipelines.templates.template_1.AbstractResultAggregation
+   ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDistance
+   ware_ops_pipes.pipelines.templates.template_1.ResultAggregationDueDate
+   ware_ops_pipes.pipelines.templates.template_1.HesslerIrnichRunner
+
+
+Module Contents
+---------------
+
+.. py:class:: InstanceLoader(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: output()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractItemAssignment(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: instance
+
+
+   .. py:method:: get_inited_item_assigner() -> ware_ops_algos.algorithms.ItemAssignment
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractPickListGeneration(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: instance
+
+
+   .. py:attribute:: item_assignment_sol
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+.. py:class:: RawPickListGeneration(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractPickListGeneration`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: run()
+
+
+.. py:class:: BatchedPickListGeneration(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractPickListGeneration`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:method:: get_inited_batcher() -> ware_ops_algos.algorithms.Batching
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractSequencing(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: instance
+
+
+   .. py:attribute:: pick_list_sol
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+.. py:class:: RoutingNeutralSequencing(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractSequencing`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractPickerAssignment(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: instance
+
+
+   .. py:attribute:: pick_list_sol
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractPickerRouting(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: instance
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+.. py:class:: PickerRouting(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractPickerRouting`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: pick_list_sol
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: CombinedBR(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractPickerRouting`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: item_assignment_sol
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractScheduling(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: routing_sol
+
+
+   .. py:attribute:: instance
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: output()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: AbstractResultAggregation(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.BaseComponent`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:method:: output()
+
+
+.. py:class:: ResultAggregationDistance(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractResultAggregation`
+
+
+   Distance-only aggregation. Works for both separate and combined paths.
+
+   Only requires the routing terminal — batching, item assignment are
+   discovered automatically by walking the graph.
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:attribute:: routing_sol
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: ResultAggregationDueDate(*args, **kwargs)
+
+   Bases: :py:obj:`AbstractResultAggregation`
+
+
+   Aggregation with scheduling and due-date evaluation.
+
+   Only requires the scheduling terminal + instance (for orders).
+   Everything else is discovered by walking the graph from scheduling.
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:attribute:: scheduling_sol
+
+
+   .. py:attribute:: instance
+
+
+   .. py:method:: requires()
+
+
+   .. py:method:: run()
+
+
+.. py:class:: HesslerIrnichRunner(instance_set_name: str, instances_dir: pathlib.Path, cache_dir: pathlib.Path, project_root: pathlib.Path, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.utils.experiment_utils.PipelineRunner`
+
+
+   Runner for Hessler-Irnich format instances
+
+
+   .. py:attribute:: loader
+
+
+   .. py:method:: discover_instances() -> list[tuple[str, list[pathlib.Path]]]
+
+      Discover instances in the directory.
+
+
+
+   .. py:method:: load_domain(instance_name: str, file_paths: list[pathlib.Path]) -> ware_ops_algos.domain_models.base_domain.BaseWarehouseDomain
+
+      Load domain for an instance.
+
+
+

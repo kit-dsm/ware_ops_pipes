@@ -1,0 +1,27 @@
+routing.return_algo
+===================
+
+.. py:module:: routing.return_algo
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   routing.return_algo.Return
+
+
+Module Contents
+---------------
+
+.. py:class:: Return(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.PickerRouting`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+

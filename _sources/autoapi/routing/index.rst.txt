@@ -1,0 +1,23 @@
+routing
+=======
+
+.. py:module:: routing
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/routing/exact_algo/index
+   /autoapi/routing/joint_batching_routing_assigning/index
+   /autoapi/routing/largest_gap/index
+   /autoapi/routing/midpoint/index
+   /autoapi/routing/nn/index
+   /autoapi/routing/pl/index
+   /autoapi/routing/return_algo/index
+   /autoapi/routing/s_shape/index
+   /autoapi/routing/sprp/index
+
+

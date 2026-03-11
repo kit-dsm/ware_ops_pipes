@@ -1,0 +1,247 @@
+ware_ops_pipes.utils.experiment_utils
+=====================================
+
+.. py:module:: ware_ops_pipes.utils.experiment_utils
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   ware_ops_pipes.utils.experiment_utils.Node
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   ware_ops_pipes.utils.experiment_utils.RankingEvaluator
+   ware_ops_pipes.utils.experiment_utils.RankingEvaluatorDistance
+   ware_ops_pipes.utils.experiment_utils.RankingEvaluatorSequencing
+   ware_ops_pipes.utils.experiment_utils.PipelineRunner
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   ware_ops_pipes.utils.experiment_utils.collect_from_graph
+   ware_ops_pipes.utils.experiment_utils.collect_provenance
+   ware_ops_pipes.utils.experiment_utils.provenance_by_stage
+
+
+Module Contents
+---------------
+
+.. py:data:: Node
+
+.. py:class:: RankingEvaluator(output_dir: str, instance_name: str)
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Class to evaluate output of a Pipeline Runner.
+   Evaluates and outputs a batch of pipelines.
+
+
+   .. py:attribute:: output_dir
+
+
+   .. py:attribute:: instance_name
+
+
+   .. py:method:: evaluate()
+      :abstractmethod:
+
+
+
+.. py:class:: RankingEvaluatorDistance(output_dir: str, instance_name: str)
+
+   Bases: :py:obj:`RankingEvaluator`
+
+
+   Class to evaluate output of a Pipeline Runner.
+   Evaluates and outputs a batch of pipelines.
+
+
+   .. py:attribute:: df_result
+      :value: None
+
+
+
+   .. py:method:: evaluate(metric_path: str = 'tours_summary.total_distance', minimize: bool = True) -> pandas.DataFrame
+
+      Rank pipelines by metric.
+
+      :param metric_path: Metric to rank by (e.g., 'tours_summary.total_distance')
+      :param minimize: True if lower is better
+
+      :returns: DataFrame with ranked results
+
+
+
+.. py:class:: RankingEvaluatorSequencing(output_dir: str, instance_name: str)
+
+   Bases: :py:obj:`RankingEvaluator`
+
+
+   Class to evaluate output of a Pipeline Runner.
+   Evaluates and outputs a batch of pipelines.
+
+
+   .. py:method:: load_sequencing_solutions(base_dir: str)
+      :staticmethod:
+
+
+
+   .. py:method:: evaluate(metric_path: str = 'tours_summary.due_dates', minimize: bool = True) -> pandas.DataFrame
+
+      Rank pipelines by metric.
+
+      :param metric_path: Metric to rank by (e.g., 'tours_summary.total_distance')
+      :param minimize: True if lower is better
+
+      :returns: DataFrame with ranked results
+
+
+
+.. py:class:: PipelineRunner(instance_set_name: str, instances_dir: pathlib.Path, cache_dir: pathlib.Path, project_root: pathlib.Path, max_pipelines: int = 10, verbose: bool = True, cleanup: bool = True, ranker=RankingEvaluatorDistance)
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Base class for running pipelines on warehouse instances
+
+
+   .. py:attribute:: instance_set_name
+
+
+   .. py:attribute:: instances_dir
+
+
+   .. py:attribute:: cache_dir
+
+
+   .. py:attribute:: cache_path
+      :type:  pathlib.Path | None
+      :value: None
+
+
+
+   .. py:attribute:: project_root
+
+
+   .. py:attribute:: src_dir
+
+
+   .. py:attribute:: max_pipelines
+      :value: 10
+
+
+
+   .. py:attribute:: verbose
+      :value: True
+
+
+
+   .. py:attribute:: cleanup
+      :value: True
+
+
+
+   .. py:attribute:: pipeline_runtimes
+
+
+   .. py:attribute:: implementation_module
+
+
+   .. py:attribute:: models
+
+
+   .. py:attribute:: loader
+      :type:  ware_ops_algos.data_loaders.DataLoader | None
+      :value: None
+
+
+
+   .. py:attribute:: ranker
+
+
+   .. py:method:: discover_instances() -> list[Tuple[str, list[pathlib.Path]]]
+      :abstractmethod:
+
+
+      Discover instances in the directory.
+
+
+
+   .. py:method:: load_domain(instance_name: str, file_paths: list[pathlib.Path]) -> ware_ops_algos.domain_models.base_domain.BaseWarehouseDomain
+      :abstractmethod:
+
+
+      Load domain for an instance.
+
+
+
+   .. py:method:: run_all()
+
+      Run pipelines for all discovered instances
+
+
+
+   .. py:method:: run_instance(instance_name: str, file_paths: list[pathlib.Path])
+
+      Run pipelines for a single instance
+
+
+
+   .. py:method:: create_ranking(instance_name: str, output_folder: pathlib.Path)
+
+      Create ranking for this instance
+
+
+
+   .. py:method:: save_runtimes()
+
+
+.. py:function:: collect_from_graph(task) -> dict[str, dict]
+
+   Walk the task DAG depth-first and collect solutions + provenance.
+
+   Returns a dict keyed by stage name::
+
+       {
+           "item_assignment": {
+               "stage": "item_assignment",
+               "task_class": "GreedyIA",
+               "algo": "GreedyItemAssignment",
+               "time": 0.003,
+               "solution": <ItemAssignmentSolution>,
+               "target_path": "/path/to/item_assignment_sol.pkl",
+           },
+           "batching": { ... },   # absent for CombinedBR path
+           "routing":  { ... },
+           ...
+       }
+
+
+.. py:function:: collect_provenance(task) -> list[dict]
+
+   Recursively walk the task dependency graph and build provenance.
+
+   For each task that produced a solution output (keyed by one of the
+   known *_sol names), load the solution object and extract its
+   ``algo_name`` and ``execution_time``.
+
+   Returns a list ordered from the earliest upstream stage to the
+   task itself (depth-first, dependencies before dependents).
+
+
+.. py:function:: provenance_by_stage(provenance: list[dict]) -> dict[str, dict]
+
+   Index provenance list by stage name for easy lookup.
+
+

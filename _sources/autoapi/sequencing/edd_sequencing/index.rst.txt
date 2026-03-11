@@ -1,0 +1,27 @@
+sequencing.edd_sequencing
+=========================
+
+.. py:module:: sequencing.edd_sequencing
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   sequencing.edd_sequencing.EDDSequencing
+
+
+Module Contents
+---------------
+
+.. py:class:: EDDSequencing(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.RoutingNeutralSequencing`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+

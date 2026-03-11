@@ -1,0 +1,19 @@
+item_assignment
+===============
+
+.. py:module:: item_assignment
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/item_assignment/greedy_item_assignment/index
+   /autoapi/item_assignment/min_max_item_assignment/index
+   /autoapi/item_assignment/min_min_item_assignment/index
+   /autoapi/item_assignment/nn_item_assignment/index
+   /autoapi/item_assignment/single_pos_item_assignment/index
+
+

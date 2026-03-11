@@ -1,0 +1,30 @@
+batching.clark_and_wright_sshape
+================================
+
+.. py:module:: batching.clark_and_wright_sshape
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   batching.clark_and_wright_sshape.ClarkAndWrightSShape
+
+
+Module Contents
+---------------
+
+.. py:class:: ClarkAndWrightSShape(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.BatchedPickListGeneration`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: get_inited_batcher()
+
+

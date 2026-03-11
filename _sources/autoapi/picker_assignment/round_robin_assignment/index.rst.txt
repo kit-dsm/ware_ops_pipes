@@ -1,0 +1,27 @@
+picker_assignment.round_robin_assignment
+========================================
+
+.. py:module:: picker_assignment.round_robin_assignment
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   picker_assignment.round_robin_assignment.RRAssigner
+
+
+Module Contents
+---------------
+
+.. py:class:: RRAssigner(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.AbstractPickerAssignment`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+

@@ -1,0 +1,83 @@
+ware_ops_pipes
+==============
+
+.. py:module:: ware_ops_pipes
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/ware_ops_pipes/pipelines/index
+   /autoapi/ware_ops_pipes/utils/index
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   ware_ops_pipes.PipelineParams
+   ware_ops_pipes.BaseComponent
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   ware_ops_pipes.inhabit
+   ware_ops_pipes.print_tree
+   ware_ops_pipes.set_pipeline_params
+
+
+Package Contents
+----------------
+
+.. py:class:: PipelineParams
+
+   Bases: :py:obj:`luigi.Config`
+
+
+   .. py:attribute:: output_folder
+
+
+   .. py:attribute:: seed
+
+
+   .. py:attribute:: instance_set_name
+
+
+   .. py:attribute:: instance_name
+
+
+   .. py:attribute:: instance_path
+
+
+   .. py:attribute:: domain_path
+
+
+.. py:class:: BaseComponent(*args, **kwargs)
+
+   Bases: :py:obj:`luigi.Task`, :py:obj:`cls_luigi.inhabitation_task.LuigiCombinator`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: pipeline_params
+
+
+   .. py:method:: get_luigi_local_target_with_task_id(out_name) -> luigi.LocalTarget
+
+
+.. py:function:: inhabit(start: Union[cls_luigi.inhabitation_task.RepoMeta, List[cls_luigi.inhabitation_task.RepoMeta]])
+
+.. py:function:: print_tree(task, indent='', last=True)
+
+.. py:function:: set_pipeline_params(instance_set_name, instance_name, instance_path, output_folder, domain_path) -> None
+
