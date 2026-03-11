@@ -12,7 +12,7 @@ from ware_ops_algos.domain_models import OrdersDomain, Resources, LayoutData, Ar
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_pipes.pipelines import BaseComponent
 from ware_ops_pipes.utils.io_helpers import dump_pickle, load_pickle, load_json, dump_json
-
+from ware_ops_pipes.utils.experiment_utils import collect_from_graph
 
 class InstanceLoader(BaseComponent):
     abstract = False
