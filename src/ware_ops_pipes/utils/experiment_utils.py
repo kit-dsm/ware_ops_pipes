@@ -14,13 +14,14 @@ from cls.fcl import FiniteCombinatoryLogic
 from cls.subtypes import Subtypes
 from cls_luigi.inhabitation_task import RepoMeta
 from cls_luigi.unique_task_pipeline_validator import UniqueTaskPipelineValidator
+from luigi.task import flatten
 
 from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_algos.domain_models.taxonomy import SUBPROBLEMS
 from ware_ops_algos.algorithms.algorithm_filter import AlgorithmFilter
 from ware_ops_algos.utils.general_functions import import_model_class, load_model_cards
-from ware_ops_pipes.utils.io_helpers import load_json
+from ware_ops_pipes.utils.io_helpers import load_json, load_pickle
 from ware_ops_pipes.pipelines import set_pipeline_params, inhabit, print_tree
 
 Node = tuple[float, float]
@@ -245,7 +246,7 @@ class PipelineRunner(ABC):
             "MinSharedAislesOS": "ware_ops_pipes.pipelines.components.order_selection.min_shared_aisles_os",
             "SShape": "ware_ops_pipes.pipelines.components.routing.s_shape",
             "NearestNeighbourhood": "ware_ops_pipes.pipelines.components.routing.nn",
-            "PLRouting": "ware_ops_pipes.pipelines.components.routing.pl",
+            # "PLRouting": "ware_ops_pipes.pipelines.components.routing.pl",
             "LargestGap": "ware_ops_pipes.pipelines.components.routing.largest_gap",
             "Midpoint": "ware_ops_pipes.pipelines.components.routing.midpoint",
             "Return": "ware_ops_pipes.pipelines.components.routing.return_algo",
@@ -255,7 +256,7 @@ class PipelineRunner(ABC):
             "OrderNrFiFo": "ware_ops_pipes.pipelines.components.batching.order_nr_fifo",
             "DueDate": "ware_ops_pipes.pipelines.components.batching.due_date",
             "Random": "ware_ops_pipes.pipelines.components.batching.random",
-            # "CombinedBatchingRoutingAssigning": "ware_ops_pipes.pipelines.components.routing.joint_batching_routing_assigning",
+            "CombinedBatchingRoutingAssigning": "ware_ops_pipes.pipelines.components.routing.joint_batching_routing_assigning",
             "ClosestDepotMinDistanceSeedBatching": "ware_ops_pipes.pipelines.components.batching.seed",
             "ClosestDepotMaxSharedArticlesSeedBatching": "ware_ops_pipes.pipelines.components.batching.seed_shared_articles",
             "ClarkAndWrightSShape": "ware_ops_pipes.pipelines.components.batching.clark_and_wright_sshape",
@@ -375,7 +376,7 @@ class PipelineRunner(ABC):
                                                         {'background': None,
                                                          'logdir': None,
                                                          'logging_conf_file': None,
-                                                         'log_level': 'CRITICAL'  # <<<<<<<<<<
+                                                         'log_level': 'DEBUG'  # <<<<<<<<<<
                                                          }))
             luigi.build(pipelines, local_scheduler=True)
 
@@ -409,7 +410,7 @@ class PipelineRunner(ABC):
     def _build_pipelines(self):
         """Build valid pipelines using inhabitation"""
         from ware_ops_pipes.pipelines.templates.template_1 import (
-            InstanceLoader, AbstractItemAssignment, AbstractOrderSelection, AbstractPickListGeneration,
+            InstanceLoader, AbstractItemAssignment, AbstractPickListGeneration,
             BatchedPickListGeneration, AbstractPickerAssignment, AbstractPickerRouting, AbstractSequencing,
             AbstractScheduling, AbstractResultAggregation
         )
@@ -425,7 +426,7 @@ class PipelineRunner(ABC):
             InstanceLoader,
             AbstractItemAssignment,
             AbstractPickListGeneration,
-            AbstractOrderSelection,
+            # AbstractOrderSelection,
             BatchedPickListGeneration,
             AbstractPickerAssignment,
             AbstractPickerRouting,
@@ -490,3 +491,135 @@ class PipelineRunner(ABC):
         with open(output_folder / f"{self.instance_set_name}.json", "w") as f:
             json.dump(self.pipeline_runtimes, f, indent=2)
 
+
+
+# Map from output key name → stage label used in provenance
+_SOL_KEY_TO_STAGE = {
+    "item_assignment_sol": "item_assignment",
+    "pick_list_sol": "batching",
+    "routing_sol": "routing",
+    "sequencing_sol": "sequencing",
+    "assignment_sol": "assignment",
+    "scheduling_sol": "scheduling",
+}
+
+def collect_from_graph(task) -> dict[str, dict]:
+    """Walk the task DAG depth-first and collect solutions + provenance.
+
+    Returns a dict keyed by stage name::
+
+        {
+            "item_assignment": {
+                "stage": "item_assignment",
+                "task_class": "GreedyIA",
+                "algo": "GreedyItemAssignment",
+                "time": 0.003,
+                "solution": <ItemAssignmentSolution>,
+                "target_path": "/path/to/item_assignment_sol.pkl",
+            },
+            "batching": { ... },   # absent for CombinedBR path
+            "routing":  { ... },
+            ...
+        }
+    """
+    result: dict[str, dict] = {}
+    _collect_recursive(task, result, visited=set())
+    return result
+
+
+def _collect_recursive(task, result: dict, visited: set):
+    task_id = id(task)
+    if task_id in visited:
+        return
+    visited.add(task_id)
+
+    # Recurse into dependencies first (depth-first)
+    deps = task.requires()
+    if isinstance(deps, dict):
+        children = list(deps.values())
+    elif isinstance(deps, (list, tuple)):
+        children = list(deps)
+    else:
+        children = [deps]
+
+    for dep in children:
+        _collect_recursive(dep, result, visited)
+
+    # Check if this task has a solution output we recognise
+    if not hasattr(task, "output"):
+        return
+
+    outputs = task.output()
+    for sol_key, stage_name in _SOL_KEY_TO_STAGE.items():
+        if sol_key not in outputs:
+            continue
+        target = outputs[sol_key]
+        if not target.exists():
+            continue
+
+        sol = load_pickle(target.path)
+
+        # For routing_sol the value may be a list[RoutingSolution]
+        if isinstance(sol, list):
+            algo = sol[0].algo_name if sol else "unknown"
+            time = sum(s.execution_time for s in sol)
+        else:
+            algo = getattr(sol, "algo_name", type(sol).__name__)
+            time = getattr(sol, "execution_time", 0.0)
+
+        result[stage_name] = {
+            "stage": stage_name,
+            "task_class": type(task).__name__,
+            "algo": algo,
+            "time": time,
+            "solution": sol,
+            "target_path": target.path,
+        }
+        break  # one entry per task
+
+def collect_provenance(task) -> list[dict]:
+    """Recursively walk the task dependency graph and build provenance.
+
+    For each task that produced a solution output (keyed by one of the
+    known *_sol names), load the solution object and extract its
+    ``algo_name`` and ``execution_time``.
+
+    Returns a list ordered from the earliest upstream stage to the
+    task itself (depth-first, dependencies before dependents).
+    """
+    entries: list[dict] = []
+
+    # Recurse into dependencies first (depth-first)
+    for dep in flatten(task.requires()):
+        entries.extend(collect_provenance(dep))
+
+    # Check if this task has a solution output we recognise
+    if hasattr(task, "output"):
+        outputs = task.output()
+        for sol_key, stage_name in _SOL_KEY_TO_STAGE.items():
+            if sol_key in outputs:
+                target = outputs[sol_key]
+                if target.exists():
+                    sol = load_pickle(target.path)
+                    # For routing_sol the value is a list[RoutingSolution];
+                    # sum execution times across tours.
+                    if isinstance(sol, list):
+                        algo = sol[0].algo_name if sol else "unknown"
+                        time = sum(s.execution_time for s in sol)
+                    else:
+                        algo = getattr(sol, "algo_name", type(sol).__name__)
+                        time = getattr(sol, "execution_time", 0.0)
+                    entries.append({
+                        "stage": stage_name,
+                        "algo": algo,
+                        "time": time,
+                        "task_class": type(task).__name__,
+                    })
+                break  # one provenance entry per task
+
+    return entries
+
+
+def provenance_by_stage(provenance: list[dict]) -> dict[str, dict]:
+    """Index provenance list by stage name for easy lookup."""
+    return {entry["stage"]: entry for entry in provenance}
