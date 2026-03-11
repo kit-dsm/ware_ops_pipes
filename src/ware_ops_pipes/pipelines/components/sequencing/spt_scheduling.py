@@ -5,7 +5,7 @@ from ware_ops_pipes.pipelines.templates.template_1 import AbstractScheduling
 class SPTScheduler(AbstractScheduling):
     abstract = False
 
-    def _get_inited_sequencer(self):
+    def _get_inited_scheduler(self):
         scheduler = SPTScheduling()
         return scheduler
 
