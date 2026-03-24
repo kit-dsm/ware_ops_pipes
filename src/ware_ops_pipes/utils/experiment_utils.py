@@ -239,19 +239,14 @@ class PipelineRunner(ABC):
             "SinglePosIA": "ware_ops_pipes.pipelines.components.item_assignment.single_pos_item_assignment",
             "MinMinIA": "ware_ops_pipes.pipelines.components.item_assignment.min_min_item_assignment",
             "MinMaxIA": "ware_ops_pipes.pipelines.components.item_assignment.min_max_item_assignment",
-            "DummyOS": "ware_ops_pipes.pipelines.components.order_selection.dummy_order_selection",
-            "MinMaxArticlesOS": "ware_ops_pipes.pipelines.components.order_selection.min_max_articles_os",
-            "MinMaxAislesOS": "ware_ops_pipes.pipelines.components.order_selection.min_max_aisles_os",
-            "GreedyOS": "ware_ops_pipes.pipelines.components.order_selection.greedy_order_selection",
-            "MinSharedAislesOS": "ware_ops_pipes.pipelines.components.order_selection.min_shared_aisles_os",
             "SShape": "ware_ops_pipes.pipelines.components.routing.s_shape",
             "NearestNeighbourhood": "ware_ops_pipes.pipelines.components.routing.nn",
-            # "PLRouting": "ware_ops_pipes.pipelines.components.routing.pl",
             "LargestGap": "ware_ops_pipes.pipelines.components.routing.largest_gap",
             "Midpoint": "ware_ops_pipes.pipelines.components.routing.midpoint",
             "Return": "ware_ops_pipes.pipelines.components.routing.return_algo",
             # "ExactSolving": "ware_ops_pipes.pipelines.components.routing.exact_algo",
             "RatliffRosenthal": "ware_ops_pipes.pipelines.components.routing.sprp",
+            "RatliffRosenthalNF": "ware_ops_pipes.pipelines.components.routing.rr_ss",
             "FiFo": "ware_ops_pipes.pipelines.components.batching.fifo",
             "OrderNrFiFo": "ware_ops_pipes.pipelines.components.batching.order_nr_fifo",
             "DueDate": "ware_ops_pipes.pipelines.components.batching.due_date",
@@ -365,7 +360,9 @@ class PipelineRunner(ABC):
 
         # Build and run pipelines
         t0 = time.perf_counter()
-        pipelines = self._build_pipelines()
+        pipelines = None
+        if len(models_applicable) > 0:
+            pipelines = self._build_pipelines()
         timings["build_pipelines"] = time.perf_counter() - t0
 
         t0 = time.perf_counter()
