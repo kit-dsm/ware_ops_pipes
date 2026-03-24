@@ -1,5 +1,6 @@
 import json
 import pickle
+from pathlib import Path
 from typing import Type, Dict, Any
 
 
@@ -39,3 +40,12 @@ def dump_pickle(
 ) -> None:
     with open(path, mode) as f:
         pickle.dump(data, f)
+
+
+def find_project_root() -> Path:
+    """Find project root by looking for a marker file."""
+    current = Path().resolve()
+    for parent in [current] + list(current.parents):
+        if (parent / "pyproject.toml").exists():  # or setup.py, .git, etc.
+            return parent
+    raise FileNotFoundError("Could not find project root")
