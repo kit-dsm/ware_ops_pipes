@@ -8,7 +8,7 @@ from ware_ops_algos.algorithms import Batching, Routing, \
     BatchingSolution, ItemAssignment, RoutingBatchingAssigning, Assigner
 from ware_ops_algos.algorithms.batching.batching_utils import build_pick_lists
 from ware_ops_algos.algorithms.scheduling.scheduling import PriorityScheduling, SchedulingInput, PickListSequencer
-from ware_ops_algos.domain_models import OrdersDomain, Resources, LayoutData, Articles
+from ware_ops_algos.domain_models import OrdersDomain, Resources, LayoutData, Articles, StorageLocations
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_pipes.pipelines import BaseComponent
 from ware_ops_pipes.utils.io_helpers import dump_pickle, load_pickle, load_json, dump_json
@@ -260,6 +260,9 @@ class AbstractPickerRouting(BaseComponent):
     def _load_resources(self) -> Resources:
         return load_pickle(self.input()["instance"]["resources"].path)
 
+    def _load_storage(self) -> StorageLocations:
+        return load_pickle(self.input()["instance"]["storage"].path)
+
     def _load_routing_data(self):
         return load_pickle(self.input()["routing_input"]["routing_input"].path)
 
@@ -291,6 +294,36 @@ class PickerRouting(AbstractPickerRouting):
         for i, pl in enumerate(pick_lists):
             routing_solution = router.solve(pl.pick_positions)
             routing_solution.route.pick_list = pl
+            routing_sols.append(routing_solution)
+
+            router.reset_parameters()
+
+        dump_pickle(self.output()["routing_sol"].path, routing_sols)
+
+
+class CombinedIAR(AbstractPickerRouting):
+    abstract = True
+
+    def requires(self):
+        return {
+            "instance": self.instance()
+        }
+
+    def run(self):
+        orders_domain: OrdersDomain = load_pickle(self.input()["instance"]["orders"].path)
+        orders = orders_domain.orders
+        router: Routing = self._get_inited_router()
+        routing_sols = []
+        pick_lists = []
+        for order in orders:
+            # pl = build_pick_lists([order])
+            pl = []
+            for pp in order.order_positions:
+                pl.append(pp)
+            pick_lists.append(pl)
+        for i, pick_list in enumerate(pick_lists):
+            routing_solution = router.solve(pick_list)
+            # routing_solution.route.pick_list = pl
             routing_sols.append(routing_solution)
 
             router.reset_parameters()
@@ -459,11 +492,6 @@ class AbstractResultAggregation(BaseComponent):
 
 
 class ResultAggregationDistance(AbstractResultAggregation):
-    """Distance-only aggregation. Works for both separate and combined paths.
-
-    Only requires the routing terminal — batching, item assignment are
-    discovered automatically by walking the graph.
-    """
     abstract = False
     routing_sol = ClsParameter(tpe=AbstractPickerRouting.return_type())
 
@@ -491,11 +519,6 @@ class ResultAggregationDistance(AbstractResultAggregation):
 
 
 class ResultAggregationDueDate(AbstractResultAggregation):
-    """Aggregation with scheduling and due-date evaluation.
-
-    Only requires the scheduling terminal + instance (for orders).
-    Everything else is discovered by walking the graph from scheduling.
-    """
     abstract = False
     scheduling_sol = ClsParameter(tpe=AbstractScheduling.return_type())
     instance = ClsParameter(tpe=InstanceLoader.return_type())
