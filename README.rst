@@ -6,11 +6,12 @@ What is it?
 This repository contains the source code to reproduce the results presented in the paper
 "Warehouse-Aware Design of Algorithmic Pipelines for Decision-Making in Warehouse Operations".
 
-Together with `ware_ops_algos`_, ``ware_ops_pipes`` forms the meta-model framework **Data Driven Decisions for Logistics (3D4L)**.
+Together with `ware_ops_algos`_, ``ware_ops_pipes`` forms the meta-model framework **Context-Aware Synthesis
+for Optimization Problems (CASOP)**.
 
 .. _ware_ops_algos: https://github.com/kit-dsm/ware_ops_algos
 
-3D4L enables:
+CASOP enables:
 
 1. **Semantic representation of warehouse systems**  (layout, orders, resources, storage)
 2. **Context-specific algorithm selection** by matching algorithm requirements against warehouse features
@@ -20,7 +21,7 @@ Together with `ware_ops_algos`_, ``ware_ops_pipes`` forms the meta-model framewo
 Framework Overview
 ------------------
 
-The 3D4L framework consists of four main components:
+CASOP consists of four main components:
 
 🏭 **Data Layer and Domain Objects** (``ware_ops_algos``)
    To deal with heterogenous data sources, warehouse information is organized into domain objects: Layout, Articles, Orders, Resources, and Storage.
@@ -36,11 +37,11 @@ The 3D4L framework consists of four main components:
 .. _CLS-Luigi: https://github.com/cls-python/cls-luigi
 
 .. figure:: docs/source/_static/3d4l_framework_v5.png
-   :alt: 3D4L Architecture
+   :alt: CASOP Architecture
    :width: 100%
    :align: center
 
-   Architecture of the 3D4L framework.
+   Architecture of the CASOP framework.
 
 Supported Problem Classes
 -------------------------
