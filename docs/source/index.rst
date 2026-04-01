@@ -75,7 +75,7 @@ Quick Start
 Citation
 ========
 
-If you use ware_ops_algos in your research, please cite:
+If you use ware_ops_pipes in your research, please cite:
 
 .. code-block:: bibtex
 

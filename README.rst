@@ -134,7 +134,21 @@ Experiment results are saved to ``experiments/output/``.
 Use the Jupyter notebook in ``experiments/evaluation/result_evaluation.ipynb`` to analyze.
 We provide a pickled dataframe of the results from the paper which are stored in ``experiments/evaluation/df_results.pkl``.
 
+Citation
+========
 
+If you use ware_ops_pipes in your research, please cite:
+
+.. code-block:: bibtex
+
+   @misc{bischoff2026ware_ops_pipes,
+    author = {Bischoff, Janik and Suba, Oezge Nur and Barlang, Maximilian and Kutabi, Hadi and Mohring, Uta and Dunke, Fabian and Meyer, Anne and Nickel, Stefan and Furmans, Kai},
+    title = {ware_ops_pipes},
+    year = {2026},
+    publisher = {GitHub},
+    journal = {GitHub Repository},
+    howpublished = {\url{https://github.com/kit-dsm/ware_ops_pipes.git}},
+}
 
 Authors
 -------
