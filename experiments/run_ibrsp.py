@@ -1,9 +1,10 @@
+import argparse
 import time
 from pathlib import Path
 from typing import Tuple
 
 from ware_ops_algos.data_loaders import IBRSPLoader
-from ware_ops_algos.domain_models import BaseWarehouseDomain
+from ware_ops_algos.domain_models import BaseWarehouseDomain, load_and_flatten_data_card
 from ware_ops_pipes.utils.experiment_utils import PipelineRunner
 
 
@@ -30,13 +31,23 @@ def main():
     print("Importing template and components...")
 
     # Configuration
+    parser = argparse.ArgumentParser()
+    parser.add_argument("instance_set",
+                        choices=["KrisSmallDataCorrected", "KrisLargeData"],
+                        nargs="?",
+                        default="KrisSmallDataCorrected")
+    args = parser.parse_args()
+    instance_set = args.instance_set
+
     PROJECT_ROOT = Path(__file__).parent.parent
     DATA_DIR = PROJECT_ROOT / "data"
 
     instances_base = DATA_DIR / "instances"
     cache_base = DATA_DIR / "instances" / "caches"
-    runner = IBRSPRunner("KrisSmallDataCorrected", instances_base / "KrisSmallDataCorrected",
-                            cache_base / "KrisSmallDataCorrected", PROJECT_ROOT, verbose=True)
+
+    dc = load_and_flatten_data_card(DATA_DIR / "data_cards" / "kris.yaml")
+    runner = IBRSPRunner(instance_set, instances_base / instance_set,
+                         cache_base / instance_set, PROJECT_ROOT, data_card=dc, verbose=True)
     runner.run_all()
     print(runner.pipeline_runtimes)
 
