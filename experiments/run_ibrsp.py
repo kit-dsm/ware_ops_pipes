@@ -47,7 +47,11 @@ def main():
 
     dc = load_and_flatten_data_card(DATA_DIR / "data_cards" / "kris.yaml")
     runner = IBRSPRunner(instance_set, instances_base / instance_set,
-                         cache_base / instance_set, PROJECT_ROOT, data_card=dc, verbose=True)
+                         cache_base / instance_set, PROJECT_ROOT,
+                         data_card=dc,
+                         excluded=["ExactSolving",
+                                   "CombinedBatchingRoutingAssigning"],
+                         verbose=True)
     runner.run_all()
     print(runner.pipeline_runtimes)
 

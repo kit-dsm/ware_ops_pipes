@@ -44,7 +44,9 @@ def main():
 
     dc = load_and_flatten_data_card(DATA_DIR / "data_cards" / "foodmart.yaml")
     runner = FoodmartRunner("FoodmartData", instances_base / "FoodmartData",
-                            cache_base / "FoodmartData", PROJECT_ROOT, data_card=dc, verbose=True)
+                            cache_base / "FoodmartData", PROJECT_ROOT, data_card=dc,
+                            excluded=["ExactSolving",
+                                      "CombinedBatchingRoutingAssigning"], verbose=True)
     runner.run_all()
     print(runner.pipeline_runtimes)
 

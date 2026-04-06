@@ -51,6 +51,9 @@ def main():
                         default="BahceciOencan")
     args = parser.parse_args()
     instance_set = args.instance_set
+    excluded = ["ExactSolving"]
+    if instance_set != "BahceciOencan":
+        excluded.append("CombinedBatchingRoutingAssigning")
 
     PROJECT_ROOT = Path(__file__).parent.parent
     DATA_DIR = PROJECT_ROOT / "data"
@@ -62,7 +65,7 @@ def main():
     dc = load_and_flatten_data_card(DATA_DIR / "data_cards" / dc_filename)
     runner = HesslerIrnichRunner(instance_set, instances_base / instance_set,
                                  cache_base / instance_set, PROJECT_ROOT,
-                                 data_card=dc, excluded=["ExactSolving", "CombinedBatchingRoutingAssigning"], verbose=True)
+                                 data_card=dc, excluded=excluded, verbose=True)
 
     runner.run_all()
 

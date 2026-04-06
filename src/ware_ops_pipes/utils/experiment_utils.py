@@ -214,6 +214,8 @@ class PipelineRunner(ABC):
             instances_dir: Path,
             cache_dir: Path,
             project_root: Path,
+            data_card,
+            excluded: list = [],
             max_pipelines: int = 10,
             verbose: bool = True,
             cleanup: bool = True,
@@ -244,7 +246,7 @@ class PipelineRunner(ABC):
             "LargestGap": "ware_ops_pipes.pipelines.components.routing.largest_gap",
             "Midpoint": "ware_ops_pipes.pipelines.components.routing.midpoint",
             "Return": "ware_ops_pipes.pipelines.components.routing.return_algo",
-            # "ExactSolving": "ware_ops_pipes.pipelines.components.routing.exact_algo",
+            "ExactSolving": "ware_ops_pipes.pipelines.components.routing.exact_algo",
             "RatliffRosenthal": "ware_ops_pipes.pipelines.components.routing.sprp",
             "RatliffRosenthalNF": "ware_ops_pipes.pipelines.components.routing.rr_ss",
             "FiFo": "ware_ops_pipes.pipelines.components.batching.fifo",
@@ -273,7 +275,8 @@ class PipelineRunner(ABC):
         self.models = load_model_cards(str(model_cards_path))
         if self.verbose:
             print(f"Loaded {len(self.models)} model cards")
-
+        self.data_card = data_card
+        self.excluded = excluded
         self.loader: DataLoader | None = None
         self.ranker = ranker
 
@@ -328,7 +331,7 @@ class PipelineRunner(ABC):
         algo_filter = AlgorithmFilter(SUBPROBLEMS)
         models_applicable = algo_filter.filter(
             algorithms=self.models,
-            instance=domain,
+            instance=self.data_card,
             verbose=self.verbose
         )
         timings["filter_and_import"] = time.perf_counter() - t0
@@ -337,7 +340,12 @@ class PipelineRunner(ABC):
             print(f"✓ {len(models_applicable)}/{len(self.models)} algorithms applicable")
 
         # Import applicable models
-        self._import_models(models_applicable)
+        final_models = []
+        for m in models_applicable:
+            if m.model_name not in self.excluded:
+                final_models.append(m)
+
+        self._import_models(final_models)
 
         # Setup output folder
         output_folder = (
