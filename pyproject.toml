@@ -9,7 +9,8 @@ description = "Pipeline tool to build and run automated warehouse optimization."
 requires-python = ">=3.11"
 dependencies = [
     "pandas~=2.3.3",
-    "ware_ops_algos~=0.1.0",
+#    "ware_ops_algos~=0.1.0",
+#    "ware_ops_algos @ git+https://github.com/kit-dsm/ware_ops_algos.git",
     "cls-luigi==0.1.1",
     "cls-python==0.1.4",
     "luigi==3.6.0",
@@ -22,6 +23,7 @@ dependencies = [
     "sphinx_design",
     "sphinx_copybutton",
     "myst-nb",
+    "combinatory_synthesizer @ https://github.com/tudo-seal/cosy/releases/download/nightly/combinatory_synthesizer-nightly.tar.gz",
 ]
 
 [project.optional-dependencies]
