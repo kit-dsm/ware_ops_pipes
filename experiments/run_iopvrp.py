@@ -5,7 +5,7 @@ from typing import Tuple
 
 from ware_ops_algos.data_loaders import FoodmartLoader, IOPVRPLoader
 from ware_ops_algos.domain_models import BaseWarehouseDomain
-from ware_ops_pipes.utils.experiment_utils import PipelineRunner
+from ware_ops_pipes.synthesis.runner import PipelineRunner
 
 
 class IOPVRPRunner(PipelineRunner):

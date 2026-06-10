@@ -6,8 +6,29 @@ from pathlib import Path
 import numpy as np
 
 RUNTIME_DIR = Path("../output/runtimes")
-FILES = ["BahceciOencan.json", "FoodmartData.json", "IOPVRP.json", "SPRP-SS.json"]
+FILES = ["SPRP.json",
+         "SPRP-SS.json",
+         "HennWaescherUniform.json",
+         "HennWaescherClassBased.json",
+         "BahceciOencan.json",
+         "MuterOencan.json",
+         "FoodmartData.json",
+         "KrisSmallDataCorrected.json",
+         "KrisLargeData.json"]
 PHASES = ["load_domain", "filter_and_import", "build_pipelines", "run_pipelines", "total"]
+
+
+def merge_datasets(data, merges):
+    """Merge multiple datasets into one under a new name."""
+    for new_name, old_names in merges.items():
+        combined = {}
+        for name in old_names:
+            if name in data:
+                # prefix keys to avoid collisions
+                for k, v in data.pop(name).items():
+                    combined[f"{name}/{k}"] = v
+        data[new_name] = combined
+    return data
 
 
 def load_data():
@@ -39,6 +60,9 @@ def analyze(data):
         results[dataset] = {"n": len(instances)}
         for phase in PHASES:
             values = [inst[phase] for inst in instances.values()]
+            if not values:
+                print(f"WARNING: {dataset}/{phase} has no values")
+                continue
             results[dataset][phase] = compute_stats(values)
     return results
 
@@ -61,7 +85,7 @@ def to_latex_table(results):
         build = stats["build_pipelines"]["mean"]
         run = stats["run_pipelines"]["mean"]
         total = stats["total"]["mean"]
-        lines.append(f"{dataset} & {n} & {load:.4f} & {build:.3f} & {run:.3f} & {total:.3f} \\\\")
+        lines.append(rf"\textit{{{dataset}}} & {n} & {load:.4f} & {build:.3f} & {run:.3f} & {total:.3f} \\")
 
     lines.append(r"\bottomrule")
     lines.append(r"\end{tabular}")
@@ -87,7 +111,7 @@ def to_latex_detailed(results):
         run = stats["run_pipelines"]
         total = stats["total"]
         lines.append(
-            f"{dataset} & "
+            rf"\textit{{{dataset}}} & "
             f"${load['mean']:.4f} \\pm {load['std']:.4f}$ & "
             f"${build['mean']:.3f} \\pm {build['std']:.3f}$ & "
             f"${run['mean']:.3f} \\pm {run['std']:.3f}$ & "
@@ -102,6 +126,10 @@ def to_latex_detailed(results):
 
 def main():
     data = load_data()
+    data = merge_datasets(data, {
+        "HennWaescher": ["HennWaescherUniform", "HennWaescherClassBased"],
+        "Kris": ["KrisSmallDataCorrected", "KrisLargeData"],
+    })
     results = analyze(data)
 
     print("=" * 60)

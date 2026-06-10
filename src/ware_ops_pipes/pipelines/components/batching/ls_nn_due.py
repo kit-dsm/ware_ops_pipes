@@ -1,10 +1,10 @@
 from ware_ops_algos.algorithms import LocalSearchBatching, NearestNeighbourhoodRouting, DueDateBatching
 from ware_ops_algos.domain_models import Resources, LayoutData, Articles
-from ware_ops_pipes.pipelines.templates.template_1 import BatchedPickListGeneration
+from ware_ops_pipes.pipelines.templates.template_1 import MultiOrderBatching
 from ware_ops_pipes.utils.io_helpers import load_pickle
 
 
-class LSBatchingNNDueDate(BatchedPickListGeneration):
+class LSBatchingNNDueDate(MultiOrderBatching):
     abstract = False
 
     def get_inited_batcher(self):

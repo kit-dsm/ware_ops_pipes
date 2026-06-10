@@ -1,208 +1,27 @@
 from __future__ import annotations
 
 import json
-import pickle
 import time
 from abc import abstractmethod, ABC
-from typing import Tuple, Dict
+from typing import Tuple
 from pathlib import Path
 
-import pandas as pd
 import luigi
 import ware_ops_algos
 from cls.fcl import FiniteCombinatoryLogic
 from cls.subtypes import Subtypes
 from cls_luigi.inhabitation_task import RepoMeta
 from cls_luigi.unique_task_pipeline_validator import UniqueTaskPipelineValidator
-from luigi.task import flatten
 
 from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_algos.domain_models.taxonomy import SUBPROBLEMS
 from ware_ops_algos.algorithms.algorithm_filter import AlgorithmFilter
 from ware_ops_algos.utils.general_functions import import_model_class, load_model_cards
-from ware_ops_pipes.utils.io_helpers import load_json, load_pickle
+
+from ware_ops_pipes.evaluation.ranking import RankingEvaluatorDistance
 from ware_ops_pipes.pipelines import set_pipeline_params, inhabit, print_tree
-
-Node = tuple[float, float]
-
-
-class RankingEvaluator(ABC):
-    """
-    Class to evaluate output of a Pipeline Runner.
-    Evaluates and outputs a batch of pipelines.
-    """
-    def __init__(self, output_dir: str, instance_name: str):
-        self.output_dir = Path(output_dir)
-        self.instance_name = instance_name
-
-    @abstractmethod
-    def evaluate(self):
-        pass
-
-
-class RankingEvaluatorDistance(RankingEvaluator):
-    def __init__(self, output_dir: str, instance_name: str):
-
-        super().__init__(output_dir, instance_name)
-        self.df_result = None
-
-    def evaluate(self, metric_path: str = "tours_summary.total_distance",
-                 minimize: bool = True) -> pd.DataFrame:
-        """
-        Rank pipelines by metric.
-
-        Args:
-            metric_path: Metric to rank by (e.g., 'tours_summary.total_distance')
-            minimize: True if lower is better
-
-        Returns:
-            DataFrame with ranked results
-        """
-        # Collect all summaries
-        results = []
-        for file in self.output_dir.glob("*summary.json"):
-            summary = load_json(str(file))
-
-            # Extract metric
-            metric_value = self._get_metric(summary, metric_path)
-            if metric_value is None:
-                continue
-
-            # Extract pipeline info
-            pipeline_id = f"{summary.get('item_assignment_algo')}+{summary.get('batching_algo')}+{summary.get('routing_algo')}"
-
-            results.append({
-                "pipeline_id": pipeline_id,
-                "item_assignment_algo": summary.get('item_assignment_algo'),
-                "batching_algo": summary.get('batching_algo'),
-                "routing_algo": summary.get('routing_algo'),
-                "value": metric_value,
-            })
-
-        if not results:
-            print(f"No results found in {self.output_dir}")
-            return pd.DataFrame()
-
-        # Sort and rank
-        df = pd.DataFrame(results)
-        df = df.sort_values("value", ascending=minimize).reset_index(drop=True)
-        df['rank'] = range(1, len(df) + 1)
-
-        # Calculate gap to best
-        best = df.iloc[0]['value']
-        df['gap_to_best'] = df['value'] - best
-        df['gap_pct'] = ((df['value'] - best) / best * 100.0) if best != 0 else 0
-
-        # Save
-        output_file = self.output_dir / f"ranking_{metric_path.replace('.', '_')}.csv"
-        df.to_csv(output_file, index=False)
-
-        # Print top 5
-        print(f"\nTop 5 pipelines for {self.instance_name}:")
-        print(df[['rank', 'pipeline_id', 'value', 'gap_pct']].head().to_string(index=False))
-        print(f"\nSaved: {output_file}\n")
-
-        self.df_result = df
-        return df
-
-    def _get_metric(self, summary: Dict, metric_path: str):
-        """Extract metric using dot notation"""
-        if '.' in metric_path:
-            parts = metric_path.split('.')
-            value = summary
-            for part in parts:
-                if isinstance(value, dict) and part in value:
-                    value = value[part]
-                else:
-                    return None
-            return value
-        return summary.get(metric_path)
-
-
-class RankingEvaluatorSequencing(RankingEvaluator):
-    def __init__(self, output_dir: str, instance_name: str):
-
-        super().__init__(output_dir, instance_name)
-
-    @staticmethod
-    def load_sequencing_solutions(base_dir: str):
-        sol_files = Path(base_dir).glob("**/*scheduling_plan.pkl")
-        solutions = {}
-        for f in sol_files:
-            with open(f, "rb") as fh:
-                try:
-                    solutions[f.name] = pickle.load(fh)
-                except Exception as e:
-                    print(f"❌ Failed to load {f}: {e}")
-        return solutions
-
-    def evaluate(self, metric_path: str = "tours_summary.due_dates",
-                 minimize: bool = True) -> pd.DataFrame:
-        """
-        Rank pipelines by metric.
-
-        Args:
-            metric_path: Metric to rank by (e.g., 'tours_summary.total_distance')
-            minimize: True if lower is better
-
-        Returns:
-            DataFrame with ranked results
-        """
-        # Collect all summaries
-        solutions = self.load_sequencing_solutions(str(self.output_dir))
-
-        best_key, best_dist = None, float("inf")
-        for k, plan in solutions.items():
-            dist = sum(a.distance for a in plan.sequencing_solutions.jobs)
-            if dist < best_dist:
-                best_key, best_dist = k, dist
-        print(best_key)
-        solution = solutions[best_key].sequencing_solutions
-        # df = self._evaluate_due_dates(solution)
-        return solution
-
-    # def _evaluate_due_dates(self, assignments: list[Job]):
-    #     # order_by_id = {o.order_id: o for o in orders}
-    #     records = []
-    #     for ass in assignments:
-    #         end_time = ass.end_time
-    #         for on in ass.route.pick_list.order_numbers:
-    #             # o = order_by_id.get(on)
-    #             # if o is None:
-    #             #     continue
-    #             # if o.due_date is None:
-    #             #     continue  # skip if no due date
-    #
-    #             arrival_time = o.order_date
-    #             start_time = ass.start_time
-    #             due_ts = o.due_date  # .timestamp()
-    #             lateness = end_time - due_ts
-    #             records.append({
-    #                 "order_number": on,
-    #                 "arrival_time": arrival_time,
-    #                 "start_time": start_time,
-    #                 "picker_id": ass.picker_id,
-    #                 "completion_time": end_time,
-    #                 "due_date": o.due_date,
-    #                 "lateness": lateness,
-    #                 "tardiness": max(0, lateness),
-    #                 "on_time": end_time <= due_ts,
-    #             })
-    #     return pd.DataFrame(records)
-
-    def _get_metric(self, summary: Dict, metric_path: str):
-        """Extract metric using dot notation"""
-        if '.' in metric_path:
-            parts = metric_path.split('.')
-            value = summary
-            for part in parts:
-                if isinstance(value, dict) and part in value:
-                    value = value[part]
-                else:
-                    return None
-            return value
-        return summary.get(metric_path)
+from ware_ops_pipes.pipelines.templates.template_1 import ResultAggregationDueDate
 
 
 class PipelineRunner(ABC):
@@ -268,7 +87,6 @@ class PipelineRunner(ABC):
             "LPTScheduling": "ware_ops_pipes.pipelines.components.sequencing.lpt_scheduling",
             "EDDScheduling": "ware_ops_pipes.pipelines.components.sequencing.edd_scheduling",
             "EDDSequencing": "ware_ops_pipes.pipelines.components.sequencing.edd_sequencing",
-            "RRAssigner": "ware_ops_pipes.pipelines.components.picker_assignment.round_robin_assignment"
         }
         pkg_dir = Path(ware_ops_algos.__file__).parent
         model_cards_path = pkg_dir / "algorithms" / "algorithm_cards"
@@ -381,7 +199,7 @@ class PipelineRunner(ABC):
                                                         {'background': None,
                                                          'logdir': None,
                                                          'logging_conf_file': None,
-                                                         'log_level': 'DEBUG'  # <<<<<<<<<<
+                                                         'log_level': 'CRITICAL'  # <<<<<<<<<<
                                                          }))
             luigi.build(pipelines, local_scheduler=True)
 
@@ -415,12 +233,12 @@ class PipelineRunner(ABC):
     def _build_pipelines(self):
         """Build valid pipelines using inhabitation"""
         from ware_ops_pipes.pipelines.templates.template_1 import (
-            InstanceLoader, AbstractItemAssignment, AbstractPickListGeneration,
-            BatchedPickListGeneration, AbstractPickerAssignment, AbstractPickerRouting, AbstractSequencing,
+            InstanceLoader, AbstractItemAssignment, AbstractBatching,
+            MultiOrderBatching, AbstractPickerRouting,
             AbstractScheduling, AbstractResultAggregation
         )
 
-        endpoint = AbstractResultAggregation
+        endpoint = ResultAggregationDueDate
         repository = RepoMeta.repository
         fcl = FiniteCombinatoryLogic(repository, Subtypes(RepoMeta.subtypes))
         inhabitation_result, inhabitation_size = inhabit(endpoint)
@@ -430,14 +248,11 @@ class PipelineRunner(ABC):
         validator = UniqueTaskPipelineValidator([
             InstanceLoader,
             AbstractItemAssignment,
-            AbstractPickListGeneration,
-            # AbstractOrderSelection,
-            BatchedPickListGeneration,
-            AbstractPickerAssignment,
+            AbstractBatching,
+            MultiOrderBatching,
             AbstractPickerRouting,
-            AbstractSequencing,
             AbstractScheduling,
-            AbstractResultAggregation
+            ResultAggregationDueDate
         ])
 
         print(f"Enumerating up to {max_results} pipelines...")
@@ -495,136 +310,3 @@ class PipelineRunner(ABC):
         output_folder.mkdir(parents=True, exist_ok=True)
         with open(output_folder / f"{self.instance_set_name}.json", "w") as f:
             json.dump(self.pipeline_runtimes, f, indent=2)
-
-
-
-# Map from output key name → stage label used in provenance
-_SOL_KEY_TO_STAGE = {
-    "item_assignment_sol": "item_assignment",
-    "pick_list_sol": "batching",
-    "routing_sol": "routing",
-    "sequencing_sol": "sequencing",
-    "assignment_sol": "assignment",
-    "scheduling_sol": "scheduling",
-}
-
-def collect_from_graph(task) -> dict[str, dict]:
-    """Walk the task DAG depth-first and collect solutions + provenance.
-
-    Returns a dict keyed by stage name::
-
-        {
-            "item_assignment": {
-                "stage": "item_assignment",
-                "task_class": "GreedyIA",
-                "algo": "GreedyItemAssignment",
-                "time": 0.003,
-                "solution": <ItemAssignmentSolution>,
-                "target_path": "/path/to/item_assignment_sol.pkl",
-            },
-            "batching": { ... },   # absent for CombinedBR path
-            "routing":  { ... },
-            ...
-        }
-    """
-    result: dict[str, dict] = {}
-    _collect_recursive(task, result, visited=set())
-    return result
-
-
-def _collect_recursive(task, result: dict, visited: set):
-    task_id = id(task)
-    if task_id in visited:
-        return
-    visited.add(task_id)
-
-    # Recurse into dependencies first (depth-first)
-    deps = task.requires()
-    if isinstance(deps, dict):
-        children = list(deps.values())
-    elif isinstance(deps, (list, tuple)):
-        children = list(deps)
-    else:
-        children = [deps]
-
-    for dep in children:
-        _collect_recursive(dep, result, visited)
-
-    # Check if this task has a solution output we recognise
-    if not hasattr(task, "output"):
-        return
-
-    outputs = task.output()
-    for sol_key, stage_name in _SOL_KEY_TO_STAGE.items():
-        if sol_key not in outputs:
-            continue
-        target = outputs[sol_key]
-        if not target.exists():
-            continue
-
-        sol = load_pickle(target.path)
-
-        # For routing_sol the value may be a list[RoutingSolution]
-        if isinstance(sol, list):
-            algo = sol[0].algo_name if sol else "unknown"
-            time = sum(s.execution_time for s in sol)
-        else:
-            algo = getattr(sol, "algo_name", type(sol).__name__)
-            time = getattr(sol, "execution_time", 0.0)
-
-        result[stage_name] = {
-            "stage": stage_name,
-            "task_class": type(task).__name__,
-            "algo": algo,
-            "time": time,
-            "solution": sol,
-            "target_path": target.path,
-        }
-        break  # one entry per task
-
-def collect_provenance(task) -> list[dict]:
-    """Recursively walk the task dependency graph and build provenance.
-
-    For each task that produced a solution output (keyed by one of the
-    known *_sol names), load the solution object and extract its
-    ``algo_name`` and ``execution_time``.
-
-    Returns a list ordered from the earliest upstream stage to the
-    task itself (depth-first, dependencies before dependents).
-    """
-    entries: list[dict] = []
-
-    # Recurse into dependencies first (depth-first)
-    for dep in flatten(task.requires()):
-        entries.extend(collect_provenance(dep))
-
-    # Check if this task has a solution output we recognise
-    if hasattr(task, "output"):
-        outputs = task.output()
-        for sol_key, stage_name in _SOL_KEY_TO_STAGE.items():
-            if sol_key in outputs:
-                target = outputs[sol_key]
-                if target.exists():
-                    sol = load_pickle(target.path)
-                    # For routing_sol the value is a list[RoutingSolution];
-                    # sum execution times across tours.
-                    if isinstance(sol, list):
-                        algo = sol[0].algo_name if sol else "unknown"
-                        time = sum(s.execution_time for s in sol)
-                    else:
-                        algo = getattr(sol, "algo_name", type(sol).__name__)
-                        time = getattr(sol, "execution_time", 0.0)
-                    entries.append({
-                        "stage": stage_name,
-                        "algo": algo,
-                        "time": time,
-                        "task_class": type(task).__name__,
-                    })
-                break  # one provenance entry per task
-
-    return entries
-
-
-def provenance_by_stage(provenance: list[dict]) -> dict[str, dict]:
-    """Index provenance list by stage name for easy lookup."""
-    return {entry["stage"]: entry for entry in provenance}

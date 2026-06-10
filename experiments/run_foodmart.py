@@ -10,7 +10,7 @@ from ware_ops_algos.domain_models import BaseWarehouseDomain, load_and_flatten_d
 from ware_ops_algos.domain_models.taxonomy import SUBPROBLEMS
 from ware_ops_algos.utils.general_functions import load_model_cards
 
-from ware_ops_pipes.utils.experiment_utils import PipelineRunner
+from ware_ops_pipes.synthesis.runner import PipelineRunner
 
 
 class FoodmartRunner(PipelineRunner):
