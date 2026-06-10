@@ -43,7 +43,6 @@ orders:
     - name: Order
       features:
         - name: order_number
-        - name: order_date
 
       objects:
         - name: OrderPosition
