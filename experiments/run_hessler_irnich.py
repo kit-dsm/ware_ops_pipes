@@ -5,7 +5,7 @@ from typing import Tuple
 
 from ware_ops_algos.data_loaders import HesslerIrnichLoader
 from ware_ops_algos.domain_models import BaseWarehouseDomain, load_and_flatten_data_card
-from ware_ops_pipes.utils.experiment_utils import PipelineRunner
+from ware_ops_pipes.synthesis.runner import PipelineRunner
 
 instance_data_card_mapping = {
     "SPRP": "sprp.yaml",

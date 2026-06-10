@@ -12,3 +12,4 @@ sphinx-autoapi
 sphinx_design
 sphinx_copybutton
 myst-nb
+https://github.com/tudo-seal/cosy/releases/download/nightly/combinatory_synthesizer-nightly.tar.gz

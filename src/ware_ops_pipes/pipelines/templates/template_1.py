@@ -3,16 +3,17 @@ import pandas as pd
 from cls_luigi.inhabitation_task import ClsParameter
 
 
-from ware_ops_algos.algorithms.algorithm import PlanningState, CombinedRoutingSolution, RoutingSolution, ItemAssignmentSolution
+from ware_ops_algos.algorithms.algorithm import CombinedRoutingSolution, RoutingSolution, ItemAssignmentSolution, \
+    BatchObject
 from ware_ops_algos.algorithms import Batching, Routing, \
-    BatchingSolution, ItemAssignment, RoutingBatchingAssigning, Assigner
-from ware_ops_algos.algorithms.batching.batching_utils import build_pick_lists
-from ware_ops_algos.algorithms.scheduling.scheduling import PriorityScheduling, SchedulingInput, PickListSequencer
+    BatchingSolution, ItemAssignment, RoutingBatchingAssigning, build_jobs, PriorityScheduler
+# from ware_ops_algos.algorithms.scheduling.scheduling import PriorityScheduling
 from ware_ops_algos.domain_models import OrdersDomain, Resources, LayoutData, Articles, StorageLocations
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_pipes.pipelines import BaseComponent
 from ware_ops_pipes.utils.io_helpers import dump_pickle, load_pickle, load_json, dump_json
-from ware_ops_pipes.utils.experiment_utils import collect_from_graph
+from ware_ops_pipes.synthesis.pipeline_provenance import collect_from_graph
+
 
 class InstanceLoader(BaseComponent):
     abstract = False
@@ -72,20 +73,10 @@ class AbstractItemAssignment(BaseComponent):
 
         ia_sol = selector.solve(orders_domain.orders)
         orders_domain.orders = ia_sol.resolved_orders
-        plan = PlanningState(
-            item_assignment=ia_sol,
-        )
-
-        algo_name = selector.__class__.__name__
-
-        plan.provenance["item_assignment"] = {
-            "algo": algo_name,
-            "time": ia_sol.execution_time,
-        }
         dump_pickle(self.output()["item_assignment_sol"].path, ia_sol)
 
 
-class AbstractPickListGeneration(BaseComponent):
+class AbstractBatching(BaseComponent):
     abstract = True
     instance = ClsParameter(tpe=InstanceLoader.return_type())
     item_assignment_sol = ClsParameter(tpe=AbstractItemAssignment.return_type())
@@ -98,31 +89,38 @@ class AbstractPickListGeneration(BaseComponent):
 
     def output(self):
         return {
-            "pick_list_sol": self.get_luigi_local_target_with_task_id(
-                "pick_list_sol.pkl"
+            "batching_sol": self.get_luigi_local_target_with_task_id(
+                "batching_sol.pkl"
             )
         }
 
 
-class RawPickListGeneration(AbstractPickListGeneration):
+class SingleOrderBatching(AbstractBatching):
     abstract = False
 
     def run(self):
-        ia_sol: ItemAssignmentSolution = load_pickle(self.input()["item_assignment_sol"]["item_assignment_sol"].path)
-        resolved_orders = ia_sol.resolved_orders
-        pick_lists = []
-        for order in resolved_orders:
-            pl = build_pick_lists([order])
-            pick_lists.append(pl)
+        ia_sol: ItemAssignmentSolution = load_pickle(
+            self.input()["item_assignment_sol"]["item_assignment_sol"].path
+        )
 
-        batching_solution = BatchingSolution(pick_lists=pick_lists)
+        resolved_orders = ia_sol.resolved_orders
+
+        batches = []
+        for order in resolved_orders:
+            batch = BatchObject(batch_id=0, orders=[order])
+            batches.append(batch)
+
+        batching_solution = BatchingSolution(batches=batches)
         batching_solution.execution_time = 0
         batching_solution.algo_name = "RawInput"
 
-        dump_pickle(self.output()["pick_list_sol"].path, batching_solution)
+        dump_pickle(
+            self.output()["batching_sol"].path,
+            batching_solution,
+        )
 
 
-class BatchedPickListGeneration(AbstractPickListGeneration):
+class MultiOrderBatching(AbstractBatching):
     abstract = True
 
     def get_inited_batcher(self) -> Batching:
@@ -130,113 +128,29 @@ class BatchedPickListGeneration(AbstractPickListGeneration):
 
     def run(self):
         batcher: Batching = self.get_inited_batcher()
-        ia_sol: ItemAssignmentSolution = load_pickle(self.input()["item_assignment_sol"]["item_assignment_sol"].path)
+
+        ia_sol: ItemAssignmentSolution = load_pickle(
+            self.input()["item_assignment_sol"]["item_assignment_sol"].path
+        )
         resolved_orders = ia_sol.resolved_orders
 
-        batching_sol = batcher.solve(resolved_orders)
+        batching_sol: BatchingSolution = batcher.solve(resolved_orders)
 
-        batches = batching_sol.batches
-        pick_lists = []
-        for batch in batches:
-            pl = build_pick_lists(batch.orders)
-            pick_lists.append(pl)
-
-        batching_sol.pick_lists = pick_lists
-
-        if batcher.__class__.__name__ in ["SeedBatching", "ClarkAndWrightBatching", "LocalSearchBatching"]:
+        if batcher.__class__.__name__ in [
+            "SeedBatching",
+            "ClarkAndWrightBatching",
+            "LocalSearchBatching",
+        ]:
             batching_algo_name = batcher.algo_name
         else:
             batching_algo_name = batcher.__class__.__name__
 
         batching_sol.algo_name = batching_algo_name
 
-        dump_pickle(self.output()["pick_list_sol"].path, batching_sol)
-
-
-class AbstractSequencing(BaseComponent):
-    abstract = True
-    instance = ClsParameter(tpe=InstanceLoader.return_type())
-    pick_list_sol = ClsParameter(tpe=AbstractPickListGeneration.return_type())
-
-    def requires(self):
-        return {
-            "instance": self.instance(),
-            "pick_list_sol": self.pick_list_sol()
-        }
-
-    def output(self):
-        return {
-            "sequencing_sol": self.get_luigi_local_target_with_task_id(
-                "sequencing_sol.pkl")
-        }
-
-    def _get_inited_sequencer(self) -> PickListSequencer:
-        ...
-
-    def _load_resources(self) -> Resources:
-        return load_pickle(self.input()["instance"]["resources"].path)
-
-    def _load_orders(self) -> OrdersDomain:
-        return load_pickle(self.input()["instance"]["orders"].path)
-
-
-class RoutingNeutralSequencing(AbstractSequencing):
-    abstract = True
-
-    def requires(self):
-        return {
-            "instance": self.instance(),
-            "pick_list_sol": self.pick_list_sol()
-        }
-
-    def run(self):
-        sequencer = self._get_inited_sequencer()
-        pick_list_sol: BatchingSolution = load_pickle(self.input()["pick_list_sol"]["pick_list_sol"].path)
-        pick_lists = pick_list_sol.pick_lists
-        sequencing_sol = sequencer.solve(pick_lists)
-
-        dump_pickle(self.output()["sequencing_sol"].path, sequencing_sol)
-
-
-class AbstractPickerAssignment(BaseComponent):
-    abstract = True
-    instance = ClsParameter(tpe=InstanceLoader.return_type())
-    pick_list_sol = ClsParameter(tpe=AbstractPickListGeneration.return_type())
-
-    def requires(self):
-        return {
-            "instance": self.instance(),
-            "pick_list_sol": self.pick_list_sol()
-        }
-
-    def output(self):
-        return {
-            "assignment_sol": self.get_luigi_local_target_with_task_id(
-                "assignment_sol.pkl")
-        }
-
-    def _get_inited_assigner(self) -> Assigner:
-        ...
-
-    def _load_resources(self) -> Resources:
-        return load_pickle(self.input()["instance"]["resources"].path)
-
-    def _load_orders(self) -> OrdersDomain:
-        return load_pickle(self.input()["instance"]["orders"].path)
-
-    def run(self):
-        plan: PlanningState = load_pickle(self.input()["pick_list_plan"]["pick_list_plan"].path)
-        pick_lists = plan.batching_solutions.pick_lists
-        assigner = self._get_inited_assigner()
-        assignment_sol = assigner.solve(pick_lists)
-
-        plan.provenance["routing_input"] = {
-            "algo": assigner.__class__.__name__,
-            "time": assignment_sol.execution_time,
-        }
-
-        plan.assignment_solutions = assignment_sol
-        dump_pickle(self.output()["assignment_sol"].path, assignment_sol)
+        dump_pickle(
+            self.output()["batching_sol"].path,
+            batching_sol,
+        )
 
 
 class AbstractPickerRouting(BaseComponent):
@@ -278,27 +192,33 @@ class AbstractPickerRouting(BaseComponent):
 
 class PickerRouting(AbstractPickerRouting):
     abstract = True
-    pick_list_sol = ClsParameter(tpe=AbstractPickListGeneration.return_type())
+    batching_sol = ClsParameter(tpe=AbstractBatching.return_type())
 
     def requires(self):
         return {
             "instance": self.instance(),
-            "pick_list_sol": self.pick_list_sol(),
+            "batching_sol": self.batching_sol(),
         }
 
     def run(self):
         router: Routing = self._get_inited_router()
-        pick_list_sol: BatchingSolution = load_pickle(self.input()["pick_list_sol"]["pick_list_sol"].path)
-        pick_lists = pick_list_sol.pick_lists
-        routing_sols = []
-        for i, pl in enumerate(pick_lists):
-            routing_solution = router.solve(pl.pick_positions)
-            routing_solution.route.pick_list = pl
-            routing_sols.append(routing_solution)
 
+        batching_sol: BatchingSolution = load_pickle(
+            self.input()["batching_sol"]["batching_sol"].path
+        )
+
+        routing_sols = []
+
+        for i, batch in enumerate(batching_sol.batches):
+            routing_solution = router.solve(batch.pick_positions)
+            routing_solution.route.batch = batch
+            routing_sols.append(routing_solution)
             router.reset_parameters()
 
-        dump_pickle(self.output()["routing_sol"].path, routing_sols)
+        dump_pickle(
+            self.output()["routing_sol"].path,
+            routing_sols,
+        )
 
 
 class CombinedIAR(AbstractPickerRouting):
@@ -316,7 +236,6 @@ class CombinedIAR(AbstractPickerRouting):
         routing_sols = []
         pick_lists = []
         for order in orders:
-            # pl = build_pick_lists([order])
             pl = []
             for pp in order.order_positions:
                 pl.append(pp)
@@ -378,27 +297,36 @@ class AbstractScheduling(BaseComponent):
         }
 
     def run(self):
-        routing_solutions = load_pickle(self.input()["routing_sol"]["routing_sol"].path)
+        routing_solutions = load_pickle(
+            self.input()["routing_sol"]["routing_sol"].path
+        )
         orders = self._load_orders()
         resources = self._load_resources()
 
         if isinstance(routing_solutions, CombinedRoutingSolution):
             routes = routing_solutions.routes
-
-            sequencing_inpt = SchedulingInput(routes=routes,
-                                              orders=orders,
-                                              resources=resources)
         else:
-            routes = [route.route for route in routing_solutions]
-            sequencing_inpt = SchedulingInput(routes=routes,
-                                              orders=orders,
-                                              resources=resources)
-        sequencer = self._get_inited_scheduler()
-        sequencing_solution = sequencer.solve(sequencing_inpt)
+            routes = [routing_solution.route for routing_solution in routing_solutions]
 
-        dump_pickle(self.output()["scheduling_sol"].path, sequencing_solution)
+        # scheduling_input = SchedulingInput(
+        #     routes=routes,
+        #     orders=orders,
+        #     resources=resources,
+        # )
+        #
+        # scheduler = self._get_inited_scheduler()
+        # scheduling_solution = scheduler.solve(scheduling_input)
 
-    def _get_inited_scheduler(self) -> PriorityScheduling:
+        jobs = build_jobs(routes, resources)
+        scheduler = self._get_inited_scheduler()
+        scheduling_solution = scheduler.solve(jobs)
+
+        dump_pickle(
+            self.output()["scheduling_sol"].path,
+            scheduling_solution,
+        )
+
+    def _get_inited_scheduler(self) -> PriorityScheduler:
         ...
 
     def _load_resources(self) -> Resources:
@@ -406,9 +334,6 @@ class AbstractScheduling(BaseComponent):
 
     def _load_orders(self) -> OrdersDomain:
         return load_pickle(self.input()["instance"]["orders"].path)
-
-    def _load_routing_data(self):
-        return load_pickle(self.input()["routing_input"]["routing_input"].path)
 
     def _load_routing_solution(self):
         return load_pickle(self.input()["routing_sol"]["routing_sol"].path)
@@ -619,17 +544,7 @@ if __name__ == "__main__":
     from pathlib import Path
     from ware_ops_algos.data_loaders import HesslerIrnichLoader
 
-    from ware_ops_pipes.pipelines.components.item_assignment.greedy_item_assignment import GreedyIA
-    from ware_ops_pipes.pipelines.components.routing.sprp import RatliffRosenthal
-    from ware_ops_pipes.pipelines.components.routing.s_shape import SShape
-
-    import luigi
-    from cls.fcl import FiniteCombinatoryLogic
-    from cls.subtypes import Subtypes
-
-    from ware_ops_pipes import set_pipeline_params
-
-    from ware_ops_pipes.utils.experiment_utils import PipelineRunner, collect_from_graph
+    from ware_ops_pipes.synthesis.runner import PipelineRunner, collect_from_graph
 
 
     class HesslerIrnichRunner(PipelineRunner):
@@ -664,63 +579,6 @@ if __name__ == "__main__":
         for index, child in enumerate(children):
             result += print_tree(child, indent, (index + 1) == len(children))
         return result
-
-    # PROJECT_ROOT = Path(__file__).parent.parent.parent.parent.parent
-    # DATA_DIR = PROJECT_ROOT / "data"
-    #
-    # instances_base = DATA_DIR / "instances"
-    # cache_base = DATA_DIR / "instances" / "caches"
-    # instance_set = "SPRP"
-    # cache_path = cache_base / instance_set
-    #
-    # instance_name = "unit_F1_m5_C30_a3_0.txt"
-    # file_path = instances_base / instance_set / instance_name
-    # output_folder = (
-    #         PROJECT_ROOT / "experiments" / "output" / "cosy"
-    #         / instance_set / instance_name
-    # )
-    # output_folder.mkdir(parents=True, exist_ok=True)
-    #
-    # loader = HesslerIrnichLoader(
-    #     str(instances_base / instance_set),
-    #     str(cache_base / instance_set),
-    # )
-    # domain = loader.load(str(file_path))
-    #
-    # output_folder = Path("./output")
-    # output_folder.mkdir(parents=True, exist_ok=True)
-    # set_pipeline_params(
-    #     output_folder=str(output_folder),
-    #     instance_set_name="SPRP",
-    #     instance_name="instance_name",
-    #     instance_path=file_path,
-    #     domain_path=loader.cache_path,
-    # )
-    #
-    # target = AbstractResultAggregation.return_type()
-    # repository = RepoMeta.repository
-    # fcl = FiniteCombinatoryLogic(repository, Subtypes(RepoMeta.subtypes))
-    #
-    # inhabitation_result = fcl.inhabit(target)
-    # max_tasks_when_infinite = 10
-    # actual = inhabitation_result.size()
-    # max_results = max_tasks_when_infinite
-    #
-    # if actual is not None or actual == 0:
-    #     max_results = actual
-    # results = [t() for t in inhabitation_result.evaluated[0:max_results]]
-    #
-    # if results:
-    #     for r in results:
-    #         print(print_tree(r))
-    #         print("=========================================")
-    #
-    #     print("Number of results", max_results)
-    #     print("Number of results after filtering", len(results))
-    #     print("Run Pipelines")
-    #     luigi.build(results, local_scheduler=True)
-    # else:
-    #     print("No results!")
 
     PROJECT_ROOT = Path(__file__).parent.parent
     DATA_DIR = PROJECT_ROOT / "data"

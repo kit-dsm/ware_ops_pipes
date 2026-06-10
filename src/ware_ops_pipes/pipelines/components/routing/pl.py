@@ -29,7 +29,7 @@ class PLRouting(PickerRouting):
             node_list=layout_network.node_list,
             node_to_idx={node: idx for idx, node in enumerate(list(layout_network.graph.nodes))},
             idx_to_node={idx: node for idx, node in enumerate(list(layout_network.graph.nodes))},
-            fixed_depot=False  # todo needs to come from config
+            fixed_depot=True  # todo needs to come from config
         )
 
         return router
