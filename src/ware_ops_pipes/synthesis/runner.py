@@ -17,7 +17,7 @@ from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_algos.domain_models.taxonomy import SUBPROBLEMS
 from ware_ops_algos.algorithms.algorithm_filter import AlgorithmFilter
-from ware_ops_algos.utils.general_functions import import_model_class, load_model_cards
+from ware_ops_algos.utils.general_functions import import_model_class, load_model_cards, load_packaged_model_cards
 
 from ware_ops_pipes.evaluation.ranking import RankingEvaluatorDistance
 from ware_ops_pipes.pipelines import set_pipeline_params, inhabit, print_tree
@@ -88,9 +88,10 @@ class PipelineRunner(ABC):
             "EDDScheduling": "ware_ops_pipes.pipelines.components.sequencing.edd_scheduling",
             "EDDSequencing": "ware_ops_pipes.pipelines.components.sequencing.edd_sequencing",
         }
-        pkg_dir = Path(ware_ops_algos.__file__).parent
-        model_cards_path = pkg_dir / "algorithms" / "algorithm_cards"
-        self.models = load_model_cards(str(model_cards_path))
+        # pkg_dir = Path(ware_ops_algos.__file__).parent
+        # model_cards_path = pkg_dir / "algorithms" / "algorithm_cards"
+        # self.models = load_model_cards(str(model_cards_path))
+        self.models = load_packaged_model_cards()
         if self.verbose:
             print(f"Loaded {len(self.models)} model cards")
         self.data_card = data_card
