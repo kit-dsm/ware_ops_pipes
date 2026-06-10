@@ -1,6 +1,6 @@
 name: kris
 problem_class: OBSRP
-objective: Distance
+objective: distance
 
 layout:
   type: conventional
