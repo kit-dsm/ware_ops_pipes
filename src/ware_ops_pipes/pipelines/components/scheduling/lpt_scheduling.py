@@ -6,7 +6,8 @@ class LPTScheduler(AbstractScheduling):
     abstract = False
 
     def _get_inited_scheduler(self):
-        scheduler = LPTScheduling()
+        resources = self._load_resources()
+        scheduler = LPTScheduling(resources)
         return scheduler
 
 

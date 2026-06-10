@@ -6,7 +6,8 @@ class SPTScheduler(AbstractScheduling):
     abstract = False
 
     def _get_inited_scheduler(self):
-        scheduler = SPTScheduling()
+        resources = self._load_resources()
+        scheduler = SPTScheduling(resources)
         return scheduler
 
 

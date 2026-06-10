@@ -6,7 +6,8 @@ class EDDScheduler(AbstractScheduling):
     abstract = False
 
     def _get_inited_scheduler(self):
-        scheduler = EDDScheduling()
+        resources = self._load_resources()
+        scheduler = EDDScheduling(resources)
         return scheduler
 
 
