@@ -16,9 +16,9 @@ from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_algos.domain_models.taxonomy import SUBPROBLEMS
 from ware_ops_algos.algorithms.algorithm_filter import AlgorithmFilter
-from ware_ops_algos.utils.general_functions import import_model_class, load_packaged_model_cards
+from ware_ops_algos.utils.general_functions import import_algo_class, load_packaged_algo_cards
 
-from ware_ops_pipes.evaluation.ranking import RankingEvaluatorDistance
+from ware_ops_pipes.ranking.ranking import RankingEvaluator
 from ware_ops_pipes.pipelines import set_pipeline_params, inhabit, print_tree
 
 class PipelineRunner(ABC):
@@ -35,7 +35,7 @@ class PipelineRunner(ABC):
             max_pipelines: int = 10,
             verbose: bool = True,
             cleanup: bool = True,
-            ranker=RankingEvaluatorDistance,
+            ranker=RankingEvaluator,
     ):
         self.instance_set_name = instance_set_name
         self.instances_dir = Path(instances_dir)
@@ -80,17 +80,14 @@ class PipelineRunner(ABC):
             "LSBatchingNNDueDate": "ware_ops_pipes.pipelines.components.batching.ls_nn_due",
             "LSBatchingNNFiFo": "ware_ops_pipes.pipelines.components.batching.ls_nn_fifo",
             "LSBatchingNNFiFoOrderNr": "ware_ops_pipes.pipelines.components.batching.ls_nn_fifo_ord_nr",
-            "SPTScheduling": "ware_ops_pipes.pipelines.components.sequencing.spt_scheduling",
-            "LPTScheduling": "ware_ops_pipes.pipelines.components.sequencing.lpt_scheduling",
-            "EDDScheduling": "ware_ops_pipes.pipelines.components.sequencing.edd_scheduling",
-            "EDDSequencing": "ware_ops_pipes.pipelines.components.sequencing.edd_sequencing",
+            "SPTScheduling": "ware_ops_pipes.pipelines.components.scheduling.spt_scheduling",
+            "LPTScheduling": "ware_ops_pipes.pipelines.components.scheduling.lpt_scheduling",
+            "EDDScheduling": "ware_ops_pipes.pipelines.components.scheduling.edd_scheduling",
+            "EDDSequencing": "ware_ops_pipes.pipelines.components.scheduling.edd_sequencing",
         }
-        # pkg_dir = Path(ware_ops_algos.__file__).parent
-        # model_cards_path = pkg_dir / "algorithms" / "algorithm_cards"
-        # self.models = load_model_cards(str(model_cards_path))
-        self.models = load_packaged_model_cards()
+        self.algos = load_packaged_algo_cards()
         if self.verbose:
-            print(f"Loaded {len(self.models)} model cards")
+            print(f"Loaded {len(self.algos)} model cards")
         self.data_card = data_card
         self.excluded = excluded
         self.loader: DataLoader | None = None
@@ -145,23 +142,23 @@ class PipelineRunner(ABC):
         # Filter applicable algorithms
         t0 = time.perf_counter()
         algo_filter = AlgorithmFilter(SUBPROBLEMS)
-        models_applicable = algo_filter.filter(
-            algorithms=self.models,
+        algos_applicable = algo_filter.filter(
+            algorithms=self.algos,
             instance=self.data_card,
             verbose=self.verbose
         )
         timings["filter_and_import"] = time.perf_counter() - t0
 
         if self.verbose:
-            print(f"✓ {len(models_applicable)}/{len(self.models)} algorithms applicable")
+            print(f"✓ {len(algos_applicable)}/{len(self.algos)} algorithms applicable")
 
         # Import applicable models
-        final_models = []
-        for m in models_applicable:
-            if m.model_name not in self.excluded:
-                final_models.append(m)
+        final_algos = []
+        for m in algos_applicable:
+            if m.algo_name not in self.excluded:
+                final_algos.append(m)
 
-        self._import_models(final_models)
+        self._import_models(final_algos)
 
         # Setup output folder
         output_folder = (
@@ -185,7 +182,7 @@ class PipelineRunner(ABC):
         # Build and run pipelines
         t0 = time.perf_counter()
         pipelines = None
-        if len(models_applicable) > 0:
+        if len(algos_applicable) > 0:
             pipelines = self._build_pipelines()
         timings["build_pipelines"] = time.perf_counter() - t0
 
@@ -197,7 +194,7 @@ class PipelineRunner(ABC):
                                                         {'background': None,
                                                          'logdir': None,
                                                          'logging_conf_file': None,
-                                                         'log_level': 'CRITICAL'  # <<<<<<<<<<
+                                                         'log_level': 'DEBUG'
                                                          }))
             luigi.build(pipelines, local_scheduler=True)
 
@@ -210,23 +207,23 @@ class PipelineRunner(ABC):
         else:
             print("⚠ No valid pipelines found!")
 
-    def _import_models(self, models_applicable):
+    def _import_models(self, algos_applicable):
         """Import applicable model implementations"""
-        for model in models_applicable:
-            model_name = model.model_name
-            if model_name not in self.implementation_module:
+        for algo in algos_applicable:
+            algo_name = algo.algo_name
+            if algo_name not in self.implementation_module:
                 if self.verbose:
-                    print(f"⚠ Unknown model: {model_name}, skipping...")
+                    print(f"⚠ Unknown model: {algo_name}, skipping...")
                 continue
 
             try:
-                module_path = self.implementation_module[model_name]
-                cls = import_model_class(model_name, module_path)
+                module_path = self.implementation_module[algo_name]
+                cls = import_algo_class(algo_name, module_path)
                 if self.verbose:
-                    print(f"✅ {model_name}")
+                    print(f"✅ {algo_name}")
             except Exception as e:
                 if self.verbose:
-                    print(f"❌ Failed to import {model_name}: {e}")
+                    print(f"❌ Failed to import {algo_name}: {e}")
 
     def _build_pipelines(self):
         """Build valid pipelines using inhabitation"""
@@ -272,19 +269,20 @@ class PipelineRunner(ABC):
             for file_path in output_folder.glob("InstanceLoader__*.pkl"):
                 file_path.unlink()
                 if self.verbose:
-                    print(f"🗑 Deleted {file_path.name}")
+                    print(f"Deleted {file_path.name}")
         except Exception as e:
-            print(f"⚠ Cleanup failed: {e}")
+            print(f"Cleanup failed: {e}")
 
     def create_ranking(self, instance_name: str, output_folder: Path):
         """Create ranking for this instance"""
         try:
             ranker = self.ranker(
                 output_dir=str(output_folder),
-                instance_name=instance_name
+                instance_name=instance_name,
+                taxonomy=SUBPROBLEMS,
+                data_card=self.data_card
             )
-            # Rank by distance
-            df = ranker.evaluate("tours_summary.total_distance", minimize=True)
+            df = ranker.evaluate()
 
             # Best pipeline is first row
             if not df.empty:
