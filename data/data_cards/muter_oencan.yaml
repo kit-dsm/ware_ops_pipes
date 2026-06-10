@@ -1,6 +1,6 @@
 name: BahceciOencan
 problem_class: OBRP
-objective: Distance
+objective: distance
 
 layout:
   type: conventional

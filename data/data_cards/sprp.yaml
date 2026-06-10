@@ -1,6 +1,6 @@
 name: SPRP
 problem_class: SPRP
-objective: Distance
+objective: distance
 
 layout:
   type: conventional
