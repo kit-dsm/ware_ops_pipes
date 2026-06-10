@@ -7,7 +7,6 @@ from typing import Tuple
 from pathlib import Path
 
 import luigi
-import ware_ops_algos
 from cls.fcl import FiniteCombinatoryLogic
 from cls.subtypes import Subtypes
 from cls_luigi.inhabitation_task import RepoMeta
@@ -17,12 +16,10 @@ from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_algos.domain_models.taxonomy import SUBPROBLEMS
 from ware_ops_algos.algorithms.algorithm_filter import AlgorithmFilter
-from ware_ops_algos.utils.general_functions import import_model_class, load_model_cards, load_packaged_model_cards
+from ware_ops_algos.utils.general_functions import import_model_class, load_packaged_model_cards
 
 from ware_ops_pipes.evaluation.ranking import RankingEvaluatorDistance
 from ware_ops_pipes.pipelines import set_pipeline_params, inhabit, print_tree
-from ware_ops_pipes.pipelines.templates.template_1 import ResultAggregationDueDate
-
 
 class PipelineRunner(ABC):
     """Base class for running pipelines on warehouse instances"""
@@ -239,7 +236,7 @@ class PipelineRunner(ABC):
             AbstractScheduling, AbstractResultAggregation
         )
 
-        endpoint = ResultAggregationDueDate
+        endpoint = AbstractResultAggregation
         repository = RepoMeta.repository
         fcl = FiniteCombinatoryLogic(repository, Subtypes(RepoMeta.subtypes))
         inhabitation_result, inhabitation_size = inhabit(endpoint)
@@ -253,7 +250,7 @@ class PipelineRunner(ABC):
             MultiOrderBatching,
             AbstractPickerRouting,
             AbstractScheduling,
-            ResultAggregationDueDate
+            AbstractResultAggregation
         ])
 
         print(f"Enumerating up to {max_results} pipelines...")
@@ -282,11 +279,6 @@ class PipelineRunner(ABC):
     def create_ranking(self, instance_name: str, output_folder: Path):
         """Create ranking for this instance"""
         try:
-            # ranker = RankingEvaluatorDistance(
-            #     output_dir=str(output_folder),
-            #     instance_name=instance_name
-            # )
-
             ranker = self.ranker(
                 output_dir=str(output_folder),
                 instance_name=instance_name
