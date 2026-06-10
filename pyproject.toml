@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "Pipeline tool to build and run automated warehouse optimization."
 requires-python = ">=3.11"
 dependencies = [
+    "ware_ops_algos",
     "cls-luigi==0.1.1",
     "luigi==3.6.0"
 ]
