@@ -6,7 +6,7 @@ from cls_luigi.inhabitation_task import ClsParameter
 from ware_ops_algos.algorithms.algorithm import CombinedRoutingSolution, RoutingSolution, ItemAssignmentSolution, \
     BatchObject
 from ware_ops_algos.algorithms import Batching, Routing, \
-    BatchingSolution, ItemAssignment, RoutingBatchingAssigning, build_jobs, PriorityScheduler
+    BatchingSolution, ItemAssignment, RoutingBatchingAssigning, build_jobs, PriorityScheduler, ScheduledJob
 # from ware_ops_algos.algorithms.scheduling.scheduling import PriorityScheduling
 from ware_ops_algos.domain_models import OrdersDomain, Resources, LayoutData, Articles, StorageLocations
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
@@ -300,7 +300,6 @@ class AbstractScheduling(BaseComponent):
         routing_solutions = load_pickle(
             self.input()["routing_sol"]["routing_sol"].path
         )
-        orders = self._load_orders()
         resources = self._load_resources()
 
         if isinstance(routing_solutions, CombinedRoutingSolution):
@@ -308,18 +307,12 @@ class AbstractScheduling(BaseComponent):
         else:
             routes = [routing_solution.route for routing_solution in routing_solutions]
 
-        # scheduling_input = SchedulingInput(
-        #     routes=routes,
-        #     orders=orders,
-        #     resources=resources,
-        # )
-        #
-        # scheduler = self._get_inited_scheduler()
-        # scheduling_solution = scheduler.solve(scheduling_input)
-
         jobs = build_jobs(routes, resources)
         scheduler = self._get_inited_scheduler()
         scheduling_solution = scheduler.solve(jobs)
+        scheduler_algo_name = scheduler.__class__.__name__
+
+        scheduling_solution.algo_name = scheduler_algo_name
 
         dump_pickle(
             self.output()["scheduling_sol"].path,
@@ -364,7 +357,7 @@ class AbstractResultAggregation(BaseComponent):
         provenance_list = []
         for stage_name in [
             "item_assignment", "batching", "routing",
-            "assignment", "sequencing", "scheduling",
+            "assignment", "scheduling", "scheduling",
         ]:
             if stage_name in collected:
                 entry = collected[stage_name]
@@ -454,40 +447,70 @@ class ResultAggregationDueDate(AbstractResultAggregation):
             "instance": self.instance(),
         }
 
-    def _evaluate_due_dates(self, assignments, orders: OrdersDomain):
+    def _evaluate_due_dates(self, scheduled_jobs, orders: OrdersDomain) -> pd.DataFrame:
         order_by_id = {o.order_id: o for o in orders.orders}
         records = []
-        for ass in assignments:
-            end_time = ass.end_time
-            for on in ass.route.pick_list.order_numbers:
-                o = order_by_id.get(on)
-                if o is None:
+
+        for sj in scheduled_jobs:
+            job = sj.job
+
+            for order_number in job.order_numbers:
+                order = order_by_id.get(order_number)
+                if order is None:
                     continue
-                if o.due_date is None:
+                if order.due_date is None:
                     continue
-                arrival_time = o.order_date
-                start_time = ass.start_time
-                due_ts = o.due_date
-                lateness = end_time - due_ts
+
+                lateness = sj.end_time - order.due_date
+
                 records.append({
-                    "order_number": on,
-                    "arrival_time": arrival_time,
-                    "start_time": start_time,
-                    "batch_idx": ass.batch_idx,
-                    "picker_id": ass.picker_id,
-                    "completion_time": end_time,
-                    "due_date": o.due_date,
+                    "order_number": order_number,
+                    "job_id": job.job_id,
+                    "picker_id": sj.picker_id,
+                    "arrival_time": order.order_date,
+                    "release_time": job.release_time,
+                    "start_time": sj.start_time,
+                    "completion_time": sj.end_time,
+                    "due_date": order.due_date,
+                    "processing_time": job.processing_time,
+                    "distance": job.distance,
+                    "n_picks": job.n_picks,
                     "lateness": lateness,
-                    "tardiness": max(0, lateness),
-                    "on_time": end_time <= due_ts,
+                    "tardiness": max(0.0, lateness),
+                    "on_time": sj.end_time <= order.due_date,
                 })
+
+        return pd.DataFrame(records)
+
+    @staticmethod
+    def _scheduled_jobs_to_frame(scheduled_jobs) -> pd.DataFrame:
+        records = []
+
+        for sj in scheduled_jobs:
+            job = sj.job
+
+            records.append({
+                "job_id": job.job_id,
+                "picker_id": sj.picker_id,
+                "release_time": job.release_time,
+                "start_time": sj.start_time,
+                "end_time": sj.end_time,
+                "processing_time": job.processing_time,
+                "due_date": job.due_date,
+                "lateness": sj.lateness,
+                "tardiness": sj.tardiness,
+                "on_time": sj.is_on_time,
+                "distance": job.distance,
+                "n_picks": job.n_picks,
+            })
+
         return pd.DataFrame(records)
 
     def run(self):
         summary: dict = {}
         collected = self._build_provenance_summary(summary)
 
-        # --- Routing distances (from graph) ---
+        # --- Routing distances from graph ---
         routing_entry = collected.get("routing")
         if routing_entry is not None:
             sol = routing_entry["solution"]
@@ -496,43 +519,48 @@ class ResultAggregationDueDate(AbstractResultAggregation):
             elif isinstance(sol, CombinedRoutingSolution):
                 summary["tours_summary"] = self._compute_tour_summary_from_combined(sol)
 
-        # --- Scheduling / due-date evaluation ---
+        # --- Scheduling / due-date ranking ---
         scheduling_entry = collected.get("scheduling")
         if scheduling_entry is None:
             raise ValueError("No scheduling solution found in the task graph.")
 
         scheduling_sol = scheduling_entry["solution"]
+        scheduled_jobs = scheduling_sol.jobs
+
         orders: OrdersDomain = load_pickle(
             self.input()["instance"]["orders"].path
         )
 
-        sequencing_jobs = scheduling_sol.jobs
-        due_eval = self._evaluate_due_dates(sequencing_jobs, orders)
+        due_eval = self._evaluate_due_dates(scheduled_jobs, orders)
 
-        on_time_rate = float(due_eval["on_time"].mean() * 100.0)
-        avg_lateness = float(due_eval["lateness"].mean())
-        avg_tardiness = float(due_eval["tardiness"].mean())
-        max_lateness = float(due_eval["lateness"].max())
-        max_tardiness = float(due_eval["tardiness"].max())
+        if due_eval.empty:
+            summary["makespan"] = 0.0
+            summary["on_time_rate"] = 0.0
+            summary["avg_lateness"] = 0.0
+            summary["avg_tardiness"] = 0.0
+            summary["max_lateness"] = 0.0
+            summary["max_tardiness"] = 0.0
+            dump_json(self.output()["summary"].path, summary)
+            return
 
-        df = pd.DataFrame(sequencing_jobs)
-        df["release_dt"] = df["release_time"].apply(lambda x: x)
-        df["start_dt"] = df["start_time"].apply(lambda x: x)
-        df["end_dt"] = df["end_time"].apply(lambda x: x)
+        summary["on_time_rate"] = float(due_eval["on_time"].mean() * 100.0)
+        summary["avg_lateness"] = float(due_eval["lateness"].mean())
+        summary["avg_tardiness"] = float(due_eval["tardiness"].mean())
+        summary["max_lateness"] = float(due_eval["lateness"].max())
+        summary["max_tardiness"] = float(due_eval["tardiness"].max())
 
-        util = (
-            df.groupby("picker_id")[["travel_time", "handling_time"]]
+        df_jobs = self._scheduled_jobs_to_frame(scheduled_jobs)
+
+        summary["makespan"] = float(df_jobs["end_time"].max())
+
+        picker_util = (
+            df_jobs.groupby("picker_id")["processing_time"]
             .sum()
-            .assign(total=lambda x: x["travel_time"] + x["handling_time"])
+            .to_dict()
         )
-
-        makespan = df["end_time"].max()
-        summary["makespan"] = makespan
-        summary["on_time_rate"] = on_time_rate
-        summary["avg_lateness"] = avg_lateness
-        summary["avg_tardiness"] = avg_tardiness
-        summary["max_lateness"] = max_lateness
-        summary["max_tardiness"] = max_tardiness
+        summary["picker_processing_time"] = {
+            str(k): float(v) for k, v in picker_util.items()
+        }
 
         dump_json(self.output()["summary"].path, summary)
 

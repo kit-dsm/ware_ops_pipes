@@ -8,7 +8,7 @@ _SOL_KEY_TO_STAGE = {
     "item_assignment_sol": "item_assignment",
     "pick_list_sol": "batching",
     "routing_sol": "routing",
-    "sequencing_sol": "sequencing",
+    "sequencing_sol": "scheduling",
     "assignment_sol": "assignment",
     "scheduling_sol": "scheduling",
 }
