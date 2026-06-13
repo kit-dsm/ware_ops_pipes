@@ -45,8 +45,9 @@ def set_pipeline_params(
     instance_name,
     instance_path,
     output_folder,
-    domain_path
-
+    domain_path,
+    time_limit_seconds=None,
+    gen_tour=False
 ) -> None:
 
 
@@ -56,3 +57,5 @@ def set_pipeline_params(
     global_parameters.instance_name = instance_name
     global_parameters.instance_path = instance_path
     global_parameters.domain_path = domain_path
+    global_parameters.time_limit_sec = time_limit_seconds
+    global_parameters.gen_tour = gen_tour

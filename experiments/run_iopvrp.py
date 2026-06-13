@@ -59,7 +59,7 @@ class IOPVRPRunner(PipelineRunner):
 
 
 def main():
-    print("Importing template and components...")
+    print("Importing template and subproblems...")
 
     # Configuration
     PROJECT_ROOT = Path(__file__).parent.parent
@@ -69,7 +69,8 @@ def main():
     cache_base = DATA_DIR / "instances" / "caches"
 
     runner = IOPVRPRunner("IOPVRP", instances_base / "IOPVRP",
-                            cache_base / "IOPVRP", PROJECT_ROOT, verbose=True)
+                            cache_base / "IOPVRP", PROJECT_ROOT, verbose=True,
+                          time_limit_sec=240)
 
     runner.run_all()
 

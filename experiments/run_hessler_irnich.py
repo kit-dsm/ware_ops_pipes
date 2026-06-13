@@ -36,7 +36,7 @@ class HesslerIrnichRunner(PipelineRunner):
 
 
 def main():
-    print("Importing template and components...")
+    print("Importing template and subproblems...")
 
     # Configuration
     parser = argparse.ArgumentParser()
@@ -65,7 +65,8 @@ def main():
     dc = load_and_flatten_data_card(DATA_DIR / "data_cards" / dc_filename)
     runner = HesslerIrnichRunner(instance_set, instances_base / instance_set,
                                  cache_base / instance_set, PROJECT_ROOT,
-                                 data_card=dc, excluded=excluded, verbose=True)
+                                 data_card=dc, excluded=excluded, verbose=True,
+                                 time_limit_sec=240)
 
     runner.run_all()
 

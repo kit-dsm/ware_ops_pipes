@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from luigi.task import flatten
 
-from ware_ops_pipes.utils.io_helpers import load_pickle
+from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 _SOL_KEY_TO_STAGE = {
     "item_assignment_sol": "item_assignment",

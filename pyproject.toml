@@ -10,7 +10,8 @@ requires-python = ">=3.11"
 dependencies = [
     "ware_ops_algos",
     "cls-luigi==0.1.1",
-    "luigi==3.6.0"
+    "luigi==3.6.0",
+    "pandas"
 ]
 
 [tool.uv.sources]
@@ -21,10 +22,11 @@ dev = [
     "pytest>=7.0.0",
 ]
 eval = [
-    "pandas",
     "jupyter",
     "tqdm",
-    "orjson"
+    "orjson",
+    "seaborn",
+    "jinja2"
 ]
 docs = [
     "sphinx",

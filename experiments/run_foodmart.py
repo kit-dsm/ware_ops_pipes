@@ -1,14 +1,8 @@
-import time
 from pathlib import Path
 from typing import Tuple
 
-import ware_ops_algos
-import yaml
-from ware_ops_algos.algorithms.algorithm_filter import AlgorithmFilter
 from ware_ops_algos.data_loaders import FoodmartLoader
 from ware_ops_algos.domain_models import BaseWarehouseDomain, load_and_flatten_data_card
-from ware_ops_algos.domain_models.taxonomy import SUBPROBLEMS
-from ware_ops_algos.utils.general_functions import load_model_cards
 
 from ware_ops_pipes.synthesis.runner import PipelineRunner
 
@@ -33,7 +27,7 @@ class FoodmartRunner(PipelineRunner):
 
 
 def main():
-    print("Importing template and components...")
+    print("Importing template and subproblems...")
 
     # Configuration
     PROJECT_ROOT = Path(__file__).parent.parent
@@ -46,7 +40,8 @@ def main():
     runner = FoodmartRunner("FoodmartData", instances_base / "FoodmartData",
                             cache_base / "FoodmartData", PROJECT_ROOT, data_card=dc,
                             excluded=["ExactSolving",
-                                      "CombinedBatchingRoutingAssigning"], verbose=True)
+                                      "CombinedBatchingRoutingAssigning"], verbose=True,
+                            time_limit=240)
     runner.run_all()
     print(runner.pipeline_runtimes)
 

@@ -28,7 +28,7 @@ class IBRSPRunner(PipelineRunner):
 
 
 def main():
-    print("Importing template and components...")
+    print("Importing template and subproblems...")
 
     # Configuration
     parser = argparse.ArgumentParser()
@@ -51,7 +51,8 @@ def main():
                          data_card=dc,
                          excluded=["ExactSolving",
                                    "CombinedBatchingRoutingAssigning"],
-                         verbose=True)
+                         verbose=True,
+                         time_limit_sec=240)
     runner.run_all()
     print(runner.pipeline_runtimes)
 

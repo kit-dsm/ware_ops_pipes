@@ -7,7 +7,7 @@ from typing import Any, Dict
 
 import pandas as pd
 
-from ware_ops_pipes.utils.io_helpers import load_json
+from ware_ops_pipes.pipelines.io_helpers import load_json
 
 
 class Metric(ABC):

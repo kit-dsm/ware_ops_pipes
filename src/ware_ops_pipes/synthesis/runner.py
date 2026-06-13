@@ -14,9 +14,9 @@ from cls_luigi.unique_task_pipeline_validator import UniqueTaskPipelineValidator
 
 from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
-from ware_ops_algos.domain_models.taxonomy import SUBPROBLEMS
-from ware_ops_algos.algorithms.algorithm_filter import AlgorithmFilter
-from ware_ops_algos.utils.general_functions import import_algo_class, load_packaged_algo_cards
+from ware_ops_algos.taxonomy.taxonomy import TAXONOMY
+from ware_ops_algos.domain_algo_mapper.domain_algo_mapper import DomainAlgorithmMapper
+from ware_ops_algos.algorithms.algorithm_cards import import_algo_class, load_packaged_algo_cards
 
 from ware_ops_pipes.ranking.ranking import RankingEvaluator
 from ware_ops_pipes.pipelines import set_pipeline_params, inhabit, print_tree
@@ -36,6 +36,8 @@ class PipelineRunner(ABC):
             verbose: bool = True,
             cleanup: bool = True,
             ranker=RankingEvaluator,
+            time_limit_sec: int | None = None,
+            gen_tour: bool = False
     ):
         self.instance_set_name = instance_set_name
         self.instances_dir = Path(instances_dir)
@@ -49,41 +51,42 @@ class PipelineRunner(ABC):
         self.verbose = verbose
         self.cleanup = cleanup
         self.pipeline_runtimes = {}
+        self.time_limit_sec = time_limit_sec
+        self.gen_tour = gen_tour
 
         # Component implementations
         self.implementation_module = {
-            "GreedyIA": "ware_ops_pipes.pipelines.components.item_assignment.greedy_item_assignment",
-            "NNIA": "ware_ops_pipes.pipelines.components.item_assignment.nn_item_assignment",
-            "SinglePosIA": "ware_ops_pipes.pipelines.components.item_assignment.single_pos_item_assignment",
-            "MinMinIA": "ware_ops_pipes.pipelines.components.item_assignment.min_min_item_assignment",
-            "MinMaxIA": "ware_ops_pipes.pipelines.components.item_assignment.min_max_item_assignment",
-            "SShape": "ware_ops_pipes.pipelines.components.routing.s_shape",
-            "NearestNeighbourhood": "ware_ops_pipes.pipelines.components.routing.nn",
-            "LargestGap": "ware_ops_pipes.pipelines.components.routing.largest_gap",
-            "Midpoint": "ware_ops_pipes.pipelines.components.routing.midpoint",
-            "Return": "ware_ops_pipes.pipelines.components.routing.return_algo",
-            "ExactSolving": "ware_ops_pipes.pipelines.components.routing.exact_algo",
-            "RatliffRosenthal": "ware_ops_pipes.pipelines.components.routing.sprp",
-            "RatliffRosenthalNF": "ware_ops_pipes.pipelines.components.routing.rr_ss",
-            "FiFo": "ware_ops_pipes.pipelines.components.batching.fifo",
-            "OrderNrFiFo": "ware_ops_pipes.pipelines.components.batching.order_nr_fifo",
-            "DueDate": "ware_ops_pipes.pipelines.components.batching.due_date",
-            "Random": "ware_ops_pipes.pipelines.components.batching.random",
-            "CombinedBatchingRoutingAssigning": "ware_ops_pipes.pipelines.components.routing.joint_batching_routing_assigning",
-            "ClosestDepotMinDistanceSeedBatching": "ware_ops_pipes.pipelines.components.batching.seed",
-            "ClosestDepotMaxSharedArticlesSeedBatching": "ware_ops_pipes.pipelines.components.batching.seed_shared_articles",
-            "ClarkAndWrightSShape": "ware_ops_pipes.pipelines.components.batching.clark_and_wright_sshape",
-            "ClarkAndWrightNN": "ware_ops_pipes.pipelines.components.batching.clark_and_wright_nn",
-            "ClarkAndWrightRR": "ware_ops_pipes.pipelines.components.batching.clark_and_wright_rr",
-            "LSBatchingRR": "ware_ops_pipes.pipelines.components.batching.ls_rr",
-            "LSBatchingNNRand": "ware_ops_pipes.pipelines.components.batching.ls_nn_rand",
-            "LSBatchingNNDueDate": "ware_ops_pipes.pipelines.components.batching.ls_nn_due",
-            "LSBatchingNNFiFo": "ware_ops_pipes.pipelines.components.batching.ls_nn_fifo",
-            "LSBatchingNNFiFoOrderNr": "ware_ops_pipes.pipelines.components.batching.ls_nn_fifo_ord_nr",
-            "SPTScheduling": "ware_ops_pipes.pipelines.components.scheduling.spt_scheduling",
-            "LPTScheduling": "ware_ops_pipes.pipelines.components.scheduling.lpt_scheduling",
-            "EDDScheduling": "ware_ops_pipes.pipelines.components.scheduling.edd_scheduling",
-            "EDDSequencing": "ware_ops_pipes.pipelines.components.scheduling.edd_sequencing",
+            "GreedyIA": "ware_ops_pipes.pipelines.subproblems.item_assignment.greedy_item_assignment",
+            "NNIA": "ware_ops_pipes.pipelines.subproblems.item_assignment.nn_item_assignment",
+            "SinglePosIA": "ware_ops_pipes.pipelines.subproblems.item_assignment.single_pos_item_assignment",
+            "MinMinIA": "ware_ops_pipes.pipelines.subproblems.item_assignment.min_min_item_assignment",
+            "MinMaxIA": "ware_ops_pipes.pipelines.subproblems.item_assignment.min_max_item_assignment",
+            "SShape": "ware_ops_pipes.pipelines.subproblems.routing.s_shape",
+            "NearestNeighbourhood": "ware_ops_pipes.pipelines.subproblems.routing.nn",
+            "LargestGap": "ware_ops_pipes.pipelines.subproblems.routing.largest_gap",
+            "Midpoint": "ware_ops_pipes.pipelines.subproblems.routing.midpoint",
+            "Return": "ware_ops_pipes.pipelines.subproblems.routing.return_algo",
+            "ExactSolving": "ware_ops_pipes.pipelines.subproblems.routing.exact_algo",
+            "RatliffRosenthal": "ware_ops_pipes.pipelines.subproblems.routing.sprp",
+            "RatliffRosenthalNF": "ware_ops_pipes.pipelines.subproblems.routing.rr_ss",
+            "FiFo": "ware_ops_pipes.pipelines.subproblems.batching.fifo",
+            "OrderNrFiFo": "ware_ops_pipes.pipelines.subproblems.batching.order_nr_fifo",
+            "DueDate": "ware_ops_pipes.pipelines.subproblems.batching.due_date",
+            "Random": "ware_ops_pipes.pipelines.subproblems.batching.random",
+            "CombinedBatchingRoutingAssigning": "ware_ops_pipes.pipelines.subproblems.routing.joint_batching_routing_assigning",
+            "ClosestDepotMinDistanceSeedBatching": "ware_ops_pipes.pipelines.subproblems.batching.seed",
+            "ClosestDepotMaxSharedArticlesSeedBatching": "ware_ops_pipes.pipelines.subproblems.batching.seed_shared_articles",
+            "ClarkAndWrightSShape": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_sshape",
+            "ClarkAndWrightNN": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_nn",
+            "ClarkAndWrightRR": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_rr",
+            "LSBatchingRR": "ware_ops_pipes.pipelines.subproblems.batching.ls_rr",
+            "LSBatchingNNRand": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_rand",
+            "LSBatchingNNDueDate": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_due",
+            "LSBatchingNNFiFo": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo",
+            "LSBatchingNNFiFoOrderNr": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo_ord_nr",
+            "SPTScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.spt_scheduling",
+            "LPTScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.lpt_scheduling",
+            "EDDScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.edd_scheduling",
         }
         self.algos = load_packaged_algo_cards()
         if self.verbose:
@@ -141,8 +144,8 @@ class PipelineRunner(ABC):
 
         # Filter applicable algorithms
         t0 = time.perf_counter()
-        algo_filter = AlgorithmFilter(SUBPROBLEMS)
-        algos_applicable = algo_filter.filter(
+        domain_algo_mapper = DomainAlgorithmMapper(TAXONOMY)
+        algos_applicable = domain_algo_mapper.filter(
             algorithms=self.algos,
             instance=self.data_card,
             verbose=self.verbose
@@ -176,7 +179,9 @@ class PipelineRunner(ABC):
             instance_set_name=self.instance_set_name,
             instance_name=instance_name,
             instance_path=str(file_paths[0]),
-            domain_path=str(self.loader.cache_path)
+            domain_path=str(self.loader.cache_path),
+            time_limit_seconds=self.time_limit_sec,
+            gen_tour=self.gen_tour
         )
 
         # Build and run pipelines
@@ -279,7 +284,7 @@ class PipelineRunner(ABC):
             ranker = self.ranker(
                 output_dir=str(output_folder),
                 instance_name=instance_name,
-                taxonomy=SUBPROBLEMS,
+                taxonomy=TAXONOMY,
                 data_card=self.data_card
             )
             df = ranker.evaluate()

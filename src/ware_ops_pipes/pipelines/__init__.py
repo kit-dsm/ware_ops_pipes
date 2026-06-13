@@ -1,3 +1,3 @@
-from .components import *
+from .subproblems import *
 from .base_component import *
 from .pipelines_utils import *

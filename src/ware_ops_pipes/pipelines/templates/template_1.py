@@ -3,15 +3,14 @@ import pandas as pd
 from cls_luigi.inhabitation_task import ClsParameter
 
 
-from ware_ops_algos.algorithms.algorithm import CombinedRoutingSolution, RoutingSolution, ItemAssignmentSolution, \
+from ware_ops_algos.algorithms.algorithm_interfaces import CombinedRoutingSolution, RoutingSolution, ItemAssignmentSolution, \
     BatchObject
 from ware_ops_algos.algorithms import Batching, Routing, \
-    BatchingSolution, ItemAssignment, RoutingBatchingAssigning, build_jobs, PriorityScheduler, ScheduledJob
-# from ware_ops_algos.algorithms.scheduling.scheduling import PriorityScheduling
+    BatchingSolution, ItemAssignment, RoutingBatchingAssigning, build_jobs, PriorityScheduler
 from ware_ops_algos.domain_models import OrdersDomain, Resources, LayoutData, Articles, StorageLocations
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_pipes.pipelines import BaseComponent
-from ware_ops_pipes.utils.io_helpers import dump_pickle, load_pickle, load_json, dump_json
+from ware_ops_pipes.pipelines.io_helpers import dump_pickle, load_pickle, load_json, dump_json
 from ware_ops_pipes.synthesis.pipeline_provenance import collect_from_graph
 
 
