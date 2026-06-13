@@ -41,7 +41,7 @@ def main():
                             cache_base / "FoodmartData", PROJECT_ROOT, data_card=dc,
                             excluded=["ExactSolving",
                                       "CombinedBatchingRoutingAssigning"], verbose=True,
-                            time_limit=240)
+                            time_limit_sec=240)
     runner.run_all()
     print(runner.pipeline_runtimes)
 
