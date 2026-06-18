@@ -6,7 +6,7 @@ from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 _SOL_KEY_TO_STAGE = {
     "item_assignment_sol": "item_assignment",
-    "pick_list_sol": "batching",
+    "batching_sol": "batching",
     "routing_sol": "routing",
     "sequencing_sol": "scheduling",
     "assignment_sol": "assignment",
