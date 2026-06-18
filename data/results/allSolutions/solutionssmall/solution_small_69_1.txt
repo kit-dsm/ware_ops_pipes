@@ -1,0 +1,60 @@
+################################### SOLUTION Batch ###################################
+PickerID	1	BatchID	1	PreviousBatch	0	NoOders	3	NoOderLines	7	BatchDistance	2750	BatchComplTime	15750
+PickerID	1	BatchID	2	PreviousBatch	1	NoOders	2	NoOderLines	8	BatchDistance	2452	BatchComplTime	30906
+PickerID	1	BatchID	3	PreviousBatch	2	NoOders	2	NoOderLines	8	BatchDistance	2846	BatchComplTime	47244
+PickerID	1	BatchID	4	PreviousBatch	3	NoOders	3	NoOderLines	8	BatchDistance	1986	BatchComplTime	61002
+PickerID	2	BatchID	1	PreviousBatch	0	NoOders	2	NoOderLines	6	BatchDistance	1874	BatchComplTime	12822
+######################################################################################
+################################### SOLUTION Order ###################################
+OrderID	1	NoOrderLines	5	NextOrderID	4	PickerID	1	BatchID	3	DueTime	72000	CompletionTime	47244
+OrderID	2	NoOrderLines	1	NextOrderID	0	PickerID	1	BatchID	1	DueTime	126000	CompletionTime	15750
+OrderID	3	NoOrderLines	4	NextOrderID	5	PickerID	1	BatchID	1	DueTime	36000	CompletionTime	15750
+OrderID	4	NoOrderLines	3	NextOrderID	0	PickerID	1	BatchID	3	DueTime	54000	CompletionTime	47244
+OrderID	5	NoOrderLines	2	NextOrderID	2	PickerID	1	BatchID	1	DueTime	108000	CompletionTime	15750
+OrderID	6	NoOrderLines	7	NextOrderID	10	PickerID	1	BatchID	2	DueTime	108000	CompletionTime	30906
+OrderID	7	NoOrderLines	5	NextOrderID	9	PickerID	2	BatchID	1	DueTime	72000	CompletionTime	12822
+OrderID	8	NoOrderLines	5	NextOrderID	12	PickerID	1	BatchID	4	DueTime	90000	CompletionTime	61002
+OrderID	9	NoOrderLines	1	NextOrderID	0	PickerID	2	BatchID	1	DueTime	108000	CompletionTime	12822
+OrderID	10	NoOrderLines	1	NextOrderID	0	PickerID	1	BatchID	2	DueTime	54000	CompletionTime	30906
+OrderID	11	NoOrderLines	1	NextOrderID	0	PickerID	1	BatchID	4	DueTime	90000	CompletionTime	61002
+OrderID	12	NoOrderLines	2	NextOrderID	11	PickerID	1	BatchID	4	DueTime	90000	CompletionTime	61002
+######################################################################################
+################################# SOLUTION OrderLines ################################
+OrderLine_ID	1	NextLocation	13	PickerID	1	BatchID	3
+OrderLine_ID	2	NextLocation	4	PickerID	1	BatchID	3
+OrderLine_ID	3	NextLocation	11	PickerID	1	BatchID	3
+OrderLine_ID	4	NextLocation	5	PickerID	1	BatchID	3
+OrderLine_ID	5	NextLocation	12	PickerID	1	BatchID	3
+OrderLine_ID	6	NextLocation	14	PickerID	1	BatchID	1
+OrderLine_ID	7	NextLocation	8	PickerID	1	BatchID	1
+OrderLine_ID	8	NextLocation	0	PickerID	1	BatchID	1
+OrderLine_ID	9	NextLocation	7	PickerID	1	BatchID	1
+OrderLine_ID	10	NextLocation	15	PickerID	1	BatchID	1
+OrderLine_ID	11	NextLocation	0	PickerID	1	BatchID	3
+OrderLine_ID	12	NextLocation	1	PickerID	1	BatchID	3
+OrderLine_ID	13	NextLocation	3	PickerID	1	BatchID	3
+OrderLine_ID	14	NextLocation	9	PickerID	1	BatchID	1
+OrderLine_ID	15	NextLocation	6	PickerID	1	BatchID	1
+OrderLine_ID	16	NextLocation	20	PickerID	1	BatchID	2
+OrderLine_ID	17	NextLocation	34	PickerID	1	BatchID	2
+OrderLine_ID	18	NextLocation	16	PickerID	1	BatchID	2
+OrderLine_ID	19	NextLocation	21	PickerID	1	BatchID	2
+OrderLine_ID	20	NextLocation	17	PickerID	1	BatchID	2
+OrderLine_ID	21	NextLocation	18	PickerID	1	BatchID	2
+OrderLine_ID	22	NextLocation	0	PickerID	1	BatchID	2
+OrderLine_ID	23	NextLocation	24	PickerID	2	BatchID	1
+OrderLine_ID	24	NextLocation	26	PickerID	2	BatchID	1
+OrderLine_ID	25	NextLocation	27	PickerID	2	BatchID	1
+OrderLine_ID	26	NextLocation	0	PickerID	2	BatchID	1
+OrderLine_ID	27	NextLocation	33	PickerID	2	BatchID	1
+OrderLine_ID	28	NextLocation	36	PickerID	1	BatchID	4
+OrderLine_ID	29	NextLocation	28	PickerID	1	BatchID	4
+OrderLine_ID	30	NextLocation	37	PickerID	1	BatchID	4
+OrderLine_ID	31	NextLocation	35	PickerID	1	BatchID	4
+OrderLine_ID	32	NextLocation	0	PickerID	1	BatchID	4
+OrderLine_ID	33	NextLocation	23	PickerID	2	BatchID	1
+OrderLine_ID	34	NextLocation	22	PickerID	1	BatchID	2
+OrderLine_ID	35	NextLocation	32	PickerID	1	BatchID	4
+OrderLine_ID	36	NextLocation	30	PickerID	1	BatchID	4
+OrderLine_ID	37	NextLocation	31	PickerID	1	BatchID	4
+######################################################################################

@@ -1,0 +1,73 @@
+################################### SOLUTION Batch ###################################
+PickerID	1	BatchID	1	PreviousBatch	0	NoOders	2	NoOderLines	4	BatchDistance	1848	BatchComplTime	12144
+PickerID	1	BatchID	2	PreviousBatch	1	NoOders	1	NoOderLines	4	BatchDistance	2260	BatchComplTime	25524
+PickerID	1	BatchID	3	PreviousBatch	2	NoOders	2	NoOderLines	4	BatchDistance	1886	BatchComplTime	37782
+PickerID	1	BatchID	4	PreviousBatch	3	NoOders	2	NoOderLines	3	BatchDistance	1180	BatchComplTime	47622
+PickerID	1	BatchID	5	PreviousBatch	4	NoOders	1	NoOderLines	4	BatchDistance	1600	BatchComplTime	59022
+PickerID	1	BatchID	6	PreviousBatch	5	NoOders	3	NoOderLines	4	BatchDistance	1800	BatchComplTime	71022
+PickerID	1	BatchID	7	PreviousBatch	6	NoOders	3	NoOderLines	4	BatchDistance	2428	BatchComplTime	84906
+PickerID	1	BatchID	8	PreviousBatch	7	NoOders	1	NoOderLines	4	BatchDistance	1842	BatchComplTime	97032
+PickerID	1	BatchID	9	PreviousBatch	8	NoOders	1	NoOderLines	4	BatchDistance	2056	BatchComplTime	109800
+PickerID	2	BatchID	1	PreviousBatch	0	NoOders	2	NoOderLines	4	BatchDistance	1724	BatchComplTime	11772
+######################################################################################
+################################### SOLUTION Order ###################################
+OrderID	1	NoOrderLines	2	NextOrderID	10	PickerID	1	BatchID	7	DueTime	108000	CompletionTime	84906
+OrderID	2	NoOrderLines	2	NextOrderID	18	PickerID	2	BatchID	1	DueTime	108000	CompletionTime	11772
+OrderID	3	NoOrderLines	1	NextOrderID	0	PickerID	1	BatchID	7	DueTime	126000	CompletionTime	84906
+OrderID	4	NoOrderLines	1	NextOrderID	6	PickerID	1	BatchID	6	DueTime	126000	CompletionTime	71022
+OrderID	5	NoOrderLines	4	NextOrderID	0	PickerID	1	BatchID	2	DueTime	54000	CompletionTime	25524
+OrderID	6	NoOrderLines	1	NextOrderID	0	PickerID	1	BatchID	6	DueTime	108000	CompletionTime	71022
+OrderID	7	NoOrderLines	1	NextOrderID	0	PickerID	1	BatchID	3	DueTime	54000	CompletionTime	37782
+OrderID	8	NoOrderLines	2	NextOrderID	13	PickerID	1	BatchID	4	DueTime	90000	CompletionTime	47622
+OrderID	9	NoOrderLines	3	NextOrderID	12	PickerID	1	BatchID	1	DueTime	36000	CompletionTime	12144
+OrderID	10	NoOrderLines	1	NextOrderID	3	PickerID	1	BatchID	7	DueTime	144000	CompletionTime	84906
+OrderID	11	NoOrderLines	4	NextOrderID	0	PickerID	1	BatchID	8	DueTime	126000	CompletionTime	97032
+OrderID	12	NoOrderLines	1	NextOrderID	0	PickerID	1	BatchID	1	DueTime	54000	CompletionTime	12144
+OrderID	13	NoOrderLines	1	NextOrderID	0	PickerID	1	BatchID	4	DueTime	54000	CompletionTime	47622
+OrderID	14	NoOrderLines	4	NextOrderID	0	PickerID	1	BatchID	5	DueTime	72000	CompletionTime	59022
+OrderID	15	NoOrderLines	4	NextOrderID	0	PickerID	1	BatchID	9	DueTime	144000	CompletionTime	109800
+OrderID	16	NoOrderLines	2	NextOrderID	4	PickerID	1	BatchID	6	DueTime	144000	CompletionTime	71022
+OrderID	17	NoOrderLines	3	NextOrderID	7	PickerID	1	BatchID	3	DueTime	54000	CompletionTime	37782
+OrderID	18	NoOrderLines	2	NextOrderID	0	PickerID	2	BatchID	1	DueTime	36000	CompletionTime	11772
+######################################################################################
+################################# SOLUTION OrderLines ################################
+OrderLine_ID	1	NextLocation	0	PickerID	1	BatchID	7
+OrderLine_ID	2	NextLocation	5	PickerID	1	BatchID	7
+OrderLine_ID	3	NextLocation	4	PickerID	2	BatchID	1
+OrderLine_ID	4	NextLocation	0	PickerID	2	BatchID	1
+OrderLine_ID	5	NextLocation	1	PickerID	1	BatchID	7
+OrderLine_ID	6	NextLocation	33	PickerID	1	BatchID	6
+OrderLine_ID	7	NextLocation	10	PickerID	1	BatchID	2
+OrderLine_ID	8	NextLocation	0	PickerID	1	BatchID	2
+OrderLine_ID	9	NextLocation	7	PickerID	1	BatchID	2
+OrderLine_ID	10	NextLocation	8	PickerID	1	BatchID	2
+OrderLine_ID	11	NextLocation	6	PickerID	1	BatchID	6
+OrderLine_ID	12	NextLocation	36	PickerID	1	BatchID	3
+OrderLine_ID	13	NextLocation	14	PickerID	1	BatchID	4
+OrderLine_ID	14	NextLocation	24	PickerID	1	BatchID	4
+OrderLine_ID	15	NextLocation	0	PickerID	1	BatchID	1
+OrderLine_ID	16	NextLocation	23	PickerID	1	BatchID	1
+OrderLine_ID	17	NextLocation	15	PickerID	1	BatchID	1
+OrderLine_ID	18	NextLocation	2	PickerID	1	BatchID	7
+OrderLine_ID	19	NextLocation	21	PickerID	1	BatchID	8
+OrderLine_ID	20	NextLocation	22	PickerID	1	BatchID	8
+OrderLine_ID	21	NextLocation	0	PickerID	1	BatchID	8
+OrderLine_ID	22	NextLocation	19	PickerID	1	BatchID	8
+OrderLine_ID	23	NextLocation	17	PickerID	1	BatchID	1
+OrderLine_ID	24	NextLocation	0	PickerID	1	BatchID	4
+OrderLine_ID	25	NextLocation	26	PickerID	1	BatchID	5
+OrderLine_ID	26	NextLocation	28	PickerID	1	BatchID	5
+OrderLine_ID	27	NextLocation	25	PickerID	1	BatchID	5
+OrderLine_ID	28	NextLocation	0	PickerID	1	BatchID	5
+OrderLine_ID	29	NextLocation	31	PickerID	1	BatchID	9
+OrderLine_ID	30	NextLocation	0	PickerID	1	BatchID	9
+OrderLine_ID	31	NextLocation	30	PickerID	1	BatchID	9
+OrderLine_ID	32	NextLocation	29	PickerID	1	BatchID	9
+OrderLine_ID	33	NextLocation	0	PickerID	1	BatchID	6
+OrderLine_ID	34	NextLocation	11	PickerID	1	BatchID	6
+OrderLine_ID	35	NextLocation	0	PickerID	1	BatchID	3
+OrderLine_ID	36	NextLocation	37	PickerID	1	BatchID	3
+OrderLine_ID	37	NextLocation	35	PickerID	1	BatchID	3
+OrderLine_ID	38	NextLocation	3	PickerID	2	BatchID	1
+OrderLine_ID	39	NextLocation	38	PickerID	2	BatchID	1
+######################################################################################
