@@ -23,7 +23,7 @@ class ExactSolving(PickerRouting):
             picker=resources.resources,
             gen_tour=False,
             gen_item_sequence=True,
-            set_time_limit=3600,
+            set_time_limit=self.pipeline_params.time_limit_sec,
             node_list=layout_network.node_list,
             node_to_idx={node: idx for idx, node in enumerate(list(layout_network.graph.nodes))},
             idx_to_node={idx: node for idx, node in enumerate(list(layout_network.graph.nodes))},
