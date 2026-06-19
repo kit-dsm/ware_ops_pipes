@@ -1,0 +1,17 @@
+scheduling
+==========
+
+.. py:module:: scheduling
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/scheduling/edd_scheduling/index
+   /autoapi/scheduling/lpt_scheduling/index
+   /autoapi/scheduling/spt_scheduling/index
+
+

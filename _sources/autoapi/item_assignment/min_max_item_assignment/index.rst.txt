@@ -1,0 +1,30 @@
+item_assignment.min_max_item_assignment
+=======================================
+
+.. py:module:: item_assignment.min_max_item_assignment
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   item_assignment.min_max_item_assignment.MinMaxIA
+
+
+Module Contents
+---------------
+
+.. py:class:: MinMaxIA(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.AbstractItemAssignment`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+
+   .. py:method:: get_inited_item_assigner()
+
+

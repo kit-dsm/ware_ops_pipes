@@ -1,0 +1,27 @@
+routing.exact_algo
+==================
+
+.. py:module:: routing.exact_algo
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   routing.exact_algo.ExactSolving
+
+
+Module Contents
+---------------
+
+.. py:class:: ExactSolving(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.PickerRouting`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+

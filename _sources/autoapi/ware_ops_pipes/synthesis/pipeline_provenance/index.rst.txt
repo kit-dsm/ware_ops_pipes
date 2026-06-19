@@ -1,0 +1,57 @@
+ware_ops_pipes.synthesis.pipeline_provenance
+============================================
+
+.. py:module:: ware_ops_pipes.synthesis.pipeline_provenance
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   ware_ops_pipes.synthesis.pipeline_provenance.collect_from_graph
+   ware_ops_pipes.synthesis.pipeline_provenance.collect_provenance
+   ware_ops_pipes.synthesis.pipeline_provenance.provenance_by_stage
+
+
+Module Contents
+---------------
+
+.. py:function:: collect_from_graph(task) -> dict[str, dict]
+
+   Walk the task DAG depth-first and collect solutions + provenance.
+
+   Returns a dict keyed by stage name::
+
+       {
+           "item_assignment": {
+               "stage": "item_assignment",
+               "task_class": "GreedyIA",
+               "algo": "GreedyItemAssignment",
+               "time": 0.003,
+               "solution": <ItemAssignmentSolution>,
+               "target_path": "/path/to/item_assignment_sol.pkl",
+           },
+           "batching": { ... },   # absent for CombinedBR path
+           "routing":  { ... },
+           ...
+       }
+
+
+.. py:function:: collect_provenance(task) -> list[dict]
+
+   Recursively walk the task dependency graph and build provenance.
+
+   For each task that produced a solution output (keyed by one of the
+   known *_sol names), load the solution object and extract its
+   ``algo_name`` and ``execution_time``.
+
+   Returns a list ordered from the earliest upstream stage to the
+   task itself (depth-first, dependencies before dependents).
+
+
+.. py:function:: provenance_by_stage(provenance: list[dict]) -> dict[str, dict]
+
+   Index provenance list by stage name for easy lookup.
+
+

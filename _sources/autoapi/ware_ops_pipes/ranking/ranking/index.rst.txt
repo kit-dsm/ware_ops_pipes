@@ -1,0 +1,157 @@
+ware_ops_pipes.ranking.ranking
+==============================
+
+.. py:module:: ware_ops_pipes.ranking.ranking
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   ware_ops_pipes.ranking.ranking.OBJECTIVE_TO_METRIC
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   ware_ops_pipes.ranking.ranking.Metric
+   ware_ops_pipes.ranking.ranking.DistanceMetric
+   ware_ops_pipes.ranking.ranking.MakespanMetric
+   ware_ops_pipes.ranking.ranking.TardinessMetric
+   ware_ops_pipes.ranking.ranking.RankingEvaluator
+
+
+Module Contents
+---------------
+
+.. py:class:: Metric
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+   .. py:attribute:: name
+      :type:  str
+
+
+   .. py:attribute:: direction
+      :type:  str
+      :value: 'min'
+
+
+
+   .. py:method:: compute(summary: Dict) -> float
+      :abstractmethod:
+
+
+
+.. py:class:: DistanceMetric
+
+   Bases: :py:obj:`Metric`
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+   .. py:attribute:: name
+      :value: 'distance'
+
+
+
+   .. py:attribute:: direction
+      :value: 'min'
+
+
+
+   .. py:method:: compute(summary: Dict) -> float
+
+
+.. py:class:: MakespanMetric
+
+   Bases: :py:obj:`Metric`
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+   .. py:attribute:: name
+      :value: 'makespan'
+
+
+
+   .. py:attribute:: direction
+      :value: 'min'
+
+
+
+   .. py:method:: compute(summary: Dict) -> float
+
+
+.. py:class:: TardinessMetric
+
+   Bases: :py:obj:`Metric`
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+   .. py:attribute:: name
+      :value: 'tardiness'
+
+
+
+   .. py:attribute:: direction
+      :value: 'min'
+
+
+
+   .. py:method:: compute(summary: Dict) -> float
+
+
+.. py:data:: OBJECTIVE_TO_METRIC
+   :type:  dict[str, type[Metric]]
+
+.. py:class:: RankingEvaluator(output_dir: str, instance_name: str, data_card: Any, taxonomy: dict)
+
+   Evaluates pipeline summaries according to the objective declared in the data card.
+
+
+   .. py:attribute:: output_dir
+
+
+   .. py:attribute:: instance_name
+
+
+   .. py:attribute:: data_card
+
+
+   .. py:attribute:: taxonomy
+
+
+   .. py:attribute:: df_result
+      :type:  pandas.DataFrame | None
+      :value: None
+
+
+
+   .. py:attribute:: problem_class
+
+
+   .. py:attribute:: objective
+
+
+   .. py:attribute:: metric
+
+
+   .. py:method:: evaluate() -> pandas.DataFrame
+
+

@@ -1,0 +1,27 @@
+routing.rr_ss
+=============
+
+.. py:module:: routing.rr_ss
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   routing.rr_ss.RatliffRosenthalNF
+
+
+Module Contents
+---------------
+
+.. py:class:: RatliffRosenthalNF(*args, **kwargs)
+
+   Bases: :py:obj:`ware_ops_pipes.pipelines.templates.template_1.CombinedIAR`
+
+
+   .. py:attribute:: abstract
+      :value: False
+
+
+

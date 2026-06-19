@@ -1,0 +1,15 @@
+ware_ops_pipes.ranking
+======================
+
+.. py:module:: ware_ops_pipes.ranking
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/ware_ops_pipes/ranking/ranking/index
+
+

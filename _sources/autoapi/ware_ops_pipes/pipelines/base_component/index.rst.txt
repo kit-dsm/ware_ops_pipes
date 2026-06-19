@@ -1,0 +1,33 @@
+ware_ops_pipes.pipelines.base_component
+=======================================
+
+.. py:module:: ware_ops_pipes.pipelines.base_component
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   ware_ops_pipes.pipelines.base_component.BaseComponent
+
+
+Module Contents
+---------------
+
+.. py:class:: BaseComponent(*args, **kwargs)
+
+   Bases: :py:obj:`luigi.Task`, :py:obj:`cls_luigi.inhabitation_task.LuigiCombinator`
+
+
+   .. py:attribute:: abstract
+      :value: True
+
+
+
+   .. py:attribute:: pipeline_params
+
+
+   .. py:method:: get_luigi_local_target_with_task_id(out_name) -> luigi.LocalTarget
+
+

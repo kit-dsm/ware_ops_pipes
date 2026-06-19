@@ -1,0 +1,16 @@
+ware_ops_pipes.synthesis
+========================
+
+.. py:module:: ware_ops_pipes.synthesis
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/ware_ops_pipes/synthesis/pipeline_provenance/index
+   /autoapi/ware_ops_pipes/synthesis/runner/index
+
+
