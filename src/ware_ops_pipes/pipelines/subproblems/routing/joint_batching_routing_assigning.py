@@ -19,7 +19,7 @@ class CombinedBatchingRoutingAssigning(CombinedBR):
             picker=resources.resources,
             gen_tour=False,
             gen_item_sequence=True,
-            time_limit=250,
+            time_limit=self.pipeline_params.time_limit_sec,
             node_list=layout_network.node_list,
             node_to_idx={node: idx for idx, node in enumerate(list(graph.nodes))},
             idx_to_node={idx: node for idx, node in enumerate(list(graph.nodes))},
