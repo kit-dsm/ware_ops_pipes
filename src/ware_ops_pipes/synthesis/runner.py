@@ -155,25 +155,25 @@ class PipelineRunner(ABC):
         timings["load_domain"] = time.perf_counter() - t0
 
         # Filter applicable algorithms
-        t0 = time.perf_counter()
-        domain_algo_mapper = DomainAlgorithmMapper(TAXONOMY)
-        algos_applicable = domain_algo_mapper.filter(
-            algorithms=self.algos,
-            instance=self.data_card,
-            verbose=self.verbose
-        )
-        timings["filter_and_import"] = time.perf_counter() - t0
+        # t0 = time.perf_counter()
+        # domain_algo_mapper = DomainAlgorithmMapper(TAXONOMY)
+        # algos_applicable = domain_algo_mapper.filter(
+        #     algorithms=self.algos,
+        #     instance=self.data_card,
+        #     verbose=self.verbose
+        # )
+        # timings["filter_and_import"] = time.perf_counter() - t0
 
-        if self.verbose:
-            print(f"✓ {len(algos_applicable)}/{len(self.algos)} algorithms applicable")
+        # if self.verbose:
+        #     print(f"✓ {len(algos_applicable)}/{len(self.algos)} algorithms applicable")
 
         # Import applicable models
-        final_algos = []
-        for m in algos_applicable:
-            if m.algo_name not in self.excluded:
-                final_algos.append(m)
+        # final_algos = []
+        # for m in algos_applicable:
+        #     if m.algo_name not in self.excluded:
+        #         final_algos.append(m)
 
-        self._import_models(final_algos)
+        # self._import_models(final_algos)
 
         # Setup output folder
         output_folder = (
@@ -210,8 +210,8 @@ class PipelineRunner(ABC):
         # Build and run pipelines
         t0 = time.perf_counter()
         pipelines = None
-        if len(algos_applicable) > 0:
-            pipelines = self._build_pipelines()
+        # if len(algos_applicable) > 0:
+        pipelines = self._build_pipelines()
         timings["build_pipelines"] = time.perf_counter() - t0
 
         t0 = time.perf_counter()
@@ -267,6 +267,8 @@ class PipelineRunner(ABC):
             # AbstractItemAssignment,
             GreedyIA,
             OrderNrFiFo,
+            DueDate,
+            FiFo,
             Return,
             # AbstractBatching,
             # MultiOrderBatching,
@@ -276,7 +278,7 @@ class PipelineRunner(ABC):
         ]
 
         endpoint = ResultAggregationDistance
-
+        endpoint.configure(self.data_card, self.algos)
         repo = CoSyLuigiRepo(*repo_classes)
         maestro = Maestro(repo.cls_repo, repo.taxonomy)
         pipelines = list(maestro.query(endpoint.target()))

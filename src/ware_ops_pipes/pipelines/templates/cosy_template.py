@@ -3,9 +3,11 @@ import hashlib
 import os
 import re
 from os.path import join as pjoin
+from typing import Iterable, Mapping, Sequence, Callable
 
 import luigi
 from cosy_luigi import CoSyLuigiTask, CoSyLuigiTaskParameter
+from ware_ops_algos.algorithms.algorithm_cards import AlgorithmCard
 
 from ware_ops_algos.algorithms.algorithm_interfaces import (
     CombinedRoutingSolution,
@@ -22,8 +24,10 @@ from ware_ops_algos.algorithms import (
     build_jobs,
     PriorityScheduler,
 )
-from ware_ops_algos.domain_models import OrdersDomain, Resources, LayoutData, Articles, StorageLocations
+from ware_ops_algos.domain_algo_mapper.domain_algo_mapper import ConstraintEvaluator
+from ware_ops_algos.domain_models import OrdersDomain, Resources, LayoutData, Articles, StorageLocations, DataCard
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
+from ware_ops_algos.taxonomy.taxonomy import TAXONOMY
 from ware_ops_algos.utils.fingerprint import fingerprint
 
 from ware_ops_pipes.pipelines.io_helpers import dump_pickle, load_pickle, dump_json
@@ -102,16 +106,13 @@ class BaseComponent(CoSyLuigiTask):
         return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:12]
 
     def task_path_key(self) -> str:
-        """
-        Stable, filesystem-safe task key.
+        name = self.algo_cls.__name__ if self.algo_cls is not None else type(self).__name__
+        own_fp = self.own_fingerprint()
 
-        Uses the Python class identity, not Luigi's task_id.
-        The chain fingerprint already separates different upstream/algorithm variants.
-        """
-        cls = type(self)
-        raw = f"{cls.__module__}.{cls.__qualname__}"
-        digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:10]
-        return f"{_safe_path_part(cls.__name__)}_{digest}"
+        if own_fp:
+            return f"{_safe_path_part(name)}@{own_fp[:8]}"
+
+        return _safe_path_part(name)
 
     def get_luigi_local_target_with_task_id(self, out_name: str) -> luigi.LocalTarget:
         fp = self.chain_fingerprint()
@@ -152,7 +153,7 @@ class BaseComponent(CoSyLuigiTask):
 class InstanceLoader(BaseComponent):
     def output(self):
         return {
-            "domain": self.get_luigi_local_target_with_task_id("domain.pkl"),
+            # "domain": self.get_luigi_local_target_with_task_id("domain.pkl"),
             "orders": self.get_luigi_local_target_with_task_id("orders.pkl"),
             "resources": self.get_luigi_local_target_with_task_id("resources.pkl"),
             "layout": self.get_luigi_local_target_with_task_id("layout.pkl"),
@@ -168,7 +169,7 @@ class InstanceLoader(BaseComponent):
         domain: BaseWarehouseDomain = load_pickle(domain_path)
         for target in self.output().values():
             os.makedirs(os.path.dirname(target.path), exist_ok=True)
-        self.dump_output_pickle("domain", domain)
+        # self.dump_output_pickle("domain", domain)
         self.dump_output_pickle("orders", domain.orders)
         self.dump_output_pickle("resources", domain.resources)
         self.dump_output_pickle("layout", domain.layout)
@@ -364,26 +365,52 @@ class AbstractResultAggregation(BaseComponent):
             "summary": self.get_luigi_local_target_with_task_id("summary.json")
         }
 
+    @classmethod
+    def configure(cls, data_card: DataCard, models: list[AlgorithmCard]):
+        cls._data_card = data_card
+        cls._models = models
+
+    @classmethod
+    def constraints(cls) -> Sequence[Callable[..., bool]]:
+        return [
+            lambda vs: problem_type_constraint(vs, TAXONOMY, cls._data_card, cls._models),
+            lambda vs: feature_constraint(vs, cls._data_card, cls._models),
+            lambda vs: check_unique(vs, [AbstractResultAggregation]),
+        ]
+
     def _collect(self) -> dict[str, dict]:
         return collect_from_graph(self)
 
     def _build_provenance_summary(self, summary: dict) -> dict[str, dict]:
         collected = self._collect()
+
         summary["instance_name"] = self.pipeline_params.instance_name
         summary["instance_set"] = self.pipeline_params.instance_set_name
+        summary["pipeline_chain_fingerprint"] = self.chain_fingerprint()
 
         provenance_list = []
+
         for stage_name in ["item_assignment", "batching", "routing", "scheduling"]:
             if stage_name in collected:
                 entry = collected[stage_name]
+
                 provenance_list.append({
                     "stage": stage_name,
                     "algo": entry["algo"],
                     "time": entry["time"],
                     "task_class": entry["task_class"],
+                    "algo_fingerprint": entry.get("algo_fingerprint"),
+                    "own_fingerprint": entry.get("own_fingerprint"),
+                    "chain_fingerprint": entry.get("chain_fingerprint"),
+                    "target_path": entry.get("target_path"),
                 })
+
                 summary[f"{stage_name}_algo"] = entry["algo"]
                 summary[f"{stage_name}_time"] = entry["time"]
+                summary[f"{stage_name}_algo_fingerprint"] = entry.get("algo_fingerprint")
+                summary[f"{stage_name}_own_fingerprint"] = entry.get("own_fingerprint")
+                summary[f"{stage_name}_chain_fingerprint"] = entry.get("chain_fingerprint")
+
         summary["provenance"] = provenance_list
         return collected
 
@@ -511,3 +538,125 @@ class ResultAggregationDueDate(AbstractResultAggregation):
             str(k): float(v) for k, v in df_jobs.groupby("picker_id")["processing_time"].sum().to_dict().items()
         }
         dump_json(self.output()["summary"].path, summary)
+
+
+def traverse_pipeline(vs: Iterable[CoSyLuigiTask], visited=None) -> list[CoSyLuigiTask]:
+    if visited is None:
+        visited = set()
+
+    result = []
+    for v in vs:
+        vid = id(v)
+        if vid in visited:
+            continue
+
+        visited.add(vid)
+        result.append(v)
+
+        req = v.requires()
+        if isinstance(req, dict):
+            req = list(req.values())
+
+        result.extend(traverse_pipeline(req, visited))
+
+    return result
+
+
+def check_unique(
+    vs: Mapping[str, CoSyLuigiTask],
+    required_to_be_unique: Iterable[type[CoSyLuigiTask]],
+    get_classes=None,
+) -> bool:
+    classes = (
+        get_classes(vs)
+        if get_classes
+        else [pc.__class__ for pc in traverse_pipeline(vs.values())]
+    )
+
+    seen_subclasses = {}
+
+    for c in classes:
+        for unique in required_to_be_unique:
+            if issubclass(c, unique):
+                if unique in seen_subclasses and seen_subclasses[unique] != c:
+                    return False
+                seen_subclasses[unique] = c
+
+    return True
+
+
+def problem_type_constraint(vs, subproblems, data_card: DataCard, models, get_classes=None) -> bool:
+    classes = (
+        get_classes(vs)
+        if get_classes
+        else [pc.__class__ for pc in traverse_pipeline(vs.values())]
+    )
+
+    problem = data_card.problem_class
+    problems = subproblems[problem]["variables"]
+
+    for c in classes:
+        for m in models:
+            if m.algo_name == c.__name__:
+                if m.problem_type not in problems:
+                    print(f"{m.algo_name} not applicable {m.problem_type} not in {problems}")
+                    return False
+
+    return True
+
+
+def feature_constraint(vs, data_card: DataCard, models, get_classes=None) -> bool:
+    classes = (
+        get_classes(vs)
+        if get_classes
+        else [pc.__class__ for pc in traverse_pipeline(vs.values())]
+    )
+
+    domain_sections = {
+        "layout": data_card.layout,
+        "articles": data_card.articles,
+        "orders": data_card.orders,
+        "resources": data_card.resources,
+        "storage": data_card.storage,
+    }
+
+    for c in classes:
+        for m in models:
+            if m.algo_name == c.__name__:
+                for domain, reqs in m.requirements.items():
+                    section = domain_sections.get(domain)
+
+                    if section is None:
+                        continue
+
+                    required_tpe = reqs["type"]
+                    required_features = reqs.get("features", [])
+                    required_features = [] if required_features in (None, [None]) else required_features
+                    constraints = reqs.get("constraints", {})
+
+                    domain_type = section["type"]
+                    domain_features = [
+                        f for f in section["features"]
+                        if str(section["features"][f]) == "0" or section["features"][f]
+                    ]
+
+                    if "any" not in required_tpe and domain_type not in required_tpe:
+                        print(f"{m.algo_name} not applicable, {domain_type} not in {required_tpe}")
+                        return False
+
+                    missing_features = [f for f in required_features if f not in domain_features]
+                    if missing_features:
+                        print(f"{m.algo_name} not applicable, missing feature: {missing_features}")
+                        return False
+
+                    for feature_name, constraint in constraints.items():
+                        if feature_name not in domain_features:
+                            print(f"{m.algo_name} not applicable, {feature_name} not in {domain_features}")
+                            return False
+
+                        evaluator = ConstraintEvaluator()
+                        if not evaluator.evaluate(feature_name, constraint):
+                            print(f"{m.algo_name} not applicable, {feature_name} not in {domain_features}")
+                            return False
+
+    return True

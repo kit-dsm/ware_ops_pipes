@@ -13,6 +13,18 @@ _SOL_KEY_TO_STAGE = {
     "scheduling_sol": "scheduling",
 }
 
+def _fingerprint_info(task) -> dict:
+    own_fp = task.own_fingerprint() if hasattr(task, "own_fingerprint") else None
+    chain_fp = task.chain_fingerprint() if hasattr(task, "chain_fingerprint") else None
+
+    algo_cls = getattr(task, "algo_cls", None)
+    algo_fp = own_fp if algo_cls is not None else None
+
+    return {
+        "own_fingerprint": own_fp or None,
+        "algo_fingerprint": algo_fp or None,
+        "chain_fingerprint": chain_fp or None,
+    }
 
 def collect_from_graph(task) -> dict[str, dict]:
     """Walk the task DAG depth-first and collect solutions + provenance.
@@ -85,5 +97,6 @@ def _collect_recursive(task, result: dict, visited: set):
             "time": time,
             "solution": sol,
             "target_path": target.path,
+            **_fingerprint_info(task),
         }
-        break  # one entry per task
+        break
