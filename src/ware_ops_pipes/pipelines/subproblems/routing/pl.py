@@ -1,7 +1,7 @@
 from ware_ops_algos.algorithms import PickListRouting
 from ware_ops_algos.domain_models import WarehouseInfo, Resource
 
-from ware_ops_pipes.pipelines.templates.template_1 import PickerRouting
+from ware_ops_pipes.pipelines.templates.cosy_template import PickerRouting
 from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 

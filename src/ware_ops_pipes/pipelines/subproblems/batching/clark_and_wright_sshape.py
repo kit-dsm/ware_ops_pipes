@@ -1,6 +1,6 @@
 from ware_ops_algos.algorithms import ClarkAndWrightBatching, SShapeRouting
 from ware_ops_algos.domain_models import Resources, LayoutData, Articles
-from ware_ops_pipes.pipelines.templates.template_1 import MultiOrderBatching
+from ware_ops_pipes.pipelines.templates.cosy_template import MultiOrderBatching
 from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 

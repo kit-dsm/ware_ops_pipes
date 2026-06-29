@@ -7,10 +7,14 @@ from typing import Tuple
 from pathlib import Path
 
 import luigi
-from cls.fcl import FiniteCombinatoryLogic
-from cls.subtypes import Subtypes
-from cls_luigi.inhabitation_task import RepoMeta
-from cls_luigi.unique_task_pipeline_validator import UniqueTaskPipelineValidator
+# from cls.fcl import FiniteCombinatoryLogic
+# from cls.subtypes import Subtypes
+# from cls_luigi.inhabitation_task import RepoMeta
+# from cls_luigi.unique_task_pipeline_validator import UniqueTaskPipelineValidator
+from cosy.maestro import Maestro
+from cosy_luigi import CoSyLuigiRepo
+from luigi.configuration import get_config
+from luigi.task_register import Register
 
 from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
@@ -18,8 +22,15 @@ from ware_ops_algos.taxonomy.taxonomy import TAXONOMY
 from ware_ops_algos.domain_algo_mapper.domain_algo_mapper import DomainAlgorithmMapper
 from ware_ops_algos.algorithms.algorithm_cards import import_algo_class, load_packaged_algo_cards
 
+from ware_ops_pipes import print_tree
+from ware_ops_pipes.pipelines.pipeline_params import set_pipeline_params
+from ware_ops_pipes.pipelines.subproblems.batching.due_date import DueDate
+from ware_ops_pipes.pipelines.subproblems.batching.fifo import FiFo
+from ware_ops_pipes.pipelines.subproblems.batching.order_nr_fifo import OrderNrFiFo
+from ware_ops_pipes.pipelines.subproblems.item_assignment.greedy_item_assignment import GreedyIA
+from ware_ops_pipes.pipelines.subproblems.routing.return_algo import Return
 from ware_ops_pipes.ranking.ranking import RankingEvaluator
-from ware_ops_pipes.pipelines import set_pipeline_params, inhabit, print_tree
+# from ware_ops_pipes.pipelines import set_pipeline_params, print_tree
 
 class PipelineRunner(ABC):
     """Base class for running pipelines on warehouse instances"""
@@ -136,6 +147,7 @@ class PipelineRunner(ABC):
         print(f"\n{'=' * 80}")
         print(f"Processing: {instance_name}")
         print(f"{'=' * 80}\n")
+        Register.clear_instance_cache()
         timings = {}
         # Load domain (with caching)
         t0 = time.perf_counter()
@@ -183,6 +195,17 @@ class PipelineRunner(ABC):
             time_limit_seconds=self.time_limit_sec,
             gen_tour=self.gen_tour
         )
+        # config = get_config()
+        # config.set('PipelineParams', 'output_folder', str(output_folder))
+        # config.set('PipelineParams', 'domain_path', str(self.loader.cache_path))
+        # config.set('PipelineParams', 'instance_set_name', str(self.instance_set_name))
+        # config.set('PipelineParams', 'instance_name', str(instance_name))
+        # config.set('PipelineParams', 'instance_path', str(file_paths[0]))
+
+        # time_limit_seconds = self.time_limit_sec,
+        # gen_tour = self.gen_tour
+
+        # config.set('time_limit_sec', 'time_limit_sec', str(240))
 
         # Build and run pipelines
         t0 = time.perf_counter()
@@ -199,13 +222,13 @@ class PipelineRunner(ABC):
                                                         {'background': None,
                                                          'logdir': None,
                                                          'logging_conf_file': None,
-                                                         'log_level': 'CRITICAL'
+                                                         'log_level': 'DEBUG'
                                                          }))
             luigi.build(pipelines, local_scheduler=True)
 
             self.create_ranking(instance_name, output_folder)
-            if self.cleanup:
-                self._cleanup(output_folder)
+            # if self.cleanup:
+            #     self._cleanup(output_folder)
             timings["run_pipelines"] = time.perf_counter() - t0
             timings["total"] = sum(timings.values())
             self.pipeline_runtimes[instance_name] = timings
@@ -232,34 +255,32 @@ class PipelineRunner(ABC):
 
     def _build_pipelines(self):
         """Build valid pipelines using inhabitation"""
-        from ware_ops_pipes.pipelines.templates.template_1 import (
+        from ware_ops_pipes.pipelines.templates.cosy_template import (
             InstanceLoader, AbstractItemAssignment, AbstractBatching,
             MultiOrderBatching, AbstractPickerRouting,
-            AbstractScheduling, AbstractResultAggregation
+            AbstractScheduling, AbstractResultAggregation,
+            ResultAggregationDistance
         )
 
-        endpoint = AbstractResultAggregation
-        repository = RepoMeta.repository
-        fcl = FiniteCombinatoryLogic(repository, Subtypes(RepoMeta.subtypes))
-        inhabitation_result, inhabitation_size = inhabit(endpoint)
-
-        max_results = self.max_pipelines if inhabitation_size == 0 else inhabitation_size
-
-        validator = UniqueTaskPipelineValidator([
+        repo_classes = [
             InstanceLoader,
-            AbstractItemAssignment,
-            AbstractBatching,
-            MultiOrderBatching,
-            AbstractPickerRouting,
-            AbstractScheduling,
-            AbstractResultAggregation
-        ])
-
-        print(f"Enumerating up to {max_results} pipelines...")
-        pipelines = [
-            t() for t in inhabitation_result.evaluated[0:max_results]
-            if validator.validate(t())
+            # AbstractItemAssignment,
+            GreedyIA,
+            OrderNrFiFo,
+            Return,
+            # AbstractBatching,
+            # MultiOrderBatching,
+            # AbstractPickerRouting,
+            # AbstractScheduling,
+            ResultAggregationDistance
         ]
+
+        endpoint = ResultAggregationDistance
+
+        repo = CoSyLuigiRepo(*repo_classes)
+        maestro = Maestro(repo.cls_repo, repo.taxonomy)
+        pipelines = list(maestro.query(endpoint.target()))
+
 
         if self.verbose and pipelines:
             print(f"✓ Found {len(pipelines)} valid pipelines")

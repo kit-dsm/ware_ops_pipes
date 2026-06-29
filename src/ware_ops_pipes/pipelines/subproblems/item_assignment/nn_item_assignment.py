@@ -1,6 +1,6 @@
 from ware_ops_algos.algorithms import NearestNeighborItemAssignment
 from ware_ops_algos.domain_models import LayoutData, StorageLocations
-from ware_ops_pipes.pipelines.templates.template_1 import AbstractItemAssignment
+from ware_ops_pipes.pipelines.templates.cosy_template import AbstractItemAssignment
 from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 

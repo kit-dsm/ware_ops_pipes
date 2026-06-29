@@ -3,19 +3,20 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ware-ops-pipes"
+name = "ware-pipes-cosy"
 version = "0.1.0"
-description = "Pipeline tool to build and run automated warehouse optimization."
+description = "Benchnark suite for warehouse optimization."
 requires-python = ">=3.11"
 dependencies = [
     "ware_ops_algos",
-    "cls-luigi==0.1.1",
-    "luigi==3.6.0",
+    "cosy-luigi",
+    "luigi",
     "pandas"
 ]
 
 [tool.uv.sources]
 ware-ops-algos = { path = "../ware_ops_algos", editable = true }
+cosy-luigi = { url = "https://github.com/cls-python/cosy-luigi/releases/download/nightly/cosy_luigi-nightly.tar.gz" }
 
 [project.optional-dependencies]
 dev = [

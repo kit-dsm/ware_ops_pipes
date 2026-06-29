@@ -1,0 +1,55 @@
+name: benchmark
+
+on:
+  repository_dispatch:
+    types: [algos-changed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        set: [SPRP, BahceciOencan, FoodmartData]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with: { python-version: '3.12' }
+      - run: uv sync
+
+      - name: Install algos at dispatched commit
+        run: |
+          SHA="${{ github.event.client_payload.sha }}"
+          uv pip install "ware_ops_algos @ git+https://github.com/kit-dsm/ware_ops_algos@${SHA:-main}"
+
+      - name: Ensure cache release exists
+        env: { GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+        run: |
+          gh release view cache --repo $GITHUB_REPOSITORY >/dev/null 2>&1 \
+            || gh release create cache --title "Benchmark cache" \
+               --notes "Rolling Luigi cache. Do not delete."
+
+      - name: Restore cache for ${{ matrix.set }}
+        env: { GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+        run: |
+          mkdir -p experiments/output
+          gh release download cache \
+            --pattern "cache-${{ matrix.set }}.tar.gz" --dir . \
+            --repo $GITHUB_REPOSITORY 2>/dev/null || echo "cold run"
+          [ -f cache-${{ matrix.set }}.tar.gz ] && \
+            tar xzf cache-${{ matrix.set }}.tar.gz -C experiments/output
+
+      - name: Run benchmarks for ${{ matrix.set }}
+        run: uv run python -m ware_ops_pipes.run --set ${{ matrix.set }}
+
+      - name: Save cache for ${{ matrix.set }}
+        if: always()
+        env: { GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+        run: |
+          tar czf cache-${{ matrix.set }}.tar.gz -C experiments/output ${{ matrix.set }}
+          gh release upload cache cache-${{ matrix.set }}.tar.gz \
+            --repo $GITHUB_REPOSITORY --clobber
