@@ -370,13 +370,13 @@ class AbstractResultAggregation(BaseComponent):
         cls._data_card = data_card
         cls._models = models
 
-    @classmethod
-    def constraints(cls) -> Sequence[Callable[..., bool]]:
-        return [
-            lambda vs: problem_type_constraint(vs, TAXONOMY, cls._data_card, cls._models),
-            lambda vs: feature_constraint(vs, cls._data_card, cls._models),
-            lambda vs: check_unique(vs, [AbstractResultAggregation]),
-        ]
+    # @classmethod
+    # def constraints(cls) -> Sequence[Callable[..., bool]]:
+    #     return [
+    #         lambda vs: problem_type_constraint(vs, TAXONOMY, cls._data_card, cls._models),
+    #         lambda vs: feature_constraint(vs, cls._data_card, cls._models),
+    #         lambda vs: check_unique(vs, [AbstractResultAggregation]),
+    #     ]
 
     def _collect(self) -> dict[str, dict]:
         return collect_from_graph(self)
@@ -585,78 +585,78 @@ def check_unique(
     return True
 
 
-def problem_type_constraint(vs, subproblems, data_card: DataCard, models, get_classes=None) -> bool:
-    classes = (
-        get_classes(vs)
-        if get_classes
-        else [pc.__class__ for pc in traverse_pipeline(vs.values())]
-    )
-
-    problem = data_card.problem_class
-    problems = subproblems[problem]["variables"]
-
-    for c in classes:
-        for m in models:
-            if m.algo_name == c.__name__:
-                if m.problem_type not in problems:
-                    print(f"{m.algo_name} not applicable {m.problem_type} not in {problems}")
-                    return False
-
-    return True
-
-
-def feature_constraint(vs, data_card: DataCard, models, get_classes=None) -> bool:
-    classes = (
-        get_classes(vs)
-        if get_classes
-        else [pc.__class__ for pc in traverse_pipeline(vs.values())]
-    )
-
-    domain_sections = {
-        "layout": data_card.layout,
-        "articles": data_card.articles,
-        "orders": data_card.orders,
-        "resources": data_card.resources,
-        "storage": data_card.storage,
-    }
-
-    for c in classes:
-        for m in models:
-            if m.algo_name == c.__name__:
-                for domain, reqs in m.requirements.items():
-                    section = domain_sections.get(domain)
-
-                    if section is None:
-                        continue
-
-                    required_tpe = reqs["type"]
-                    required_features = reqs.get("features", [])
-                    required_features = [] if required_features in (None, [None]) else required_features
-                    constraints = reqs.get("constraints", {})
-
-                    domain_type = section["type"]
-                    domain_features = [
-                        f for f in section["features"]
-                        if str(section["features"][f]) == "0" or section["features"][f]
-                    ]
-
-                    if "any" not in required_tpe and domain_type not in required_tpe:
-                        print(f"{m.algo_name} not applicable, {domain_type} not in {required_tpe}")
-                        return False
-
-                    missing_features = [f for f in required_features if f not in domain_features]
-                    if missing_features:
-                        print(f"{m.algo_name} not applicable, missing feature: {missing_features}")
-                        return False
-
-                    for feature_name, constraint in constraints.items():
-                        if feature_name not in domain_features:
-                            print(f"{m.algo_name} not applicable, {feature_name} not in {domain_features}")
-                            return False
-
-                        evaluator = ConstraintEvaluator()
-                        if not evaluator.evaluate(feature_name, constraint):
-                            print(f"{m.algo_name} not applicable, {feature_name} not in {domain_features}")
-                            return False
-
-    return True
+# def problem_type_constraint(vs, subproblems, data_card: DataCard, models, get_classes=None) -> bool:
+#     classes = (
+#         get_classes(vs)
+#         if get_classes
+#         else [pc.__class__ for pc in traverse_pipeline(vs.values())]
+#     )
+#
+#     problem = data_card.problem_class
+#     problems = subproblems[problem]["variables"]
+#
+#     for c in classes:
+#         for m in models:
+#             if m.algo_name == c.__name__:
+#                 if m.problem_type not in problems:
+#                     print(f"{m.algo_name} not applicable {m.problem_type} not in {problems}")
+#                     return False
+#
+#     return True
+#
+#
+# def feature_constraint(vs, data_card: DataCard, models, get_classes=None) -> bool:
+#     classes = (
+#         get_classes(vs)
+#         if get_classes
+#         else [pc.__class__ for pc in traverse_pipeline(vs.values())]
+#     )
+#
+#     domain_sections = {
+#         "layout": data_card.layout,
+#         "articles": data_card.articles,
+#         "orders": data_card.orders,
+#         "resources": data_card.resources,
+#         "storage": data_card.storage,
+#     }
+#
+#     for c in classes:
+#         for m in models:
+#             if m.algo_name == c.__name__:
+#                 for domain, reqs in m.requirements.items():
+#                     section = domain_sections.get(domain)
+#
+#                     if section is None:
+#                         continue
+#
+#                     required_tpe = reqs["type"]
+#                     required_features = reqs.get("features", [])
+#                     required_features = [] if required_features in (None, [None]) else required_features
+#                     constraints = reqs.get("constraints", {})
+#
+#                     domain_type = section["type"]
+#                     domain_features = [
+#                         f for f in section["features"]
+#                         if str(section["features"][f]) == "0" or section["features"][f]
+#                     ]
+#
+#                     if "any" not in required_tpe and domain_type not in required_tpe:
+#                         print(f"{m.algo_name} not applicable, {domain_type} not in {required_tpe}")
+#                         return False
+#
+#                     missing_features = [f for f in required_features if f not in domain_features]
+#                     if missing_features:
+#                         print(f"{m.algo_name} not applicable, missing feature: {missing_features}")
+#                         return False
+#
+#                     for feature_name, constraint in constraints.items():
+#                         if feature_name not in domain_features:
+#                             print(f"{m.algo_name} not applicable, {feature_name} not in {domain_features}")
+#                             return False
+#
+#                         evaluator = ConstraintEvaluator()
+#                         if not evaluator.evaluate(feature_name, constraint):
+#                             print(f"{m.algo_name} not applicable, {feature_name} not in {domain_features}")
+#                             return False
+#
+#     return True

@@ -4,6 +4,7 @@ from ware_ops_pipes.pipelines.templates.cosy_template import CombinedIAR
 
 class RatliffRosenthalNF(CombinedIAR):
     abstract = False
+    algo_cls = RatliffRosenthalScatteredRouting
 
     def _get_inited_router(self):
         resources = self._load_resources()

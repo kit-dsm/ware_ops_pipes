@@ -6,7 +6,8 @@ from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 class ClarkAndWrightRR(MultiOrderBatching):
     abstract = False
-
+    algo_cls = ClarkAndWrightBatching
+    
     def get_inited_batcher(self):
         articles: Articles = load_pickle(self.input()["instance"]["articles"].path)
         resources: Resources = load_pickle(self.input()["instance"]["resources"].path)

@@ -6,6 +6,7 @@ from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 class NNIA(AbstractItemAssignment):
     abstract = False
+    algo_cls = NearestNeighborItemAssignment
 
     def get_inited_item_assigner(self):
         layout: LayoutData = load_pickle(self.input()["instance"]["layout"].path)

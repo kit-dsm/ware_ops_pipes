@@ -6,6 +6,7 @@ from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 class LSBatchingNNFiFoOrderNr(MultiOrderBatching):
     abstract = False
+    algo_cls = LocalSearchBatching
 
     def get_inited_batcher(self):
         articles: Articles = load_pickle(self.input()["instance"]["articles"].path)

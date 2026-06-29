@@ -4,6 +4,7 @@ from ware_ops_pipes.pipelines.templates.cosy_template import CombinedBR
 
 class CombinedBatchingRoutingAssigning(CombinedBR):
     abstract = False
+    algo_cls = ExactCombinedBatchingRouting
 
     def _get_inited_router(self):
         resources = self._load_resources()

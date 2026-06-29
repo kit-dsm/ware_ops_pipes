@@ -4,6 +4,7 @@ from ware_ops_pipes.pipelines.templates.cosy_template import PickerRouting
 
 class SShape(PickerRouting):
     abstract = False
+    algo_cls = SShapeRouting
 
     def _get_inited_router(self):
         resources = self._load_resources()

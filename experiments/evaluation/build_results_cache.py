@@ -4,11 +4,6 @@ import pandas as pd
 
 from eval_commons import load_summary_jsons_fast, create_summary_dataframe
 
-
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
-
 SCRIPT_DIR = Path(__file__).resolve().parent
 EXPERIMENTS_DIR = SCRIPT_DIR.parent
 

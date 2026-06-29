@@ -6,6 +6,7 @@ from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 class MinMinIA(AbstractItemAssignment):
     abstract = False
+    algo_cls =  MinMinItemAssignment
 
     def get_inited_item_assigner(self):
         storage_locations: StorageLocations = load_pickle(self.input()["instance"]["storage"].path)
