@@ -6,10 +6,9 @@
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <h1>ware_ops_algos benchmark dashboard</h1>
-
-  <section id="cards"></section>
 
   <section class="controls">
     <label>
@@ -20,24 +19,32 @@
     <label>
       Metric
       <select id="metric">
-        <option value="total_distance">total_distance</option>
-        <option value="total_cpu_time">total_cpu_time</option>
-        <option value="makespan">makespan</option>
-        <option value="on_time_rate">on_time_rate</option>
-        <option value="max_tardiness">max_tardiness</option>
+        <option value="total_distance">Total distance</option>
+        <option value="total_cpu_time">CPU time</option>
+        <option value="makespan">Makespan</option>
+        <option value="on_time_rate">On-time rate</option>
+        <option value="max_tardiness">Max. tardiness</option>
       </select>
+    </label>
+
+    <label>
+      Comparable only
+      <input id="onlyComparable" type="checkbox" checked />
     </label>
   </section>
 
-  <h2>Performance by algorithm version</h2>
+  <h2>Performance by strategy</h2>
+  <p class="hint">
+    Bars show the mean metric over the selected instances. Coverage labels show how many instances were evaluated for each strategy.
+  </p>
   <div id="performanceChart"></div>
 
-  <h2>Algorithm versions found</h2>
-  <div id="versionChart"></div>
+  <h2>Configured components used</h2>
+  <p class="hint">
+    Component version is the fingerprint of the configured component. Implementation version is the fingerprint of the underlying algorithm class.
+  </p>
+  <table id="componentTable"></table>
 
-  <h2>Results</h2>
-  <table id="resultsTable"></table>
-
-  <script src="app.js"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

@@ -48,7 +48,7 @@ def main():
                                  "HennWaescherUniform",
                                  "HennWaescherClassBased"],
                         nargs="?",
-                        default="BahceciOencan")
+                        default="MuterOencan")
     args = parser.parse_args()
     instance_set = args.instance_set
     excluded = ["ExactSolving"]

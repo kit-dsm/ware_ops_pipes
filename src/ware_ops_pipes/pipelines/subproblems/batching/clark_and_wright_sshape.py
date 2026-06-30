@@ -1,12 +1,20 @@
 from ware_ops_algos.algorithms import ClarkAndWrightBatching, SShapeRouting
 from ware_ops_algos.domain_models import Resources, LayoutData, Articles
-from ware_ops_pipes.pipelines.templates.cosy_template import MultiOrderBatching
+from ware_ops_pipes.pipelines.templates.cosy_template import MultiOrderBatching, class_fingerprint_payload
 from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 
 class ClarkAndWrightSShape(MultiOrderBatching):
     abstract = False
     algo_cls = ClarkAndWrightBatching
+
+    routing_class = SShapeRouting
+
+    def config_fingerprint_payload(self) -> dict:
+        return {
+            "routing_class": class_fingerprint_payload(self.routing_class),
+            "time_limit": self.pipeline_params.time_limit_sec,
+        }
 
     def get_inited_batcher(self):
         articles: Articles = load_pickle(self.input()["instance"]["articles"].path)
@@ -28,7 +36,7 @@ class ClarkAndWrightSShape(MultiOrderBatching):
         batcher = ClarkAndWrightBatching(
             pick_cart=resources.resources[0].pick_cart,
             articles=articles,
-            routing_class=SShapeRouting,
+            routing_class=self.routing_class,
             routing_class_kwargs=routing_kwargs,
             time_limit=self.pipeline_params.time_limit_sec
         )

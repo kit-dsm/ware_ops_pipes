@@ -62,7 +62,7 @@ class PipelineRunner(ABC):
             project_root: Path,
             data_card,
             excluded: list = [],
-            max_pipelines: int = 10,
+            max_pipelines: int = None,
             verbose: bool = True,
             cleanup: bool = True,
             ranker=RankingEvaluator,

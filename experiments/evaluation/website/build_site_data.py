@@ -65,6 +65,20 @@ def write_json(path: Path, obj) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, indent=2, default=str), encoding="utf-8")
 
+def stable_json(value) -> str:
+    if value is None:
+        return ""
+
+    try:
+        if pd.isna(value):
+            return ""
+    except (TypeError, ValueError):
+        pass
+
+    if value == "":
+        return ""
+
+    return json.dumps(value, sort_keys=True, default=str)
 
 # ---------------------------------------------------------------------------
 # Data preparation
@@ -90,11 +104,12 @@ def add_missing_website_columns(df: pd.DataFrame) -> pd.DataFrame:
         df["pipeline_fp_short"] = df["pipeline_chain_fingerprint"].map(short_fp)
 
     for stage in STAGES:
-        fp_col = f"{stage}_algo_fingerprint"
-        short_col = f"{stage}_algo_fp_short"
+        for fp_kind in ["algo", "own", "chain"]:
+            fp_col = f"{stage}_{fp_kind}_fingerprint"
+            short_col = f"{stage}_{fp_kind}_fp_short"
 
-        if fp_col in df.columns and short_col not in df.columns:
-            df[short_col] = df[fp_col].map(short_fp)
+            if fp_col in df.columns and short_col not in df.columns:
+                df[short_col] = df[fp_col].map(short_fp)
 
     if "strategy" not in df.columns:
         df["strategy"] = ""
@@ -138,30 +153,51 @@ def make_version_overview(df: pd.DataFrame) -> list[dict]:
 
     for stage in STAGES:
         algo_col = f"{stage}_algo"
-        fp_col = f"{stage}_algo_fingerprint"
-        fp_short_col = f"{stage}_algo_fp_short"
+        algo_fp_col = f"{stage}_algo_fingerprint"
+        own_fp_col = f"{stage}_own_fingerprint"
+        config_col = f"{stage}_config"
 
-        if algo_col not in df.columns or fp_col not in df.columns:
+        if algo_col not in df.columns or own_fp_col not in df.columns:
             continue
 
-        tmp = df[[algo_col, fp_col]].copy()
-        tmp = tmp[tmp[fp_col].map(is_nonempty)]
+        cols = [algo_col, own_fp_col]
+        if algo_fp_col in df.columns:
+            cols.append(algo_fp_col)
+        if config_col in df.columns:
+            cols.append(config_col)
+
+        tmp = df[cols].copy()
+        tmp = tmp[tmp[own_fp_col].map(is_nonempty)]
 
         if tmp.empty:
             continue
 
+        if config_col in tmp.columns:
+            tmp["config_json"] = tmp[config_col].map(stable_json)
+        else:
+            tmp["config_json"] = ""
+
+        if algo_fp_col not in tmp.columns:
+            tmp[algo_fp_col] = None
+
         grouped = (
-            tmp.groupby([algo_col, fp_col], dropna=False)
+            tmp.groupby([algo_col, own_fp_col, algo_fp_col, "config_json"], dropna=False)
             .size()
             .reset_index(name="n_results")
         )
 
         for _, row in grouped.iterrows():
+            config_json = row["config_json"]
+            config = json.loads(config_json) if config_json else None
+
             rows.append({
                 "stage": stage,
                 "algo": row[algo_col],
-                "algo_fingerprint": row[fp_col],
-                "algo_fp_short": short_fp(row[fp_col]),
+                "algo_fingerprint": row[algo_fp_col],
+                "algo_fp_short": short_fp(row[algo_fp_col]),
+                "own_fingerprint": row[own_fp_col],
+                "own_fp_short": short_fp(row[own_fp_col]),
+                "config": config,
                 "n_results": int(row["n_results"]),
             })
 
@@ -223,7 +259,10 @@ def select_result_columns(df: pd.DataFrame) -> pd.DataFrame:
             f"{stage}_algo_fingerprint",
             f"{stage}_algo_fp_short",
             f"{stage}_own_fingerprint",
+            f"{stage}_own_fp_short",
             f"{stage}_chain_fingerprint",
+            f"{stage}_chain_fp_short",
+            f"{stage}_config",
             f"{stage}_time",
         ])
 

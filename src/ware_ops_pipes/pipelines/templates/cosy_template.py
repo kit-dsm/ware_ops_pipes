@@ -1,5 +1,6 @@
 import copy
 import hashlib
+import json
 import os
 import re
 from os.path import join as pjoin
@@ -55,6 +56,16 @@ def _safe_path_part(value: str) -> str:
     value = _SAFE_CHARS.sub("_", value)
     return value.strip("._-") or "x"
 
+def _hash_json(payload: dict, n: int = 12) -> str:
+    raw = json.dumps(payload, sort_keys=True, default=str)
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:n]
+
+
+def class_fingerprint_payload(cls) -> dict:
+    return {
+        "class": f"{cls.__module__}.{cls.__qualname__}",
+        "fingerprint": fingerprint(cls),
+    }
 
 class BaseComponent(CoSyLuigiTask):
     """
@@ -72,20 +83,61 @@ class BaseComponent(CoSyLuigiTask):
         self.pipeline_params = copy.copy(get_pipeline_params())
         super().__init__(*args, **kwargs)
 
-    def own_fingerprint(self) -> str:
+    def config_fingerprint_payload(self) -> dict:
         """
-        Fingerprint of this task's algorithm implementation.
+        Semantic configuration of this component.
 
-        Concrete algorithm task classes should set:
+        Override this only for configured components, for example:
+        LocalSearchBatching with a specific seed heuristic, routing evaluator,
+        neighborhood, random seed, or iteration limit.
 
-            algo_cls = ActualAlgorithmClass
+        Do not include upstream inputs here. Upstream dependencies are handled
+        by chain_fingerprint().
+        """
+        return {}
 
-        For non-algorithm stages such as InstanceLoader, algo_cls remains None.
+    def algo_fingerprint(self) -> str:
+        """
+        Fingerprint of the base algorithm implementation.
+
+        This answers: did the implementation class itself change?
         """
         if self.algo_cls is None:
             return ""
 
         return fingerprint(self.algo_cls)
+
+    def own_fingerprint(self) -> str:
+        """
+        Fingerprint of this configured component.
+
+        For a plain algorithm task:
+            own_fingerprint == fingerprint(algo_cls)
+
+        For a configured algorithm task:
+            own_fingerprint == hash(fingerprint(algo_cls), config)
+
+        For non-algorithm tasks:
+            own_fingerprint == hash(task class, config)
+        """
+        config = self.config_fingerprint_payload()
+        algo_fp = self.algo_fingerprint()
+
+        if self.algo_cls is not None and not config:
+            return algo_fp
+
+        if self.algo_cls is not None:
+            payload = {
+                "algo": class_fingerprint_payload(self.algo_cls),
+                "config": config,
+            }
+            return _hash_json(payload)
+
+        payload = {
+            "task_class": f"{type(self).__module__}.{type(self).__qualname__}",
+            "config": config,
+        }
+        return _hash_json(payload)
 
     def chain_fingerprint(self) -> str:
         """
@@ -106,7 +158,13 @@ class BaseComponent(CoSyLuigiTask):
         return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:12]
 
     def task_path_key(self) -> str:
-        name = self.algo_cls.__name__ if self.algo_cls is not None else type(self).__name__
+        """
+        Human-readable configured component key.
+
+        Use the concrete task class name rather than algo_cls.__name__ because
+        different configured variants may wrap the same base algorithm class.
+        """
+        name = type(self).__name__
         own_fp = self.own_fingerprint()
 
         if own_fp:
@@ -402,6 +460,7 @@ class AbstractResultAggregation(BaseComponent):
                     "algo_fingerprint": entry.get("algo_fingerprint"),
                     "own_fingerprint": entry.get("own_fingerprint"),
                     "chain_fingerprint": entry.get("chain_fingerprint"),
+                    "config": entry.get("config"),
                     "target_path": entry.get("target_path"),
                 })
 
@@ -410,6 +469,7 @@ class AbstractResultAggregation(BaseComponent):
                 summary[f"{stage_name}_algo_fingerprint"] = entry.get("algo_fingerprint")
                 summary[f"{stage_name}_own_fingerprint"] = entry.get("own_fingerprint")
                 summary[f"{stage_name}_chain_fingerprint"] = entry.get("chain_fingerprint")
+                summary[f"{stage_name}_config"] = entry.get("config")
 
         summary["provenance"] = provenance_list
         return collected

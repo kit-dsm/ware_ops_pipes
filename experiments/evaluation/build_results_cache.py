@@ -136,7 +136,8 @@ def build_strategy(row: pd.Series, *, versioned: bool) -> str:
 
     for stage in STAGES:
         algo_col = f"{stage}_algo"
-        fp_col = f"{stage}_algo_fingerprint"
+        own_fp_col = f"{stage}_own_fingerprint"
+        algo_fp_col = f"{stage}_algo_fingerprint"
 
         if algo_col not in row:
             continue
@@ -148,7 +149,13 @@ def build_strategy(row: pd.Series, *, versioned: bool) -> str:
         part = str(algo)
 
         if versioned:
-            fp = short_fp(row.get(fp_col))
+            # own_fingerprint identifies the configured component.
+            # Fall back to algo_fingerprint for old summaries.
+            fp = row.get(own_fp_col)
+            if not is_nonempty(fp):
+                fp = row.get(algo_fp_col)
+
+            fp = short_fp(fp)
             if fp:
                 part = f"{part}@{fp}"
 
@@ -230,8 +237,10 @@ def add_algorithm_columns(df: pd.DataFrame) -> pd.DataFrame:
     for stage in STAGES:
         algo_col = f"{stage}_algo"
         raw_col = f"{algo_col}_raw"
-        fp_col = f"{stage}_algo_fingerprint"
-        fp_short_col = f"{stage}_algo_fp_short"
+
+        algo_fp_col = f"{stage}_algo_fingerprint"
+        own_fp_col = f"{stage}_own_fingerprint"
+        chain_fp_col = f"{stage}_chain_fingerprint"
 
         if algo_col not in df.columns:
             df[algo_col] = pd.NA
@@ -241,11 +250,14 @@ def add_algorithm_columns(df: pd.DataFrame) -> pd.DataFrame:
         else:
             df[raw_col] = df[raw_col].where(df[raw_col].map(is_nonempty), df[algo_col])
 
-        if fp_col not in df.columns:
-            df[fp_col] = pd.NA
+        for col in [algo_fp_col, own_fp_col, chain_fp_col]:
+            if col not in df.columns:
+                df[col] = pd.NA
 
         df[algo_col] = df[raw_col].map(short_name)
-        df[fp_short_col] = df[fp_col].map(short_fp)
+        df[f"{stage}_algo_fp_short"] = df[algo_fp_col].map(short_fp)
+        df[f"{stage}_own_fp_short"] = df[own_fp_col].map(short_fp)
+        df[f"{stage}_chain_fp_short"] = df[chain_fp_col].map(short_fp)
 
     df["strategy"] = df.apply(lambda row: build_strategy(row, versioned=False), axis=1)
     df["strategy_versioned"] = df.apply(lambda row: build_strategy(row, versioned=True), axis=1)

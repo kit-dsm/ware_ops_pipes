@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from luigi.task import flatten
-
 from ware_ops_pipes.pipelines.io_helpers import load_pickle
+
 
 _SOL_KEY_TO_STAGE = {
     "item_assignment_sol": "item_assignment",
@@ -13,23 +12,53 @@ _SOL_KEY_TO_STAGE = {
     "scheduling_sol": "scheduling",
 }
 
-def _fingerprint_info(task) -> dict:
-    own_fp = task.own_fingerprint() if hasattr(task, "own_fingerprint") else None
-    chain_fp = task.chain_fingerprint() if hasattr(task, "chain_fingerprint") else None
 
-    algo_cls = getattr(task, "algo_cls", None)
-    algo_fp = own_fp if algo_cls is not None else None
+def _iter_deps(task) -> list:
+    deps = task.requires()
+
+    if deps is None:
+        return []
+
+    if isinstance(deps, dict):
+        return list(deps.values())
+
+    if isinstance(deps, (list, tuple, set)):
+        return list(deps)
+
+    return [deps]
+
+
+def _fingerprint_info(task) -> dict:
+    config = (
+        task.config_fingerprint_payload()
+        if hasattr(task, "config_fingerprint_payload")
+        else {}
+    )
 
     return {
-        "own_fingerprint": own_fp or None,
-        "algo_fingerprint": algo_fp or None,
-        "chain_fingerprint": chain_fp or None,
+        "algo_fingerprint": (
+            task.algo_fingerprint()
+            if hasattr(task, "algo_fingerprint")
+            else None
+        ) or None,
+        "own_fingerprint": (
+            task.own_fingerprint()
+            if hasattr(task, "own_fingerprint")
+            else None
+        ) or None,
+        "chain_fingerprint": (
+            task.chain_fingerprint()
+            if hasattr(task, "chain_fingerprint")
+            else None
+        ) or None,
+        "config": config or None,
     }
+
 
 def collect_from_graph(task) -> dict[str, dict]:
     """Walk the task DAG depth-first and collect solutions + provenance.
 
-    Returns a dict keyed by stage name::
+    Returns a dict keyed by stage name, for example:
 
         {
             "item_assignment": {
@@ -38,51 +67,57 @@ def collect_from_graph(task) -> dict[str, dict]:
                 "algo": "GreedyItemAssignment",
                 "time": 0.003,
                 "solution": <ItemAssignmentSolution>,
-                "target_path": "/path/to/item_assignment_sol.pkl",
+                "target_path": ".../item_assignment_sol.pkl",
+                "algo_fingerprint": "...",
+                "own_fingerprint": "...",
+                "chain_fingerprint": "...",
+                "config": None,
             },
-            "batching": { ... },   # absent for CombinedBR path
+            "batching": { ... },
             "routing":  { ... },
-            ...
         }
+
+    Fingerprint semantics:
+
+        algo_fingerprint:
+            fingerprint of the base algorithm implementation
+
+        own_fingerprint:
+            fingerprint of the configured component itself
+
+        chain_fingerprint:
+            fingerprint of this component plus all upstream components
     """
     result: dict[str, dict] = {}
     _collect_recursive(task, result, visited=set())
     return result
 
 
-def _collect_recursive(task, result: dict, visited: set):
+def _collect_recursive(task, result: dict, visited: set) -> None:
     task_id = id(task)
     if task_id in visited:
         return
+
     visited.add(task_id)
 
-    # Recurse into dependencies first (depth-first)
-    deps = task.requires()
-    if isinstance(deps, dict):
-        children = list(deps.values())
-    elif isinstance(deps, (list, tuple)):
-        children = list(deps)
-    else:
-        children = [deps]
-
-    for dep in children:
+    for dep in _iter_deps(task):
         _collect_recursive(dep, result, visited)
 
-    # Check if this task has a solution output we recognise
     if not hasattr(task, "output"):
         return
 
     outputs = task.output()
+
     for sol_key, stage_name in _SOL_KEY_TO_STAGE.items():
         if sol_key not in outputs:
             continue
+
         target = outputs[sol_key]
         if not target.exists():
             continue
 
         sol = load_pickle(target.path)
 
-        # For routing_sol the value may be a list[RoutingSolution]
         if isinstance(sol, list):
             algo = sol[0].algo_name if sol else "unknown"
             time = sum(s.execution_time for s in sol)
@@ -99,4 +134,5 @@ def _collect_recursive(task, result: dict, visited: set):
             "target_path": target.path,
             **_fingerprint_info(task),
         }
+
         break

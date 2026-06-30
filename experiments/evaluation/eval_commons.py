@@ -138,12 +138,13 @@ def create_summary_dataframe(summary_data: List[Dict]) -> pd.DataFrame:
             entry = prov_lookup.get(stage, {})
 
             row[algo_col] = (
-                entry.get("algo")
-                or data.get(algo_col)
-                or entry.get("task_class")
+                    entry.get("algo")
+                    or data.get(algo_col)
+                    or entry.get("task_class")
             )
             row[f"{stage}_task_class"] = entry.get("task_class")
             row[f"{stage}_time"] = entry.get("time", data.get(f"{stage}_time"))
+
             row[f"{stage}_algo_fingerprint"] = entry.get(
                 "algo_fingerprint",
                 data.get(f"{stage}_algo_fingerprint"),
@@ -155,6 +156,10 @@ def create_summary_dataframe(summary_data: List[Dict]) -> pd.DataFrame:
             row[f"{stage}_chain_fingerprint"] = entry.get(
                 "chain_fingerprint",
                 data.get(f"{stage}_chain_fingerprint"),
+            )
+            row[f"{stage}_config"] = entry.get(
+                "config",
+                data.get(f"{stage}_config"),
             )
             row[f"{stage}_target_path"] = entry.get("target_path")
 

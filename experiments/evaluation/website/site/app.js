@@ -1,11 +1,17 @@
 let results = [];
-let overview = {};
-let versionOverview = [];
+
+const METRIC_INFO = {
+  total_distance: { label: "Total distance", direction: "min", unit: "" },
+  total_cpu_time: { label: "CPU time", direction: "min", unit: "s" },
+  makespan: { label: "Makespan", direction: "min", unit: "" },
+  on_time_rate: { label: "On-time rate", direction: "max", unit: "%" },
+  max_tardiness: { label: "Max. tardiness", direction: "min", unit: "" },
+};
+
+const STAGES = ["item_assignment", "batching", "routing", "scheduling"];
 
 async function loadData() {
-  results = await fetch("data/results.json").then(r => r.json());
-  overview = await fetch("data/overview.json").then(r => r.json());
-  versionOverview = await fetch("data/version_overview.json").then(r => r.json());
+  results = await fetch("data/results.json?v=" + Date.now()).then(r => r.json());
 
   initControls();
   render();
@@ -17,110 +23,247 @@ function unique(xs) {
 
 function initControls() {
   const instanceSets = ["All", ...unique(results.map(r => r.instance_set))];
-  const select = document.getElementById("instanceSet");
-  select.innerHTML = instanceSets.map(x => `<option value="${x}">${x}</option>`).join("");
+
+  document.getElementById("instanceSet").innerHTML =
+    instanceSets.map(x => `<option value="${x}">${x}</option>`).join("");
 
   document.getElementById("instanceSet").addEventListener("change", render);
   document.getElementById("metric").addEventListener("change", render);
+  document.getElementById("onlyComparable").addEventListener("change", render);
 }
 
-function filteredResults() {
-  const instanceSet = document.getElementById("instanceSet").value;
-  const metric = document.getElementById("metric").value;
+function selectedInstanceSet() {
+  return document.getElementById("instanceSet").value;
+}
+
+function selectedMetric() {
+  return document.getElementById("metric").value;
+}
+
+function metricInfo(metric) {
+  return METRIC_INFO[metric] || { label: metric, direction: "min", unit: "" };
+}
+
+function lowerIsBetter(metric) {
+  return metricInfo(metric).direction === "min";
+}
+
+function filteredByInstanceSet() {
+  const instanceSet = selectedInstanceSet();
 
   return results.filter(r => {
-    if (instanceSet !== "All" && r.instance_set !== instanceSet) return false;
-    if (r[metric] === null || r[metric] === undefined || r[metric] === "") return false;
-    return true;
+    return instanceSet === "All" || r.instance_set === instanceSet;
   });
 }
 
-function renderCards() {
-  document.getElementById("cards").innerHTML = `
-    <div class="card"><b>${overview.n_results ?? 0}</b><span>results</span></div>
-    <div class="card"><b>${overview.n_instances ?? 0}</b><span>instances</span></div>
-    <div class="card"><b>${overview.n_strategies ?? 0}</b><span>strategies</span></div>
-    <div class="card"><b>${overview.n_strategy_versions ?? 0}</b><span>strategy versions</span></div>
-  `;
+function filteredMetricResults() {
+  const metric = selectedMetric();
+
+  return filteredByInstanceSet().filter(r => {
+    return r[metric] !== null && r[metric] !== undefined && r[metric] !== "";
+  });
+}
+
+function expectedInstances(rows) {
+  return unique(rows.map(r => r.instance_name)).length;
+}
+
+function mean(xs) {
+  return xs.reduce((a, b) => a + b, 0) / xs.length;
+}
+
+function short(value, n = 8) {
+  if (value === null || value === undefined || value === "") return "";
+  return String(value).slice(0, n);
+}
+
+function strategyGroups(rows, metric) {
+  const expected = expectedInstances(rows);
+  const grouped = new Map();
+
+  for (const r of rows) {
+    const strategy = r.strategy || r.strategy_versioned || "unknown";
+
+    if (!grouped.has(strategy)) {
+      grouped.set(strategy, {
+        strategy,
+        values: [],
+        instances: new Set(),
+        strategyVersions: new Set(),
+        pipelineVersions: new Set(),
+      });
+    }
+
+    const g = grouped.get(strategy);
+    g.values.push(Number(r[metric]));
+    g.instances.add(r.instance_name);
+    g.strategyVersions.add(r.strategy_versioned || "");
+    g.pipelineVersions.add(r.pipeline_chain_fingerprint || "");
+  }
+
+  return [...grouped.values()].map(g => ({
+    strategy: g.strategy,
+    mean: mean(g.values),
+    n_results: g.values.length,
+    n_instances: g.instances.size,
+    expected_instances: expected,
+    n_strategy_versions: [...g.strategyVersions].filter(x => x !== "").length,
+    n_pipeline_versions: [...g.pipelineVersions].filter(x => x !== "").length,
+    versions: [...g.strategyVersions].filter(x => x !== ""),
+  }));
+}
+
+function comparableStrategyRows(rows, metric) {
+  const onlyComparable = document.getElementById("onlyComparable").checked;
+  let groups = strategyGroups(rows, metric);
+
+  if (onlyComparable) {
+    groups = groups.filter(g => g.n_instances === g.expected_instances);
+  }
+
+  return groups.sort((a, b) => {
+    return lowerIsBetter(metric) ? a.mean - b.mean : b.mean - a.mean;
+  });
 }
 
 function renderPerformanceChart() {
-  const rows = filteredResults();
-  const metric = document.getElementById("metric").value;
-
-  const grouped = {};
-  for (const r of rows) {
-    const key = r.strategy_versioned;
-    if (!grouped[key]) grouped[key] = [];
-    grouped[key].push(Number(r[metric]));
-  }
-
-  const chartRows = Object.entries(grouped)
-    .map(([strategy, values]) => ({
-      strategy,
-      mean: values.reduce((a, b) => a + b, 0) / values.length,
-      n: values.length
-    }))
-    .sort((a, b) => a.mean - b.mean)
-    .slice(0, 25);
+  const rows = filteredMetricResults();
+  const metric = selectedMetric();
+  const info = metricInfo(metric);
+  const chartRows = comparableStrategyRows(rows, metric);
 
   Plotly.newPlot("performanceChart", [{
     type: "bar",
+    orientation: "h",
     x: chartRows.map(r => r.mean),
     y: chartRows.map(r => r.strategy),
-    orientation: "h",
-    text: chartRows.map(r => `n=${r.n}`),
+    text: chartRows.map(r => `${r.n_instances}/${r.expected_instances} instances`),
+    textposition: "auto",
+    customdata: chartRows.map(r => [
+      r.n_results,
+      r.n_strategy_versions,
+      r.n_pipeline_versions,
+      r.versions.join("<br>"),
+    ]),
+    hovertemplate:
+      "<b>%{y}</b><br>" +
+      `${info.label}: %{x}<br>` +
+      "coverage: %{text}<br>" +
+      "result rows: %{customdata[0]}<br>" +
+      "strategy versions: %{customdata[1]}<br>" +
+      "pipeline versions: %{customdata[2]}<br>" +
+      "<br><b>Versioned strategy</b><br>%{customdata[3]}" +
+      "<extra></extra>",
   }], {
-    margin: {l: 260, r: 20, t: 20, b: 40},
-    xaxis: {title: metric},
-    yaxis: {automargin: true},
+    title: {
+      text: `Mean ${info.label} by strategy (${lowerIsBetter(metric) ? "lower is better" : "higher is better"})`,
+      x: 0,
+      xanchor: "left",
+      font: { size: 14 },
+    },
+    margin: { l: 320, r: 30, t: 45, b: 45 },
+    xaxis: { title: info.unit ? `${info.label} [${info.unit}]` : info.label },
+    yaxis: { automargin: true, autorange: "reversed" },
+  }, { displayModeBar: false });
+}
+
+function className(path) {
+  return String(path).split(".").pop();
+}
+
+function configValueText(value) {
+  if (value && typeof value === "object" && value.class) {
+    return `${className(value.class)}@${short(value.fingerprint)}`;
+  }
+
+  if (value && typeof value === "object") {
+    return JSON.stringify(value);
+  }
+
+  return String(value);
+}
+
+function configText(config) {
+  if (!config) return "—";
+
+  if (typeof config === "string") {
+    config = JSON.parse(config);
+  }
+
+  return Object.entries(config)
+    .map(([key, value]) => `${key}: ${configValueText(value)}`)
+    .join(", ");
+}
+
+function componentRows() {
+  const rows = filteredByInstanceSet();
+  const grouped = new Map();
+
+  for (const r of rows) {
+    for (const stage of STAGES) {
+      const component = r[`${stage}_algo`];
+      if (!component) continue;
+
+      const config = r[`${stage}_config`] || null;
+      const algoFp = r[`${stage}_algo_fingerprint`] || "";
+      const ownFp = r[`${stage}_own_fingerprint`] || "";
+      const key = `${stage}|${component}|${ownFp}|${JSON.stringify(config)}`;
+
+      if (!grouped.has(key)) {
+        grouped.set(key, {
+          stage,
+          component,
+          config,
+          algoFp,
+          ownFp,
+          n_results: 0,
+        });
+      }
+
+      grouped.get(key).n_results += 1;
+    }
+  }
+
+  return [...grouped.values()].sort((a, b) => {
+    return (
+      a.stage.localeCompare(b.stage) ||
+      a.component.localeCompare(b.component) ||
+      b.n_results - a.n_results
+    );
   });
 }
 
-function renderVersionChart() {
-  const labels = versionOverview.map(r => `${r.stage}: ${r.algo}@${r.algo_fp_short}`);
-  const values = versionOverview.map(r => r.n_results);
+function renderComponentTable() {
+  const rows = componentRows();
 
-  Plotly.newPlot("versionChart", [{
-    type: "bar",
-    x: values,
-    y: labels,
-    orientation: "h",
-  }], {
-    margin: {l: 280, r: 20, t: 20, b: 40},
-    xaxis: {title: "number of results"},
-    yaxis: {automargin: true},
-  });
-}
+  const header = `
+    <tr>
+      <th>Stage</th>
+      <th>Component</th>
+      <th>Configuration</th>
+      <th>Implementation version</th>
+      <th>Component version</th>
+      <th>Result rows</th>
+    </tr>
+  `;
 
-function renderTable() {
-  const rows = filteredResults().slice(0, 200);
-  const metric = document.getElementById("metric").value;
-
-  const cols = [
-    "instance_set",
-    "instance_name",
-    "strategy",
-    "strategy_versioned",
-    metric,
-    "pipeline_fp_short",
-  ];
-
-  const header = `<tr>${cols.map(c => `<th>${c}</th>`).join("")}</tr>`;
   const body = rows.map(r => `
     <tr>
-      ${cols.map(c => `<td>${r[c] ?? ""}</td>`).join("")}
+      <td>${r.stage}</td>
+      <td>${r.component}</td>
+      <td>${configText(r.config)}</td>
+      <td>${short(r.algoFp)}</td>
+      <td>${short(r.ownFp)}</td>
+      <td>${r.n_results}</td>
     </tr>
   `).join("");
 
-  document.getElementById("resultsTable").innerHTML = header + body;
+  document.getElementById("componentTable").innerHTML = header + body;
 }
 
 function render() {
-  renderCards();
   renderPerformanceChart();
-  renderVersionChart();
-  renderTable();
+  renderComponentTable();
 }
 
 loadData();

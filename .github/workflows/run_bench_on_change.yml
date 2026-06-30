@@ -3,53 +3,297 @@ name: benchmark
 on:
   repository_dispatch:
     types: [algos-changed]
+
   workflow_dispatch:
+    inputs:
+      algos_ref:
+        description: "ware_ops_algos ref/sha to install"
+        required: false
+        default: "main"
+
+      instance_set:
+        description: "Instance set to run"
+        required: true
+        default: "FoodmartData"
+        type: choice
+        options:
+          - FoodmartData
+          - SPRP
+          - SPRP-SS
+          - BahceciOencan
+          - MuterOencan
+          - HennWaescherUniform
+          - HennWaescherClassBased
+          - KrisSmallDataCorrected
+          - KrisLargeData
+          - all
+
+      update_cache:
+        description: "Upload updated Luigi cache"
+        required: true
+        default: false
+        type: boolean
+
+      deploy_site:
+        description: "Deploy benchmark website"
+        required: true
+        default: false
+        type: boolean
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: benchmark-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  benchmark:
+  prepare:
     runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+
+    steps:
+      - id: matrix
+        env:
+          INSTANCE_SET: ${{ github.event_name == 'workflow_dispatch' && inputs.instance_set || 'all' }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+
+          all_sets = [
+              {"set": "FoodmartData", "runner": "foodmart"},
+
+              {"set": "SPRP", "runner": "hessler"},
+              {"set": "SPRP-SS", "runner": "hessler"},
+              {"set": "BahceciOencan", "runner": "hessler"},
+              {"set": "MuterOencan", "runner": "hessler"},
+              {"set": "HennWaescherUniform", "runner": "hessler"},
+              {"set": "HennWaescherClassBased", "runner": "hessler"},
+
+              {"set": "KrisSmallDataCorrected", "runner": "ibrsp"},
+              {"set": "KrisLargeData", "runner": "ibrsp"},
+          ]
+
+          selected = os.environ["INSTANCE_SET"]
+
+          if selected == "all":
+              matrix = all_sets
+          else:
+              matrix = [x for x in all_sets if x["set"] == selected]
+
+          if not matrix:
+              raise SystemExit(f"Unknown instance set: {selected}")
+
+          print(json.dumps(matrix, indent=2))
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+              f.write("matrix=" + json.dumps(matrix) + "\n")
+          PY
+
+  prepare-cache-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ensure rolling cache release exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view benchmark-cache --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 || \
+          gh release create benchmark-cache \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Benchmark cache" \
+            --notes "Rolling Luigi cache. Do not delete."
+
+  benchmark:
+    needs:
+      - prepare
+      - prepare-cache-release
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+
     strategy:
       fail-fast: false
+      max-parallel: 3
       matrix:
-        set: [SPRP, BahceciOencan, FoodmartData]
+        include: ${{ fromJson(needs.prepare.outputs.matrix) }}
+
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - uses: astral-sh/setup-uv@v5
-        with: { python-version: '3.12' }
-      - run: uv sync
+        with:
+          enable-cache: true
 
-      - name: Install algos at dispatched commit
+      - name: Install project
+        run: uv sync
+
+      - name: Install algos ref
+        env:
+          ALGOS_REF: ${{ github.event.client_payload.sha || inputs.algos_ref || 'main' }}
         run: |
-          SHA="${{ github.event.client_payload.sha }}"
-          uv pip install "ware_ops_algos @ git+https://github.com/kit-dsm/ware_ops_algos@${SHA:-main}"
+          uv pip install --reinstall \
+            "ware_ops_algos @ git+https://github.com/kit-dsm/ware_ops_algos@${ALGOS_REF}"
 
-      - name: Ensure cache release exists
-        env: { GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+      - name: Restore Luigi cache
+        env:
+          SET_NAME: ${{ matrix.set }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release view cache --repo $GITHUB_REPOSITORY >/dev/null 2>&1 \
-            || gh release create cache --title "Benchmark cache" \
-               --notes "Rolling Luigi cache. Do not delete."
+          mkdir -p experiments/output cache_in
 
-      - name: Restore cache for ${{ matrix.set }}
-        env: { GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+          gh release download benchmark-cache \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern "cache-${SET_NAME}.tar.gz" \
+            --dir cache_in \
+            --clobber || echo "cold cache for ${SET_NAME}"
+
+          if [ -f "cache_in/cache-${SET_NAME}.tar.gz" ]; then
+            tar xzf "cache_in/cache-${SET_NAME}.tar.gz" -C experiments/output
+          fi
+
+      - name: Run benchmark shard
+        env:
+          SET_NAME: ${{ matrix.set }}
+          RUNNER_KIND: ${{ matrix.runner }}
+        run: |
+          case "$RUNNER_KIND" in
+            foodmart)
+              uv run python experiments/run_foodmart.py
+              ;;
+
+            hessler)
+              uv run python experiments/run_hessler_irnich.py "$SET_NAME"
+              ;;
+
+            ibrsp)
+              uv run python experiments/run_ibrsp.py "$SET_NAME"
+              ;;
+
+            *)
+              echo "Unknown runner kind: $RUNNER_KIND"
+              exit 1
+              ;;
+          esac
+
+      - name: Pack updated Luigi cache shard
+        env:
+          SET_NAME: ${{ matrix.set }}
+        run: |
+          tar czf "cache-${SET_NAME}.tar.gz" -C experiments/output "$SET_NAME"
+
+      - name: Upload updated Luigi cache shard
+        if: ${{ github.event_name == 'repository_dispatch' || inputs.update_cache }}
+        env:
+          SET_NAME: ${{ matrix.set }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload benchmark-cache \
+            "cache-${SET_NAME}.tar.gz" \
+            --repo "$GITHUB_REPOSITORY" \
+            --clobber
+
+      - name: Pack output shard for collector
+        env:
+          SET_NAME: ${{ matrix.set }}
+        run: |
+          tar czf "output-${SET_NAME}.tar.gz" -C experiments/output "$SET_NAME"
+
+      - name: Upload output shard artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-${{ matrix.set }}
+          path: output-${{ matrix.set }}.tar.gz
+          retention-days: 7
+
+  build-site:
+    needs: benchmark
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install project
+        run: uv sync
+
+      - name: Download output shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: output-*
+          path: run_outputs
+
+      - name: Restore output shards
         run: |
           mkdir -p experiments/output
-          gh release download cache \
-            --pattern "cache-${{ matrix.set }}.tar.gz" --dir . \
-            --repo $GITHUB_REPOSITORY 2>/dev/null || echo "cold run"
-          [ -f cache-${{ matrix.set }}.tar.gz ] && \
-            tar xzf cache-${{ matrix.set }}.tar.gz -C experiments/output
+          find run_outputs -name "output-*.tar.gz" -print -exec tar xzf {} -C experiments/output \;
 
-      - name: Run benchmarks for ${{ matrix.set }}
-        run: uv run python -m ware_ops_pipes.run --set ${{ matrix.set }}
+      - name: Build result dataframe
+        run: uv run python experiments/evaluation/build_results_cache.py
 
-      - name: Save cache for ${{ matrix.set }}
-        if: always()
-        env: { GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+      - name: Build website data
+        run: uv run python experiments/evaluation/website/build_site_data.py
+
+      - name: Pack benchmark result asset
         run: |
-          tar czf cache-${{ matrix.set }}.tar.gz -C experiments/output ${{ matrix.set }}
-          gh release upload cache cache-${{ matrix.set }}.tar.gz \
-            --repo $GITHUB_REPOSITORY --clobber
+          tar czf benchmark-results.tar.gz \
+            -C experiments/evaluation df_results.pkl \
+            -C experiments/evaluation/website/site data
+
+      - name: Ensure result release exists
+        if: ${{ github.event_name == 'repository_dispatch' || inputs.deploy_site }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view benchmark-results --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 || \
+          gh release create benchmark-results \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Benchmark results" \
+            --notes "Latest benchmark result data."
+
+      - name: Upload benchmark result asset
+        if: ${{ github.event_name == 'repository_dispatch' || inputs.deploy_site }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload benchmark-results \
+            benchmark-results.tar.gz \
+            --repo "$GITHUB_REPOSITORY" \
+            --clobber
+
+      - name: Upload Pages artifact
+        if: ${{ github.event_name == 'repository_dispatch' || inputs.deploy_site }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: experiments/evaluation/website/site
+
+  deploy-pages:
+    needs: build-site
+    if: ${{ github.event_name == 'repository_dispatch' || inputs.deploy_site }}
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

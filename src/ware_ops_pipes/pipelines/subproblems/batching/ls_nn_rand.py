@@ -1,12 +1,22 @@
 from ware_ops_algos.algorithms import LocalSearchBatching, NearestNeighbourhoodRouting, RandomBatching
 from ware_ops_algos.domain_models import Resources, LayoutData, Articles
-from ware_ops_pipes.pipelines.templates.cosy_template import MultiOrderBatching
+from ware_ops_pipes.pipelines.templates.cosy_template import MultiOrderBatching, class_fingerprint_payload
 from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 
 class LSBatchingNNRand(MultiOrderBatching):
     abstract = False
     algo_cls = LocalSearchBatching
+
+    start_batching_cls = RandomBatching
+    routing_class = NearestNeighbourhoodRouting
+
+    def config_fingerprint_payload(self) -> dict:
+        return {
+            "start_batching_cls": class_fingerprint_payload(self.start_batching_cls),
+            "routing_class": class_fingerprint_payload(self.routing_class),
+            "time_limit": self.pipeline_params.time_limit_sec
+        }
 
     def get_inited_batcher(self):
         articles: Articles = load_pickle(self.input()["instance"]["articles"].path)
@@ -32,9 +42,9 @@ class LSBatchingNNRand(MultiOrderBatching):
         batcher = LocalSearchBatching(#capacity=resources.resources[0].capacity,
                                       pick_cart=resources.resources[0].pick_cart,
                                       articles=articles,
-                                      routing_class=NearestNeighbourhoodRouting,
+                                      routing_class=self.routing_class,
                                       routing_class_kwargs=routing_kwargs,
-                                      start_batching_class=RandomBatching,
+                                      start_batching_class=self.start_batching_cls,
                                       time_limit=self.pipeline_params.time_limit_sec)
         return batcher
 
