@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-ware-ops-algos = { path = "../ware_ops_algos", editable = true }
+ware_ops_algos = { git = "https://github.com/kit-dsm/ware_ops_algos.git", branch = "main" }
 cosy-luigi = { url = "https://github.com/cls-python/cosy-luigi/releases/download/nightly/cosy_luigi-nightly.tar.gz" }
 
 [project.optional-dependencies]
