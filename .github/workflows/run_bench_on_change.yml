@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       algos_ref:
-        description: "ware_ops_algos ref/sha to install"
+        description: "Currently unused; ware_ops_algos is resolved from main via pyproject.toml"
         required: false
         default: "main"
 
@@ -135,14 +135,9 @@ jobs:
           enable-cache: true
 
       - name: Install project
-        run: uv sync
-
-      - name: Install algos ref
-        env:
-          ALGOS_REF: ${{ github.event.client_payload.sha || inputs.algos_ref || 'main' }}
         run: |
-          uv pip install --reinstall \
-            "ware_ops_algos @ git+https://github.com/kit-dsm/ware_ops_algos@${ALGOS_REF}"
+          uv lock --upgrade-package ware_ops_algos
+          uv sync
 
       - name: Restore Luigi cache
         env:
@@ -231,7 +226,9 @@ jobs:
           enable-cache: true
 
       - name: Install project
-        run: uv sync
+        run: |
+          uv lock --upgrade-package ware_ops_algos
+          uv sync
 
       - name: Download output shards
         uses: actions/download-artifact@v4
