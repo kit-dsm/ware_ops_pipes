@@ -76,7 +76,7 @@ jobs:
           ]
 
           test_sets = [
-              {"set": "FoodmartDataTest", "runner": "foodmart"},
+              {"set": "FoodmartDataTest", "runner": "foodmart_test"},
           ]
 
           selected = os.environ["INSTANCE_SET"]
@@ -148,6 +148,10 @@ jobs:
           case "$RUNNER_KIND" in
             foodmart)
               uv run python experiments/run_foodmart.py "$SET_NAME"
+              ;;
+            
+            foodmart_test)
+              uv run python experiments/run_foodmart_test.py "$SET_NAME"
               ;;
 
             hessler)
