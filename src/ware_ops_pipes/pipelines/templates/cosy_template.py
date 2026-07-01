@@ -428,13 +428,11 @@ class AbstractResultAggregation(BaseComponent):
         cls._data_card = data_card
         cls._models = models
 
-    # @classmethod
-    # def constraints(cls) -> Sequence[Callable[..., bool]]:
-    #     return [
-    #         lambda vs: problem_type_constraint(vs, TAXONOMY, cls._data_card, cls._models),
-    #         lambda vs: feature_constraint(vs, cls._data_card, cls._models),
-    #         lambda vs: check_unique(vs, [AbstractResultAggregation]),
-    #     ]
+    @classmethod
+    def constraints(cls) -> Sequence[Callable[..., bool]]:
+        return [
+            lambda vs: configured_routing_constraint(vs),
+        ]
 
     def _collect(self) -> dict[str, dict]:
         return collect_from_graph(self)
@@ -644,6 +642,45 @@ def check_unique(
 
     return True
 
+def configured_routing_constraint(vs, get_classes=None) -> bool:
+    classes = (
+        get_classes(vs)
+        if get_classes is not None
+        else [pc.__class__ for pc in traverse_pipeline(vs.values())]
+    )
+
+    batching_with_configured_routing = [
+        c for c in classes
+        if issubclass(c, AbstractBatching)
+        and hasattr(c, "routing_class")
+    ]
+
+    if not batching_with_configured_routing:
+        return True
+
+    routing_components = [
+        c for c in classes
+        if issubclass(c, AbstractPickerRouting)
+        and c is not AbstractPickerRouting
+    ]
+
+    for batching_cls in batching_with_configured_routing:
+        configured_routing_cls = batching_cls.routing_class
+
+        for routing_component_cls in routing_components:
+            explicit_routing_cls = routing_component_cls.algo_cls
+
+            if explicit_routing_cls is not configured_routing_cls:
+                # print(
+                #     f"Invalid pipeline: {batching_cls.__name__} uses "
+                #     f"{configured_routing_cls.__name__} internally, but "
+                #     f"the selected routing component is "
+                #     f"{routing_component_cls.__name__} "
+                #     f"({explicit_routing_cls.__name__})."
+                # )
+                return False
+
+    return True
 
 # def problem_type_constraint(vs, subproblems, data_card: DataCard, models, get_classes=None) -> bool:
 #     classes = (
