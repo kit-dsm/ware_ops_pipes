@@ -3176,7 +3176,7 @@ wheels = [
 [[package]]
 name = "ware-ops-algos"
 version = "0.1.0"
-source = { git = "https://github.com/kit-dsm/ware_ops_algos.git?branch=main#2ade412f47a7ebac8bbca66af3502e25e578e4d2" }
+source = { git = "https://github.com/kit-dsm/ware_ops_algos.git?branch=main#a9ff0931495c23236f2d2b4bcfbcc1f5ac7ef890" }
 dependencies = [
     { name = "gurobipy" },
     { name = "matplotlib" },
