@@ -212,7 +212,7 @@ class PipelineRunner(ABC):
                                                         {'background': None,
                                                          'logdir': None,
                                                          'logging_conf_file': None,
-                                                         'log_level': 'DEBUG'
+                                                         'log_level': 'CRITICAL'
                                                          }))
             luigi.build(pipelines, local_scheduler=True)
 
