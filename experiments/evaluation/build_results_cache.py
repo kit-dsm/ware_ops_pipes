@@ -20,6 +20,7 @@ SETS_TO_LOAD = [
     "FoodmartData",
     "KrisSmallDataCorrected",
     "KrisLargeData",
+    "FoodmartDataTest"
 ]
 
 # During prototyping, missing instance sets only produce warnings.
@@ -95,6 +96,7 @@ INSTANCE_PROBLEM_MAP = {
     "HennWaescher": "OBRP",
     "MuterOencan": "OBRP",
     "FoodmartData": "OBRP",
+    "FoodmartDataTest": "OBRP",
     "IOPVRP": "OBSRP",
     "KrisSmallDataCorrected": "OBSRP",
     "KrisLargeData": "OBSRP",
