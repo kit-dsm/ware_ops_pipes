@@ -6,17 +6,13 @@ on:
 
   workflow_dispatch:
     inputs:
-      algos_ref:
-        description: "Currently unused; ware_ops_algos is resolved from main via pyproject.toml"
-        required: false
-        default: "main"
-
       instance_set:
         description: "Instance set to run"
         required: true
-        default: "FoodmartData"
+        default: "FoodmartDataTest"
         type: choice
         options:
+          - FoodmartDataTest
           - FoodmartData
           - SPRP
           - SPRP-SS
@@ -65,7 +61,7 @@ jobs:
           import json
           import os
 
-          all_sets = [
+          production_sets = [
               {"set": "FoodmartData", "runner": "foodmart"},
 
               {"set": "SPRP", "runner": "hessler"},
@@ -79,12 +75,17 @@ jobs:
               {"set": "KrisLargeData", "runner": "ibrsp"},
           ]
 
+          test_sets = [
+              {"set": "FoodmartDataTest", "runner": "foodmart"},
+          ]
+
           selected = os.environ["INSTANCE_SET"]
+          selectable_sets = production_sets + test_sets
 
           if selected == "all":
-              matrix = all_sets
+              matrix = production_sets
           else:
-              matrix = [x for x in all_sets if x["set"] == selected]
+              matrix = [x for x in selectable_sets if x["set"] == selected]
 
           if not matrix:
               raise SystemExit(f"Unknown instance set: {selected}")
@@ -95,27 +96,10 @@ jobs:
               f.write("matrix=" + json.dumps(matrix) + "\n")
           PY
 
-  prepare-cache-release:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Ensure rolling cache release exists
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release view benchmark-cache --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 || \
-          gh release create benchmark-cache \
-            --repo "$GITHUB_REPOSITORY" \
-            --title "Benchmark cache" \
-            --notes "Rolling Luigi cache. Do not delete."
-
   benchmark:
-    needs:
-      - prepare
-      - prepare-cache-release
+    needs: prepare
 
     runs-on: ubuntu-latest
-    timeout-minutes: 330
 
     strategy:
       fail-fast: false
@@ -163,7 +147,7 @@ jobs:
         run: |
           case "$RUNNER_KIND" in
             foodmart)
-              uv run python experiments/run_foodmart.py
+              uv run python experiments/run_foodmart.py "$SET_NAME"
               ;;
 
             hessler)
@@ -192,6 +176,12 @@ jobs:
           SET_NAME: ${{ matrix.set }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          gh release view benchmark-cache --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 || \
+          gh release create benchmark-cache \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Benchmark cache" \
+            --notes "Rolling Luigi cache. Do not delete."
+
           gh release upload benchmark-cache \
             "cache-${SET_NAME}.tar.gz" \
             --repo "$GITHUB_REPOSITORY" \
@@ -212,6 +202,7 @@ jobs:
 
   build-site:
     needs: benchmark
+
     runs-on: ubuntu-latest
 
     steps:
