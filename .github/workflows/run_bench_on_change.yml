@@ -223,7 +223,7 @@ jobs:
       - name: Install project
         run: |
           uv lock --upgrade-package ware_ops_algos
-          uv sync
+          uv sync --extra eval
 
       - name: Download output shards
         uses: actions/download-artifact@v4
