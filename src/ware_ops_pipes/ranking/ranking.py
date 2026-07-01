@@ -32,7 +32,7 @@ class MakespanMetric(Metric):
     direction = "min"
 
     def compute(self, summary: Dict) -> float:
-        if "makespan" in summary.keys():
+        if "makespan" in summary:
             return float(summary["makespan"])
         return math.inf
 
@@ -42,10 +42,9 @@ class TardinessMetric(Metric):
     direction = "min"
 
     def compute(self, summary: Dict) -> float:
-        if "avg_tardiness" in summary.keys():
+        if "avg_tardiness" in summary:
             return float(summary["avg_tardiness"])
-        else:
-            return math.inf
+        return math.inf
 
 
 OBJECTIVE_TO_METRIC: dict[str, type[Metric]] = {
@@ -83,25 +82,28 @@ class RankingEvaluator:
     def evaluate(self) -> pd.DataFrame:
         results = []
 
-        for file in self.output_dir.glob("*summary.json"):
+        summary_files = sorted(self.output_dir.rglob("summary.json"))
+
+        for file in summary_files:
             summary = load_json(str(file))
             value = self.metric.compute(summary)
 
             pipeline_id = self._pipeline_id(summary)
-            if summary.get("scheduling_algo"):
-                if summary["scheduling_algo"] == "Algorithm":
-                    print(summary)
-            results.append({
-                "pipeline_id": pipeline_id,
-                "problem_class": self.problem_class,
-                "objective": self.objective,
-                "metric": self.metric.name,
-                "item_assignment_algo": summary.get("item_assignment_algo"),
-                "batching_algo": summary.get("batching_algo"),
-                "routing_algo": summary.get("routing_algo"),
-                "scheduling_algo": summary.get("scheduling_algo"),
-                "value": value,
-            })
+
+            results.append(
+                {
+                    "pipeline_id": pipeline_id,
+                    "problem_class": self.problem_class,
+                    "objective": self.objective,
+                    "metric": self.metric.name,
+                    "item_assignment_algo": summary.get("item_assignment_algo"),
+                    "batching_algo": summary.get("batching_algo"),
+                    "routing_algo": summary.get("routing_algo"),
+                    "scheduling_algo": summary.get("scheduling_algo"),
+                    "value": value,
+                    "summary_path": str(file.relative_to(self.output_dir)),
+                }
+            )
 
         if not results:
             print(f"No results found in {self.output_dir}")
