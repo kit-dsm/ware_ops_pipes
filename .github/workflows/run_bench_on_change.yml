@@ -244,9 +244,12 @@ jobs:
 
       - name: Pack benchmark result asset
         run: |
-          tar czf benchmark-results.tar.gz \
-            -C experiments/evaluation df_results.pkl \
-            -C experiments/evaluation/website/site data
+          mkdir -p benchmark-results/data
+          
+          cp experiments/evaluation/df_results.pkl benchmark-results/df_results.pkl
+          cp -r experiments/evaluation/website/site/data benchmark-results/data
+          
+          tar czf benchmark-results.tar.gz -C benchmark-results .
 
       - name: Ensure result release exists
         if: ${{ github.event_name == 'repository_dispatch' || inputs.deploy_site }}
