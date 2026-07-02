@@ -22,6 +22,7 @@ from ware_ops_pipes.pipelines.pipeline_params import set_pipeline_params
 from ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_nn import ClarkAndWrightNN
 from ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_rr import ClarkAndWrightRR
 from ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_sshape import ClarkAndWrightSShape
+from ware_ops_pipes.pipelines.subproblems.batching.configured_local_search import make_configured_local_search_component
 from ware_ops_pipes.pipelines.subproblems.batching.due_date import DueDate
 from ware_ops_pipes.pipelines.subproblems.batching.fifo import FiFo
 from ware_ops_pipes.pipelines.subproblems.batching.ls_nn_due import LSBatchingNNDueDate
@@ -98,11 +99,11 @@ class PipelineRunner(ABC):
             "ClarkAndWrightNN": ClarkAndWrightNN,
             "ClarkAndWrightRR": ClarkAndWrightRR,
             "ClarkAndWrightSShape": ClarkAndWrightSShape,
-            "LSBatchingNNDueDate": LSBatchingNNDueDate,
-            "LSBatchingRR": LSBatchingRR,
-            "LSBatchingNNRand": LSBatchingNNRand,
-            "LSBatchingNNFiFo": LSBatchingNNFiFo,
-            "LSBatchingNNFiFoOrderNr": LSBatchingNNFiFoOrderNr,
+            # "LSBatchingNNDueDate": LSBatchingNNDueDate,
+            # "LSBatchingRR": LSBatchingRR,
+            # "LSBatchingNNRand": LSBatchingNNRand,
+            # "LSBatchingNNFiFo": LSBatchingNNFiFo,
+            # "LSBatchingNNFiFoOrderNr": LSBatchingNNFiFoOrderNr,
             "ClosestDepotMinDistanceSeedBatching": ClosestDepotMinDistanceSeedBatching,
             "ClosestDepotMaxSharedArticlesSeedBatching": ClosestDepotMaxSharedArticlesSeedBatching,
 
@@ -121,6 +122,7 @@ class PipelineRunner(ABC):
         }
 
         self.algos = load_packaged_algo_cards()
+        self._register_configured_local_search_components()
         if self.verbose:
             print(f"Loaded {len(self.algos)} model cards")
         self.data_card = data_card
@@ -291,7 +293,10 @@ class PipelineRunner(ABC):
         seen = set()
 
         for algo in final_algos:
-            cls = self.repo_class_by_algo_name[algo.algo_name]
+            if self._is_configured_local_search_card(algo):
+                cls = make_configured_local_search_component(algo)
+            else:
+                cls = self.repo_class_by_algo_name[algo.algo_name]
 
             if cls in seen:
                 continue
@@ -331,6 +336,25 @@ class PipelineRunner(ABC):
                 print(print_tree(pipeline))
 
         return pipelines
+
+    def _is_configured_local_search_card(self, algo) -> bool:
+        impl = algo.implementation or {}
+        return impl.get("class_name") == "LocalSearchBatching"
+
+    def _register_configured_local_search_components(self) -> None:
+        """Extends the cosy repository by including configured local search variants"""
+        for card in self.algos:
+            impl = card.implementation or {}
+
+            if "routing_class" not in impl:
+                continue
+
+            if "start_batching_class" not in impl:
+                continue
+
+            self.repo_class_by_algo_name[card.algo_name] = (
+                make_configured_local_search_component(card)
+            )
 
     def _cleanup(self, output_folder: Path):
         """Clean up intermediate files"""
