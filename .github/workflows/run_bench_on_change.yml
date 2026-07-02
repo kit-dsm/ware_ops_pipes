@@ -55,7 +55,7 @@ jobs:
     steps:
       - id: matrix
         env:
-          INSTANCE_SET: ${{ github.event_name == 'workflow_dispatch' && inputs.instance_set || 'all' }}
+          INSTANCE_SET: ${{ github.event_name == 'workflow_dispatch' && inputs.instance_set || 'FoodmartDataTest' }}
         run: |
           python - <<'PY'
           import json
