@@ -50,7 +50,7 @@ from ware_ops_pipes.pipelines.subproblems.routing.sprp import RatliffRosenthal
 from ware_ops_pipes.pipelines.subproblems.scheduling.edd_scheduling import EDDScheduler
 from ware_ops_pipes.pipelines.subproblems.scheduling.lpt_scheduling import LPTScheduler
 from ware_ops_pipes.pipelines.subproblems.scheduling.spt_scheduling import SPTScheduler
-from ware_ops_pipes.pipelines.templates import AlgorithmRunConfig
+from ware_ops_pipes.pipelines.templates import AlgorithmRunConfig, SingleOrderBatching
 from ware_ops_pipes.ranking.ranking import RankingEvaluator
 
 class PipelineRunner(ABC):
@@ -314,6 +314,7 @@ class PipelineRunner(ABC):
         repo_classes = [
             InstanceLoader,
             AlgorithmRunConfig,
+            SingleOrderBatching,
             *model_classes,
             ResultAggregationDistance,
         ]
