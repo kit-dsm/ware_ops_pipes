@@ -7,6 +7,7 @@ from os.path import join as pjoin
 @dataclass
 class PipelineParams:
     output_folder: str = field(default_factory=lambda: pjoin(getcwd(), "outputs"))
+    algorithm_config_path: str | None = None
     seed: int = 42
     time_limit_sec: int | None = None
     gen_tour: bool = False
@@ -27,6 +28,7 @@ def set_pipeline_params(
     instance_set_name, instance_name, instance_path,
     output_folder, domain_path,
     time_limit_seconds=None, gen_tour=False,
+    algorithm_config_path=None
 ) -> None:
     _PARAMS.instance_set_name = instance_set_name
     _PARAMS.instance_name = instance_name
@@ -35,3 +37,4 @@ def set_pipeline_params(
     _PARAMS.domain_path = domain_path
     _PARAMS.time_limit_sec = time_limit_seconds
     _PARAMS.gen_tour = gen_tour
+    _PARAMS.algorithm_config_path = algorithm_config_path

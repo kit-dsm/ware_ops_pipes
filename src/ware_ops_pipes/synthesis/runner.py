@@ -50,6 +50,7 @@ from ware_ops_pipes.pipelines.subproblems.routing.sprp import RatliffRosenthal
 from ware_ops_pipes.pipelines.subproblems.scheduling.edd_scheduling import EDDScheduler
 from ware_ops_pipes.pipelines.subproblems.scheduling.lpt_scheduling import LPTScheduler
 from ware_ops_pipes.pipelines.subproblems.scheduling.spt_scheduling import SPTScheduler
+from ware_ops_pipes.pipelines.templates import AlgorithmRunConfig
 from ware_ops_pipes.ranking.ranking import RankingEvaluator
 
 class PipelineRunner(ABC):
@@ -84,41 +85,46 @@ class PipelineRunner(ABC):
         self.pipeline_runtimes = {}
         self.time_limit_sec = time_limit_sec
         self.gen_tour = gen_tour
-
+        # Card name -> CoSy-Luigi component class.
         self.repo_class_by_algo_name = {
+            # IA
             "GreedyIA": GreedyIA,
             "NNIA": NNIA,
             "SinglePosIA": SinglePosIA,
             "MinMinIA": MinMinIA,
             "MinMaxIA": MinMaxIA,
-
+            # Batching
+            ## constructive batching
             "FiFo": FiFo,
             "OrderNrFiFo": OrderNrFiFo,
             "DueDate": DueDate,
             "Random": Random,
+            ## C&W
             "ClarkAndWrightNN": ClarkAndWrightNN,
             "ClarkAndWrightRR": ClarkAndWrightRR,
             "ClarkAndWrightSShape": ClarkAndWrightSShape,
-            # "LSBatchingNNDueDate": LSBatchingNNDueDate,
-            # "LSBatchingRR": LSBatchingRR,
-            # "LSBatchingNNRand": LSBatchingNNRand,
-            # "LSBatchingNNFiFo": LSBatchingNNFiFo,
-            # "LSBatchingNNFiFoOrderNr": LSBatchingNNFiFoOrderNr,
+            ## LS
+            "LSBatchingNNDueDate": LSBatchingNNDueDate,
+            "LSBatchingNNRand": LSBatchingNNRand,
+            "LSBatchingNNFiFo": LSBatchingNNFiFo,
+            "LSBatchingNNFiFoOrderNr": LSBatchingNNFiFoOrderNr,
+            "LSBatchingRR": LSBatchingRR,
+            ## Seed
             "ClosestDepotMinDistanceSeedBatching": ClosestDepotMinDistanceSeedBatching,
             "ClosestDepotMaxSharedArticlesSeedBatching": ClosestDepotMaxSharedArticlesSeedBatching,
-
+            # Routing
             "SShape": SShape,
             "LargestGap": LargestGap,
             "Midpoint": Midpoint,
             "Return": Return,
             "NearestNeighbourhood": NearestNeighbourhood,
             "RatliffRosenthal": RatliffRosenthal,
+            # B&R
             "CombinedBatchingRoutingAssigning": CombinedBatchingRoutingAssigning,
-
-            # Card name -> CoSy-Luigi component class.
-            "EDDScheduling": EDDScheduler,
-            "LPTScheduling": LPTScheduler,
-            "SPTScheduling": SPTScheduler,
+            # Scheduling
+            "EDDScheduler": EDDScheduler,
+            "LPTScheduler": LPTScheduler,
+            "SPTScheduler": SPTScheduler,
         }
 
         self.algos = load_packaged_algo_cards()
@@ -195,7 +201,8 @@ class PipelineRunner(ABC):
             instance_path=str(file_paths[0]),
             domain_path=str(self.loader.cache_path),
             time_limit_seconds=self.time_limit_sec,
-            gen_tour=self.gen_tour
+            gen_tour=self.gen_tour,
+            # algorithm_config_path=str("../pipelines/configurations/")
         )
 
         t0 = time.perf_counter()
@@ -214,7 +221,7 @@ class PipelineRunner(ABC):
                                                         {'background': None,
                                                          'logdir': None,
                                                          'logging_conf_file': None,
-                                                         'log_level': 'CRITICAL'
+                                                         'log_level': 'DEBUG'
                                                          }))
             luigi.build(pipelines, local_scheduler=True)
 
@@ -293,10 +300,10 @@ class PipelineRunner(ABC):
         seen = set()
 
         for algo in final_algos:
-            if self._is_configured_local_search_card(algo):
-                cls = make_configured_local_search_component(algo)
-            else:
-                cls = self.repo_class_by_algo_name[algo.algo_name]
+            # if self._is_configured_local_search_card(algo):
+            #     cls = make_configured_local_search_component(algo)
+            # else:
+            cls = self.repo_class_by_algo_name[algo.algo_name]
 
             if cls in seen:
                 continue
@@ -306,6 +313,7 @@ class PipelineRunner(ABC):
 
         repo_classes = [
             InstanceLoader,
+            AlgorithmRunConfig,
             *model_classes,
             ResultAggregationDistance,
         ]
