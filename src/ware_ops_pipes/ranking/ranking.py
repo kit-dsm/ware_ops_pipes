@@ -82,7 +82,7 @@ class RankingEvaluator:
     def evaluate(self) -> pd.DataFrame:
         results = []
 
-        summary_files = sorted(self.output_dir.rglob("summary.json"))
+        summary_files = sorted(self.output_dir.rglob("*summary.json"))
 
         for file in summary_files:
             summary = load_json(str(file))

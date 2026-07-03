@@ -60,3 +60,16 @@ class CardConfiguredComponent:
                 "gen_tour": self.pipeline_params.gen_tour,
             },
         }
+
+
+def resolve_data_card():
+    """"
+    all classes that are part of the config.
+    e.g. routing and batching start class
+         Seed, Similarity??
+    find intersection of requirements of those components
+    should work for batching and routing
+    need to define cards for criterion and similarity meassures
+
+    """
+    pass

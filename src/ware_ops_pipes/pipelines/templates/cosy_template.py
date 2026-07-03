@@ -4,9 +4,11 @@ import json
 import os
 import re
 from os.path import join as pjoin
+from pathlib import Path
 from typing import Iterable, Mapping, Sequence, Callable
 
 import luigi
+import yaml
 from cosy_luigi import CoSyLuigiTask, CoSyLuigiTaskParameter
 from ware_ops_algos.algorithms.algorithm_cards import AlgorithmCard
 
@@ -36,19 +38,6 @@ from ware_ops_pipes.pipelines.pipeline_params import get_pipeline_params
 from ware_ops_pipes.synthesis.pipeline_provenance import collect_from_graph
 
 
-# class PipelineParams(luigi.Config):
-#     output_folder = luigi.Parameter(default=pjoin(os.getcwd(), "outputs"))
-#     seed = luigi.IntParameter(default=42)
-#
-#     time_limit_sec = luigi.OptionalIntParameter(default=240)
-#     gen_tour = luigi.BoolParameter(default=False)
-#
-#     instance_set_name = luigi.Parameter(default=None)
-#     instance_name = luigi.Parameter(default=None)
-#     instance_path = luigi.Parameter(default=None)
-#     domain_path = luigi.Parameter(default=None)
-
-
 _SAFE_CHARS = re.compile(r"[^A-Za-z0-9_.-]+")
 
 
@@ -66,6 +55,7 @@ def class_fingerprint_payload(cls) -> dict:
         "class": f"{cls.__module__}.{cls.__qualname__}",
         "fingerprint": fingerprint(cls),
     }
+
 
 class BaseComponent(CoSyLuigiTask):
     """
@@ -173,15 +163,19 @@ class BaseComponent(CoSyLuigiTask):
         return _safe_path_part(name)
 
     def get_luigi_local_target_with_task_id(self, out_name: str) -> luigi.LocalTarget:
-        fp = self.chain_fingerprint()
+        chain_fp = self.chain_fingerprint()
         task_key = self.task_path_key()
+
+        out_path = Path(out_name)
+        stem = _safe_path_part(out_path.stem)
+        suffix = out_path.suffix
+
+        filename = f"{task_key}__{chain_fp}__{stem}{suffix}"
 
         return luigi.LocalTarget(
             pjoin(
                 self.pipeline_params.output_folder,
-                fp,
-                task_key,
-                out_name,
+                filename,
             )
         )
 
@@ -204,6 +198,35 @@ class BaseComponent(CoSyLuigiTask):
         if dirname:
             os.makedirs(dirname, exist_ok=True)
         dump_json(target.path, obj)
+
+
+class AlgorithmRunConfig(CoSyLuigiTask):
+    def __init__(self, *args, **kwargs):
+        self.pipeline_params = copy.copy(get_pipeline_params())
+        super().__init__(*args, **kwargs)
+
+    def load_config(self) -> dict:
+        path = self.pipeline_params.algorithm_config_path
+
+        if not path:
+            return {}
+
+        with open(path, "r", encoding="utf-8") as f:
+            return yaml.safe_load(f) or {}
+
+    def output(self):
+        return {
+            "config": luigi.LocalTarget(
+                pjoin(
+                    self.pipeline_params.output_folder,
+                    "algorithm_run_config.json",
+                )
+            )
+        }
+
+    def run(self):
+        os.makedirs(os.path.dirname(self.output()["config"].path), exist_ok=True)
+        dump_json(self.output()["config"].path, self.load_config())
 
 
 # ─────────────────────────── Loading ────────────────────────────────────────
@@ -262,6 +285,7 @@ class AbstractItemAssignment(BaseComponent):
 class AbstractBatching(BaseComponent):
     instance = CoSyLuigiTaskParameter(InstanceLoader)
     item_assignment_sol = CoSyLuigiTaskParameter(AbstractItemAssignment)
+    run_config = CoSyLuigiTaskParameter(AlgorithmRunConfig)
 
     def output(self):
         return {
@@ -309,6 +333,7 @@ class MultiOrderBatching(AbstractBatching):
 
 class AbstractPickerRouting(BaseComponent):
     instance = CoSyLuigiTaskParameter(InstanceLoader)
+    run_config = CoSyLuigiTaskParameter(AlgorithmRunConfig)
 
     def _get_inited_router(self, start_node: tuple[float, float] | None = None) -> Routing:
         ...
@@ -384,6 +409,7 @@ class CombinedBR(AbstractPickerRouting):
 class AbstractScheduling(BaseComponent):
     instance = CoSyLuigiTaskParameter(InstanceLoader)
     routing_sol = CoSyLuigiTaskParameter(AbstractPickerRouting)
+    run_config = CoSyLuigiTaskParameter(AlgorithmRunConfig)
 
     def output(self):
         return {

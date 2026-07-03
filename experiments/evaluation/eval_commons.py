@@ -16,22 +16,34 @@ def _path_metadata(path: Path, base: Path) -> dict:
     rel = path.relative_to(base)
     parts = rel.parts
 
-    meta = {
-        "_path_instance_set": None,
-        "_path_instance_name": None,
-        "_path_pipeline_chain_fingerprint": None,
-        "_path_result_aggregation": None,
+    if len(parts) != 3:
+        return {
+            "_path_instance_set": None,
+            "_path_instance_name": None,
+            "_path_pipeline_chain_fingerprint": None,
+            "_path_result_aggregation": None,
+        }
+
+    filename = parts[2]
+    suffix = "__summary.json"
+
+    if not filename.endswith(suffix):
+        return {
+            "_path_instance_set": None,
+            "_path_instance_name": None,
+            "_path_pipeline_chain_fingerprint": None,
+            "_path_result_aggregation": None,
+        }
+
+    prefix = filename[:-len(suffix)]
+    component_key, chain_fingerprint = prefix.rsplit("__", 1)
+
+    return {
+        "_path_instance_set": parts[0],
+        "_path_instance_name": parts[1],
+        "_path_pipeline_chain_fingerprint": chain_fingerprint,
+        "_path_result_aggregation": component_key,
     }
-
-    # Expected:
-    # <instance_set>/<instance_name>/<chain_fp>/<result_task>/summary.json
-    if len(parts) >= 5 and parts[-1] == "summary.json":
-        meta["_path_instance_set"] = parts[0]
-        meta["_path_instance_name"] = parts[1]
-        meta["_path_pipeline_chain_fingerprint"] = parts[2]
-        meta["_path_result_aggregation"] = parts[3]
-
-    return meta
 
 
 def _collect_paths_by_set(base_path: str, sets_to_load: list[str]) -> dict[str, list[Path]]:
@@ -45,54 +57,28 @@ def _collect_paths_by_set(base_path: str, sets_to_load: list[str]) -> dict[str, 
         if not inst_set_dir.is_dir():
             continue
 
-        paths = sorted(inst_set_dir.rglob("summary.json"))
+        paths = sorted(inst_set_dir.glob("*/*__summary.json"))
+
+        print(f"  found {len(paths)} summary files")
 
         if paths:
             by_set[instance_set] = paths
 
     return by_set
 
-def load_summary_jsons(base_path: str, sets_to_load: list[str]) -> List[Dict]:
-    """
-    Load all summary JSON files from the specified directory structure.
-    """
-    summary_data = []
+def load_summary_jsons(base_path: str, sets_to_load: list[str]) -> list[dict]:
+    base = Path(base_path)
+    by_set = _collect_paths_by_set(base_path, sets_to_load)
 
-    # Walk through all directories
-    for instance_set in os.listdir(base_path):
-        if instance_set not in sets_to_load:  # , "BahceciOencan"
-            continue
-        instance_set_path = os.path.join(base_path, instance_set)
+    data = []
 
-        # Skip if not a directory
-        if not os.path.isdir(instance_set_path):
-            continue
+    for paths in by_set.values():
+        for path in paths:
+            row = _load_one(path, base)
+            if row is not None:
+                data.append(row)
 
-        for inst in os.listdir(instance_set_path):
-            inst_path = os.path.join(instance_set_path, inst)
-
-            # Skip if not a directory
-            if not os.path.isdir(inst_path):
-                continue
-
-            for content in os.listdir(inst_path):
-                # Filter only files that end with "summary.json"
-                if content.endswith("summary.json"):
-                    file_path = os.path.join(inst_path, content)
-                    # print(f"Loading: {file_path}")
-
-                    try:
-                        # Load the JSON file
-                        with open(file_path, "r") as f:
-                            data = json.load(f)
-
-                        # Add file path info
-                        data["file_path"] = file_path
-                        summary_data.append(data)
-                    except Exception as e:
-                        print(f"Error loading {file_path}: {e}")
-
-    return summary_data
+    return data
 
 
 def create_summary_dataframe(summary_data: List[Dict]) -> pd.DataFrame:
