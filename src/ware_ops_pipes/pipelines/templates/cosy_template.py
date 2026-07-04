@@ -230,30 +230,100 @@ class AlgorithmRunConfig(CoSyLuigiTask):
 
 
 # ─────────────────────────── Loading ────────────────────────────────────────
+class LayoutLoader(CoSyLuigiTask):
+    def __init__(self, *args, **kwargs):
+        self.pipeline_params = copy.copy(get_pipeline_params())
+        super().__init__(*args, **kwargs)
 
-class InstanceLoader(BaseComponent):
+    def _loader(self):
+        return self.pipeline_params.loader_cls(
+            instances_dir=Path(self.pipeline_params.instances_dir),
+            **(self.pipeline_params.loader_kwargs or {}),
+        )
+
+    def _layout_key(self) -> str:
+        loader = self._loader()
+        parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
+
+        payload = {
+            "loader": (
+                f"{self.pipeline_params.loader_cls.__module__}."
+                f"{self.pipeline_params.loader_cls.__qualname__}"
+            ),
+            "loader_kwargs": self.pipeline_params.loader_kwargs or {},
+            "layout_signature": loader.layout_signature(parsed),
+        }
+
+        print("Layout payload", payload)
+        return _hash_json(payload, n=16)
+
     def output(self):
         return {
-            # "domain": self.get_luigi_local_target_with_task_id("domain.pkl"),
+            "layout": luigi.LocalTarget(
+                pjoin(
+                    self.pipeline_params.data_cache_folder,
+                    f"layout__{self._layout_key()}.pkl",
+                )
+            )
+        }
+
+    def run(self):
+        loader = self._loader()
+        parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
+        layout = loader.build_layout(parsed)
+
+        target = self.output()["layout"]
+        os.makedirs(os.path.dirname(target.path), exist_ok=True)
+
+        tmp_path = f"{target.path}.tmp.{os.getpid()}"
+        dump_pickle(tmp_path, layout)
+        os.replace(tmp_path, target.path)
+
+def file_sha256(param):
+    pass
+
+
+class InstanceLoader(BaseComponent):
+    layout_loader = CoSyLuigiTaskParameter(LayoutLoader)
+
+    def config_fingerprint_payload(self) -> dict:
+        return {
+            "instance_set_name": self.pipeline_params.instance_set_name,
+            "instance_name": self.pipeline_params.instance_name,
+            "instance_path": self.pipeline_params.instance_path,
+            "instance_file_hash": file_sha256(Path(self.pipeline_params.instance_path)),
+            "loader": (
+                f"{self.pipeline_params.loader_cls.__module__}."
+                f"{self.pipeline_params.loader_cls.__qualname__}"
+            ),
+            "loader_kwargs": self.pipeline_params.loader_kwargs or {},
+        }
+
+    def _loader(self):
+        return self.pipeline_params.loader_cls(
+            instances_dir=Path(self.pipeline_params.instances_dir),
+            **(self.pipeline_params.loader_kwargs or {}),
+        )
+
+    def output(self):
+        return {
             "orders": self.get_luigi_local_target_with_task_id("orders.pkl"),
             "resources": self.get_luigi_local_target_with_task_id("resources.pkl"),
-            "layout": self.get_luigi_local_target_with_task_id("layout.pkl"),
+            "layout": self.layout_loader.output()["layout"],
             "articles": self.get_luigi_local_target_with_task_id("articles.pkl"),
             "storage": self.get_luigi_local_target_with_task_id("storage.pkl"),
             "warehouse_info": self.get_luigi_local_target_with_task_id("warehouse_info.pkl"),
         }
 
     def run(self):
-        domain_path = self.pipeline_params.domain_path
-        if not domain_path:
-            raise ValueError("Pipeline parameter 'domain_path' is not set.")
-        domain: BaseWarehouseDomain = load_pickle(domain_path)
-        for target in self.output().values():
-            os.makedirs(os.path.dirname(target.path), exist_ok=True)
-        # self.dump_output_pickle("domain", domain)
+        loader = self._loader()
+        parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
+
+        layout = load_pickle(self.input()["layout_loader"]["layout"].path)
+        domain = loader.build_domain_with_layout(parsed, layout)
+
         self.dump_output_pickle("orders", domain.orders)
         self.dump_output_pickle("resources", domain.resources)
-        self.dump_output_pickle("layout", domain.layout)
         self.dump_output_pickle("articles", domain.articles)
         self.dump_output_pickle("storage", domain.storage)
         self.dump_output_pickle("warehouse_info", domain.warehouse_info)
