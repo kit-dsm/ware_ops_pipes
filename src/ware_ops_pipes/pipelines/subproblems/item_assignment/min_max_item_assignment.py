@@ -1,11 +1,12 @@
 from ware_ops_algos.algorithms import MinMaxItemAssignment
 from ware_ops_algos.domain_models import StorageLocations, LayoutData
-from ware_ops_pipes.pipelines.templates.template_1 import AbstractItemAssignment
+from ware_ops_pipes.pipelines.templates.cosy_template import AbstractItemAssignment
 from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 
 class MinMaxIA(AbstractItemAssignment):
     abstract = False
+    algo_cls = MinMaxItemAssignment
 
     def get_inited_item_assigner(self):
         storage_locations: StorageLocations = load_pickle(self.input()["instance"]["storage"].path)

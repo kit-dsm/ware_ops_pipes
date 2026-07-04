@@ -7,19 +7,51 @@ from typing import Tuple
 from pathlib import Path
 
 import luigi
-from cls.fcl import FiniteCombinatoryLogic
-from cls.subtypes import Subtypes
-from cls_luigi.inhabitation_task import RepoMeta
-from cls_luigi.unique_task_pipeline_validator import UniqueTaskPipelineValidator
+from cosy.maestro import Maestro
+from cosy_luigi import CoSyLuigiRepo
+from luigi.task_register import Register
 
 from ware_ops_algos.data_loaders import DataLoader
+from ware_ops_algos.domain_algo_mapper.domain_algo_mapper import DomainAlgorithmMapper
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_algos.taxonomy.taxonomy import TAXONOMY
-from ware_ops_algos.domain_algo_mapper.domain_algo_mapper import DomainAlgorithmMapper
 from ware_ops_algos.algorithms.algorithm_cards import import_algo_class, load_packaged_algo_cards
 
+from ware_ops_pipes import print_tree
+from ware_ops_pipes.pipelines.pipeline_params import set_pipeline_params
+from ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_nn import ClarkAndWrightNN
+from ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_rr import ClarkAndWrightRR
+from ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_sshape import ClarkAndWrightSShape
+from ware_ops_pipes.pipelines.subproblems.batching.configured_local_search import make_configured_local_search_component
+from ware_ops_pipes.pipelines.subproblems.batching.due_date import DueDate
+from ware_ops_pipes.pipelines.subproblems.batching.fifo import FiFo
+from ware_ops_pipes.pipelines.subproblems.batching.ls_nn_due import LSBatchingNNDueDate
+from ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo import LSBatchingNNFiFo
+from ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo_ord_nr import LSBatchingNNFiFoOrderNr
+from ware_ops_pipes.pipelines.subproblems.batching.ls_nn_rand import LSBatchingNNRand
+from ware_ops_pipes.pipelines.subproblems.batching.ls_rr import LSBatchingRR
+from ware_ops_pipes.pipelines.subproblems.batching.order_nr_fifo import OrderNrFiFo
+from ware_ops_pipes.pipelines.subproblems.batching.random import Random
+from ware_ops_pipes.pipelines.subproblems.batching.seed import ClosestDepotMinDistanceSeedBatching
+from ware_ops_pipes.pipelines.subproblems.batching.seed_shared_articles import ClosestDepotMaxSharedArticlesSeedBatching
+from ware_ops_pipes.pipelines.subproblems.item_assignment.greedy_item_assignment import GreedyIA
+from ware_ops_pipes.pipelines.subproblems.item_assignment.min_max_item_assignment import MinMaxIA
+from ware_ops_pipes.pipelines.subproblems.item_assignment.min_min_item_assignment import MinMinIA
+from ware_ops_pipes.pipelines.subproblems.item_assignment.nn_item_assignment import NNIA
+from ware_ops_pipes.pipelines.subproblems.item_assignment.single_pos_item_assignment import SinglePosIA
+from ware_ops_pipes.pipelines.subproblems.routing.joint_batching_routing_assigning import \
+    CombinedBatchingRoutingAssigning
+from ware_ops_pipes.pipelines.subproblems.routing.largest_gap import LargestGap
+from ware_ops_pipes.pipelines.subproblems.routing.midpoint import Midpoint
+from ware_ops_pipes.pipelines.subproblems.routing.nn import NearestNeighbourhood
+from ware_ops_pipes.pipelines.subproblems.routing.return_algo import Return
+from ware_ops_pipes.pipelines.subproblems.routing.s_shape import SShape
+from ware_ops_pipes.pipelines.subproblems.routing.sprp import RatliffRosenthal
+from ware_ops_pipes.pipelines.subproblems.scheduling.edd_scheduling import EDDScheduler
+from ware_ops_pipes.pipelines.subproblems.scheduling.lpt_scheduling import LPTScheduler
+from ware_ops_pipes.pipelines.subproblems.scheduling.spt_scheduling import SPTScheduler
+from ware_ops_pipes.pipelines.templates import AlgorithmRunConfig, SingleOrderBatching, LayoutLoader
 from ware_ops_pipes.ranking.ranking import RankingEvaluator
-from ware_ops_pipes.pipelines import set_pipeline_params, inhabit, print_tree
 
 class PipelineRunner(ABC):
     """Base class for running pipelines on warehouse instances"""
@@ -32,7 +64,7 @@ class PipelineRunner(ABC):
             project_root: Path,
             data_card,
             excluded: list = [],
-            max_pipelines: int = 10,
+            max_pipelines: int = None,
             verbose: bool = True,
             cleanup: bool = True,
             ranker=RankingEvaluator,
@@ -53,42 +85,50 @@ class PipelineRunner(ABC):
         self.pipeline_runtimes = {}
         self.time_limit_sec = time_limit_sec
         self.gen_tour = gen_tour
-
-        # Component implementations
-        self.implementation_module = {
-            "GreedyIA": "ware_ops_pipes.pipelines.subproblems.item_assignment.greedy_item_assignment",
-            "NNIA": "ware_ops_pipes.pipelines.subproblems.item_assignment.nn_item_assignment",
-            "SinglePosIA": "ware_ops_pipes.pipelines.subproblems.item_assignment.single_pos_item_assignment",
-            "MinMinIA": "ware_ops_pipes.pipelines.subproblems.item_assignment.min_min_item_assignment",
-            "MinMaxIA": "ware_ops_pipes.pipelines.subproblems.item_assignment.min_max_item_assignment",
-            "SShape": "ware_ops_pipes.pipelines.subproblems.routing.s_shape",
-            "NearestNeighbourhood": "ware_ops_pipes.pipelines.subproblems.routing.nn",
-            "LargestGap": "ware_ops_pipes.pipelines.subproblems.routing.largest_gap",
-            "Midpoint": "ware_ops_pipes.pipelines.subproblems.routing.midpoint",
-            "Return": "ware_ops_pipes.pipelines.subproblems.routing.return_algo",
-            "ExactSolving": "ware_ops_pipes.pipelines.subproblems.routing.exact_algo",
-            "RatliffRosenthal": "ware_ops_pipes.pipelines.subproblems.routing.sprp",
-            "RatliffRosenthalNF": "ware_ops_pipes.pipelines.subproblems.routing.rr_ss",
-            "FiFo": "ware_ops_pipes.pipelines.subproblems.batching.fifo",
-            "OrderNrFiFo": "ware_ops_pipes.pipelines.subproblems.batching.order_nr_fifo",
-            "DueDate": "ware_ops_pipes.pipelines.subproblems.batching.due_date",
-            "Random": "ware_ops_pipes.pipelines.subproblems.batching.random",
-            "CombinedBatchingRoutingAssigning": "ware_ops_pipes.pipelines.subproblems.routing.joint_batching_routing_assigning",
-            "ClosestDepotMinDistanceSeedBatching": "ware_ops_pipes.pipelines.subproblems.batching.seed",
-            "ClosestDepotMaxSharedArticlesSeedBatching": "ware_ops_pipes.pipelines.subproblems.batching.seed_shared_articles",
-            "ClarkAndWrightSShape": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_sshape",
-            "ClarkAndWrightNN": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_nn",
-            "ClarkAndWrightRR": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_rr",
-            "LSBatchingRR": "ware_ops_pipes.pipelines.subproblems.batching.ls_rr",
-            "LSBatchingNNRand": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_rand",
-            "LSBatchingNNDueDate": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_due",
-            "LSBatchingNNFiFo": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo",
-            "LSBatchingNNFiFoOrderNr": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo_ord_nr",
-            "SPTScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.spt_scheduling",
-            "LPTScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.lpt_scheduling",
-            "EDDScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.edd_scheduling",
+        # Card name -> CoSy-Luigi component class.
+        self.repo_class_by_algo_name = {
+            # IA
+            "GreedyIA": GreedyIA,
+            "NNIA": NNIA,
+            "SinglePosIA": SinglePosIA,
+            "MinMinIA": MinMinIA,
+            "MinMaxIA": MinMaxIA,
+            # Batching
+            ## constructive batching
+            "FiFo": FiFo,
+            "OrderNrFiFo": OrderNrFiFo,
+            "DueDate": DueDate,
+            "Random": Random,
+            ## C&W
+            "ClarkAndWrightNN": ClarkAndWrightNN,
+            "ClarkAndWrightRR": ClarkAndWrightRR,
+            "ClarkAndWrightSShape": ClarkAndWrightSShape,
+            ## LS
+            "LSBatchingNNDueDate": LSBatchingNNDueDate,
+            "LSBatchingNNRand": LSBatchingNNRand,
+            "LSBatchingNNFiFo": LSBatchingNNFiFo,
+            "LSBatchingNNFiFoOrderNr": LSBatchingNNFiFoOrderNr,
+            "LSBatchingRR": LSBatchingRR,
+            ## Seed
+            "ClosestDepotMinDistanceSeedBatching": ClosestDepotMinDistanceSeedBatching,
+            "ClosestDepotMaxSharedArticlesSeedBatching": ClosestDepotMaxSharedArticlesSeedBatching,
+            # Routing
+            "SShape": SShape,
+            "LargestGap": LargestGap,
+            "Midpoint": Midpoint,
+            "Return": Return,
+            "NearestNeighbourhood": NearestNeighbourhood,
+            "RatliffRosenthal": RatliffRosenthal,
+            # B&R
+            "CombinedBatchingRoutingAssigning": CombinedBatchingRoutingAssigning,
+            # Scheduling
+            "EDDScheduler": EDDScheduler,
+            "LPTScheduler": LPTScheduler,
+            "SPTScheduler": SPTScheduler,
         }
+
         self.algos = load_packaged_algo_cards()
+        self._register_configured_local_search_components()
         if self.verbose:
             print(f"Loaded {len(self.algos)} model cards")
         self.data_card = data_card
@@ -136,32 +176,12 @@ class PipelineRunner(ABC):
         print(f"\n{'=' * 80}")
         print(f"Processing: {instance_name}")
         print(f"{'=' * 80}\n")
+        Register.clear_instance_cache()
         timings = {}
         # Load domain (with caching)
         t0 = time.perf_counter()
-        domain = self.load_domain(instance_name, file_paths)
+        # domain = self.load_domain(instance_name, file_paths)
         timings["load_domain"] = time.perf_counter() - t0
-
-        # Filter applicable algorithms
-        t0 = time.perf_counter()
-        domain_algo_mapper = DomainAlgorithmMapper(TAXONOMY)
-        algos_applicable = domain_algo_mapper.filter(
-            algorithms=self.algos,
-            instance=self.data_card,
-            verbose=self.verbose
-        )
-        timings["filter_and_import"] = time.perf_counter() - t0
-
-        if self.verbose:
-            print(f"✓ {len(algos_applicable)}/{len(self.algos)} algorithms applicable")
-
-        # Import applicable models
-        final_algos = []
-        for m in algos_applicable:
-            if m.algo_name not in self.excluded:
-                final_algos.append(m)
-
-        self._import_models(final_algos)
 
         # Setup output folder
         output_folder = (
@@ -174,21 +194,33 @@ class PipelineRunner(ABC):
         # cache_path = self.cache_dir / f"{instance_name}_domain.pkl"
 
         # Set pipeline parameters
+        loader_kwargs = (
+            self.loader.pipeline_loader_kwargs()
+            if hasattr(self.loader, "pipeline_loader_kwargs")
+            else {}
+        )
+
         set_pipeline_params(
             output_folder=str(output_folder),
+            data_cache_folder=str(
+                self.project_root / "experiments" / "output" / "_data_cache"
+            ),
             instance_set_name=self.instance_set_name,
             instance_name=instance_name,
             instance_path=str(file_paths[0]),
-            domain_path=str(self.loader.cache_path),
+            instances_dir=str(self.loader.data_dir),
+            loader_cls=type(self.loader),
+            loader_kwargs=loader_kwargs,
             time_limit_seconds=self.time_limit_sec,
-            gen_tour=self.gen_tour
+            gen_tour=self.gen_tour,
         )
 
-        # Build and run pipelines
         t0 = time.perf_counter()
-        pipelines = None
-        if len(algos_applicable) > 0:
-            pipelines = self._build_pipelines()
+        final_algos = self._filter_applicable_algorithms()
+        timings["filter_algorithms"] = time.perf_counter() - t0
+
+        t0 = time.perf_counter()
+        pipelines = self._build_pipelines(final_algos)
         timings["build_pipelines"] = time.perf_counter() - t0
 
         t0 = time.perf_counter()
@@ -204,8 +236,8 @@ class PipelineRunner(ABC):
             luigi.build(pipelines, local_scheduler=True)
 
             self.create_ranking(instance_name, output_folder)
-            if self.cleanup:
-                self._cleanup(output_folder)
+            # if self.cleanup:
+            #     self._cleanup(output_folder)
             timings["run_pipelines"] = time.perf_counter() - t0
             timings["total"] = sum(timings.values())
             self.pipeline_runtimes[instance_name] = timings
@@ -230,43 +262,119 @@ class PipelineRunner(ABC):
                 if self.verbose:
                     print(f"❌ Failed to import {algo_name}: {e}")
 
-    def _build_pipelines(self):
-        """Build valid pipelines using inhabitation"""
-        from ware_ops_pipes.pipelines.templates.template_1 import (
-            InstanceLoader, AbstractItemAssignment, AbstractBatching,
-            MultiOrderBatching, AbstractPickerRouting,
-            AbstractScheduling, AbstractResultAggregation
+    def _filter_applicable_algorithms(self):
+        """Return algorithm cards applicable to the current data card and present in the CoSy repo."""
+
+        mapper = DomainAlgorithmMapper(TAXONOMY)
+
+        applicable = mapper.filter(
+            algorithms=self.algos,
+            instance=self.data_card,
+            verbose=self.verbose,
         )
 
-        endpoint = AbstractResultAggregation
-        repository = RepoMeta.repository
-        fcl = FiniteCombinatoryLogic(repository, Subtypes(RepoMeta.subtypes))
-        inhabitation_result, inhabitation_size = inhabit(endpoint)
+        final_algos = []
 
-        max_results = self.max_pipelines if inhabitation_size == 0 else inhabitation_size
+        for algo in applicable:
+            if algo.algo_name in self.excluded:
+                if self.verbose:
+                    print(f"⚠ Excluded by config: {algo.algo_name}")
+                continue
 
-        validator = UniqueTaskPipelineValidator([
+            if algo.algo_name not in self.repo_class_by_algo_name:
+                if self.verbose:
+                    print(f"⚠ No CoSy component registered for applicable algorithm: {algo.algo_name}")
+                continue
+
+            final_algos.append(algo)
+
+        if self.verbose:
+            print(
+                f"✓ {len(final_algos)}/{len(self.algos)} algorithms usable "
+                f"after domain filtering and exclusions"
+            )
+
+        return final_algos
+
+    def _build_pipelines(self, final_algos):
+        """Build valid pipelines using CoSy over the data-card-filtered repo."""
+
+        from itertools import islice
+
+        from ware_ops_pipes.pipelines.templates.cosy_template import (
             InstanceLoader,
-            AbstractItemAssignment,
-            AbstractBatching,
-            MultiOrderBatching,
-            AbstractPickerRouting,
-            AbstractScheduling,
-            AbstractResultAggregation
-        ])
+            ResultAggregationDistance,
+        )
 
-        print(f"Enumerating up to {max_results} pipelines...")
-        pipelines = [
-            t() for t in inhabitation_result.evaluated[0:max_results]
-            if validator.validate(t())
+        model_classes = []
+        seen = set()
+
+        for algo in final_algos:
+            # if self._is_configured_local_search_card(algo):
+            #     cls = make_configured_local_search_component(algo)
+            # else:
+            cls = self.repo_class_by_algo_name[algo.algo_name]
+
+            if cls in seen:
+                continue
+
+            model_classes.append(cls)
+            seen.add(cls)
+
+        repo_classes = [
+            LayoutLoader,
+            InstanceLoader,
+            AlgorithmRunConfig,
+            SingleOrderBatching,
+            *model_classes,
+            ResultAggregationDistance,
         ]
+
+        if self.verbose:
+            print("\nCoSy repository classes:")
+            for cls in repo_classes:
+                print(f"  - {cls.__name__}")
+
+        endpoint = ResultAggregationDistance
+
+        # endpoint.configure(self.data_card, final_algos)
+
+        repo = CoSyLuigiRepo(*repo_classes)
+        maestro = Maestro(repo.cls_repo, repo.taxonomy)
+
+        query = maestro.query(endpoint.target())
+
+        if self.max_pipelines is None or self.max_pipelines <= 0:
+            pipelines = list(query)
+        else:
+            pipelines = list(islice(query, self.max_pipelines))
 
         if self.verbose and pipelines:
             print(f"✓ Found {len(pipelines)} valid pipelines")
-            for i, pipeline in enumerate(pipelines[:3], 1):  # Show first 3
+            for i, pipeline in enumerate(pipelines[:3], 1):
                 print(f"\nPipeline {i}:")
                 print(print_tree(pipeline))
+
         return pipelines
+
+    def _is_configured_local_search_card(self, algo) -> bool:
+        impl = algo.implementation or {}
+        return impl.get("class_name") == "LocalSearchBatching"
+
+    def _register_configured_local_search_components(self) -> None:
+        """Extends the cosy repository by including configured local search variants"""
+        for card in self.algos:
+            impl = card.implementation or {}
+
+            if "routing_class" not in impl:
+                continue
+
+            if "start_batching_class" not in impl:
+                continue
+
+            self.repo_class_by_algo_name[card.algo_name] = (
+                make_configured_local_search_component(card)
+            )
 
     def _cleanup(self, output_folder: Path):
         """Clean up intermediate files"""

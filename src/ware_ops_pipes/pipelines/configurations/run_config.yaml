@@ -1,0 +1,12 @@
+LSBatchingNNFiFoOrderNr:
+  time_limit: 240
+
+LSBatchingNNFiFo:
+  time_limit: 240
+
+LSBatchingSShapeFiFoOrderNr:
+  time_limit: 240
+
+LSBatchingSShapeRandom:
+  time_limit: 240
+
