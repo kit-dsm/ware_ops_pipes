@@ -50,7 +50,7 @@ from ware_ops_pipes.pipelines.subproblems.routing.sprp import RatliffRosenthal
 from ware_ops_pipes.pipelines.subproblems.scheduling.edd_scheduling import EDDScheduler
 from ware_ops_pipes.pipelines.subproblems.scheduling.lpt_scheduling import LPTScheduler
 from ware_ops_pipes.pipelines.subproblems.scheduling.spt_scheduling import SPTScheduler
-from ware_ops_pipes.pipelines.templates import AlgorithmRunConfig, SingleOrderBatching
+from ware_ops_pipes.pipelines.templates import AlgorithmRunConfig, SingleOrderBatching, LayoutLoader
 from ware_ops_pipes.ranking.ranking import RankingEvaluator
 
 class PipelineRunner(ABC):
@@ -180,7 +180,7 @@ class PipelineRunner(ABC):
         timings = {}
         # Load domain (with caching)
         t0 = time.perf_counter()
-        domain = self.load_domain(instance_name, file_paths)
+        # domain = self.load_domain(instance_name, file_paths)
         timings["load_domain"] = time.perf_counter() - t0
 
         # Setup output folder
@@ -194,15 +194,25 @@ class PipelineRunner(ABC):
         # cache_path = self.cache_dir / f"{instance_name}_domain.pkl"
 
         # Set pipeline parameters
+        loader_kwargs = (
+            self.loader.pipeline_loader_kwargs()
+            if hasattr(self.loader, "pipeline_loader_kwargs")
+            else {}
+        )
+
         set_pipeline_params(
             output_folder=str(output_folder),
+            data_cache_folder=str(
+                self.project_root / "experiments" / "output" / "_data_cache"
+            ),
             instance_set_name=self.instance_set_name,
             instance_name=instance_name,
             instance_path=str(file_paths[0]),
-            domain_path=str(self.loader.cache_path),
+            instances_dir=str(self.loader.data_dir),
+            loader_cls=type(self.loader),
+            loader_kwargs=loader_kwargs,
             time_limit_seconds=self.time_limit_sec,
             gen_tour=self.gen_tour,
-            # algorithm_config_path=str("../pipelines/configurations/")
         )
 
         t0 = time.perf_counter()
@@ -312,6 +322,7 @@ class PipelineRunner(ABC):
             seen.add(cls)
 
         repo_classes = [
+            LayoutLoader,
             InstanceLoader,
             AlgorithmRunConfig,
             SingleOrderBatching,
