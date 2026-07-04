@@ -1,22 +1,11 @@
 from ware_ops_algos.algorithms import LocalSearchBatching, NearestNeighbourhoodRouting, OrderNrFifoBatching
 from ware_ops_algos.domain_models import Resources, LayoutData, Articles
-from ware_ops_pipes.pipelines.templates.cosy_template import MultiOrderBatching, class_fingerprint_payload
+from ware_ops_pipes.pipelines.templates.template_1 import MultiOrderBatching
 from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 
 class LSBatchingNNFiFoOrderNr(MultiOrderBatching):
     abstract = False
-    algo_cls = LocalSearchBatching
-
-    start_batching_cls = OrderNrFifoBatching
-    routing_class = NearestNeighbourhoodRouting
-
-    def config_fingerprint_payload(self):
-        return {
-            "start_batching_cls": class_fingerprint_payload(self.start_batching_cls),
-            "routing_class": class_fingerprint_payload(self.routing_class),
-            "time_limit": self.pipeline_params.time_limit_sec,
-        }
 
     def get_inited_batcher(self):
         articles: Articles = load_pickle(self.input()["instance"]["articles"].path)
@@ -42,9 +31,9 @@ class LSBatchingNNFiFoOrderNr(MultiOrderBatching):
         batcher = LocalSearchBatching(
                                       pick_cart=resources.resources[0].pick_cart,
                                       articles=articles,
-                                      routing_class=self.routing_class,
+                                      routing_class=NearestNeighbourhoodRouting,
                                       routing_class_kwargs=routing_kwargs,
-                                      start_batching_class=self.start_batching_cls,
+                                      start_batching_class=OrderNrFifoBatching,
                                       time_limit=self.pipeline_params.time_limit_sec)
         return batcher
 

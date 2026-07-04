@@ -1,10 +1,9 @@
 from ware_ops_algos.algorithms import SPTScheduling
-from ware_ops_pipes.pipelines.templates.cosy_template import AbstractScheduling
+from ware_ops_pipes.pipelines.templates.template_1 import AbstractScheduling
 
 
 class SPTScheduler(AbstractScheduling):
     abstract = False
-    algo_cls = SPTScheduling
 
     def _get_inited_scheduler(self):
         resources = self._load_resources()
