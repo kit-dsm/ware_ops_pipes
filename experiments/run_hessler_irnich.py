@@ -3,8 +3,9 @@ import time
 from pathlib import Path
 from typing import Tuple
 
-from ware_ops_algos.data_loaders import HesslerIrnichLoader
 from ware_ops_algos.domain_models import BaseWarehouseDomain, load_and_flatten_data_card
+
+from ware_ops_pipes.data_loaders import HesslerIrnichLoader
 from ware_ops_pipes.synthesis.runner import PipelineRunner
 
 instance_data_card_mapping = {
@@ -21,8 +22,7 @@ class HesslerIrnichRunner(PipelineRunner):
 
     def __init__(self, instance_set_name: str, instances_dir: Path, cache_dir: Path,
                  project_root: Path, **kwargs):
-        super().__init__(instance_set_name, instances_dir, cache_dir, project_root, **kwargs)
-        self.loader = HesslerIrnichLoader(str(instances_dir), str(cache_dir))
+        super().__init__(instance_set_name, instances_dir, project_root, **kwargs)
 
     def discover_instances(self) -> list[Tuple[str, list[Path]]]:
         instances = []
@@ -31,8 +31,6 @@ class HesslerIrnichRunner(PipelineRunner):
                 instances.append((filepath.stem, [filepath]))
         return instances
 
-    def load_domain(self, instance_name: str, file_paths: list[Path]) -> BaseWarehouseDomain:
-        return self.loader.load(file_paths[0].name, use_cache=True)
 
 
 def main():
@@ -48,7 +46,7 @@ def main():
                                  "HennWaescherUniform",
                                  "HennWaescherClassBased"],
                         nargs="?",
-                        default="BahceciOencan")
+                        default="SPRP")
     args = parser.parse_args()
     instance_set = args.instance_set
     excluded = ["ExactSolving"]
@@ -66,7 +64,9 @@ def main():
     runner = HesslerIrnichRunner(instance_set, instances_base / instance_set,
                                  cache_base / instance_set, PROJECT_ROOT,
                                  data_card=dc, excluded=excluded, verbose=True,
-                                 time_limit_sec=240)
+                                 time_limit_sec=240, loader_cls=HesslerIrnichLoader, loader_kwargs={
+                                    "mirror_top_depot": True,
+                                })
 
     runner.run_all()
 

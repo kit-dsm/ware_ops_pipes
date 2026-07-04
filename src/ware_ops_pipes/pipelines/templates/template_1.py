@@ -1,4 +1,9 @@
 import os
+import hashlib
+import json
+from pathlib import Path
+
+import luigi
 import pandas as pd
 from cls_luigi.inhabitation_task import ClsParameter
 
@@ -11,40 +16,116 @@ from ware_ops_algos.domain_models import OrdersDomain, Resources, LayoutData, Ar
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_pipes.pipelines import BaseComponent
 from ware_ops_pipes.pipelines.io_helpers import dump_pickle, load_pickle, load_json, dump_json
+from ware_ops_pipes.pipelines.pipeline_params import get_loader_cls
 from ware_ops_pipes.synthesis.pipeline_provenance import collect_from_graph
+
+
+class LayoutLoader(BaseComponent):
+    abstract = False
+
+    def _loader(self):
+        if not self.pipeline_params.loader_name:
+            raise ValueError("Pipeline parameter 'loader_name' is not set.")
+
+        if not self.pipeline_params.instances_dir:
+            raise ValueError("Pipeline parameter 'instances_dir' is not set.")
+
+        loader_cls = get_loader_cls(self.pipeline_params.loader_name)
+
+        return loader_cls(
+            instances_dir=Path(self.pipeline_params.instances_dir),
+            **self.pipeline_params.loader_kwargs(),
+        )
+
+    def _layout_key(self) -> str:
+        loader = self._loader()
+        parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
+
+        payload = {
+            "loader": self.pipeline_params.loader_name,
+            "loader_kwargs": self.pipeline_params.loader_kwargs(),
+            "layout_signature": loader.layout_signature(parsed),
+        }
+
+        raw = json.dumps(payload, sort_keys=True, default=str)
+        return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+
+    def output(self):
+        if not self.pipeline_params.data_cache_folder:
+            raise ValueError("Pipeline parameter 'data_cache_folder' is not set.")
+
+        return {
+            "layout": luigi.LocalTarget(
+                os.path.join(
+                    self.pipeline_params.data_cache_folder,
+                    f"layout__{self._layout_key()}.pkl",
+                )
+            )
+        }
+
+    def run(self):
+        loader = self._loader()
+        parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
+        layout = loader.build_layout(parsed)
+
+        target = self.output()["layout"]
+        os.makedirs(os.path.dirname(target.path), exist_ok=True)
+
+        tmp_path = f"{target.path}.tmp.{os.getpid()}"
+        dump_pickle(tmp_path, layout)
+        os.replace(tmp_path, target.path)
 
 
 class InstanceLoader(BaseComponent):
     abstract = False
 
+    layout_loader = ClsParameter(tpe=LayoutLoader.return_type())
+
+    def requires(self):
+        return {
+            "layout_loader": self.layout_loader(),
+        }
+
+    def _loader(self):
+        loader_cls = get_loader_cls(self.pipeline_params.loader_name)
+
+        return loader_cls(
+            instances_dir=Path(self.pipeline_params.instances_dir),
+            **self.pipeline_params.loader_kwargs(),
+        )
     def output(self):
         return {
-            "domain": self.get_luigi_local_target_with_task_id("domain.pkl"),
             "orders": self.get_luigi_local_target_with_task_id("orders.pkl"),
             "resources": self.get_luigi_local_target_with_task_id("resources.pkl"),
-            "layout": self.get_luigi_local_target_with_task_id("layout.pkl"),
+            "layout": self.layout_loader().output()["layout"],
             "articles": self.get_luigi_local_target_with_task_id("articles.pkl"),
             "storage": self.get_luigi_local_target_with_task_id("storage.pkl"),
             "warehouse_info": self.get_luigi_local_target_with_task_id("warehouse_info.pkl"),
         }
 
     def run(self):
-        domain_path = self.pipeline_params.domain_path
-        print("Path", domain_path)
-        if not domain_path:
-            raise ValueError("Pipeline parameter 'domain_path' is not set.")
+        loader = self._loader()
+        parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
 
-        # Load cached domain object
-        domain: BaseWarehouseDomain = load_pickle(domain_path)
-        for target in self.output().values():
-            os.makedirs(os.path.dirname(target.path), exist_ok=True)
-        dump_pickle(self.output()["domain"].path, domain)
-        dump_pickle(self.output()["orders"].path, domain.orders)
-        dump_pickle(self.output()["resources"].path, domain.resources)
-        dump_pickle(self.output()["layout"].path, domain.layout)
-        dump_pickle(self.output()["articles"].path, domain.articles)
-        dump_pickle(self.output()["storage"].path, domain.storage)
-        dump_pickle(self.output()["warehouse_info"].path, domain.warehouse_info)
+        layout = load_pickle(
+            self.input()["layout_loader"]["layout"].path
+        )
+
+        domain: BaseWarehouseDomain = loader.build_domain_with_layout(
+            parsed,
+            layout,
+        )
+
+        self._dump("orders", domain.orders)
+        self._dump("resources", domain.resources)
+        self._dump("articles", domain.articles)
+        self._dump("storage", domain.storage)
+        self._dump("warehouse_info", domain.warehouse_info)
+
+    def _dump(self, key: str, obj) -> None:
+        target = self.output()[key]
+        os.makedirs(os.path.dirname(target.path), exist_ok=True)
+        dump_pickle(target.path, obj)
 
 
 class AbstractItemAssignment(BaseComponent):
@@ -356,7 +437,7 @@ class AbstractResultAggregation(BaseComponent):
         provenance_list = []
         for stage_name in [
             "item_assignment", "batching", "routing",
-            "assignment", "scheduling", "scheduling",
+            "assignment", "scheduling"
         ]:
             if stage_name in collected:
                 entry = collected[stage_name]

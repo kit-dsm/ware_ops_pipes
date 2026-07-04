@@ -11,6 +11,7 @@ from cls.fcl import FiniteCombinatoryLogic
 from cls.subtypes import Subtypes
 from cls_luigi.inhabitation_task import RepoMeta
 from cls_luigi.unique_task_pipeline_validator import UniqueTaskPipelineValidator
+from gurobipy._core import defaultdict
 
 from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
@@ -28,28 +29,26 @@ class PipelineRunner(ABC):
             self,
             instance_set_name: str,
             instances_dir: Path,
-            cache_dir: Path,
             project_root: Path,
             data_card,
             excluded: list = [],
             max_pipelines: int = 10,
             verbose: bool = True,
-            cleanup: bool = True,
             ranker=RankingEvaluator,
             time_limit_sec: int | None = None,
-            gen_tour: bool = False
+            gen_tour: bool = False,
+            loader_kwargs: dict = defaultdict(),
+            loader_cls=None
     ):
         self.instance_set_name = instance_set_name
         self.instances_dir = Path(instances_dir)
-        self.cache_dir = Path(cache_dir)
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
-        self.cache_path: Path | None = None
+        self.loader_kwargs = loader_kwargs
+        self.loader_cls = loader_cls
 
         self.project_root = Path(project_root)
         self.src_dir = project_root / "src" / "warehouse_algos"
         self.max_pipelines = max_pipelines
         self.verbose = verbose
-        self.cleanup = cleanup
         self.pipeline_runtimes = {}
         self.time_limit_sec = time_limit_sec
         self.gen_tour = gen_tour
@@ -103,13 +102,6 @@ class PipelineRunner(ABC):
         """
         pass
 
-    @abstractmethod
-    def load_domain(self, instance_name: str, file_paths: list[Path]) -> BaseWarehouseDomain:
-        """
-        Load domain for an instance.
-        """
-        pass
-
     def run_all(self):
         """
         Run pipelines for all discovered instances
@@ -137,9 +129,7 @@ class PipelineRunner(ABC):
         print(f"Processing: {instance_name}")
         print(f"{'=' * 80}\n")
         timings = {}
-        # Load domain (with caching)
         t0 = time.perf_counter()
-        domain = self.load_domain(instance_name, file_paths)
         timings["load_domain"] = time.perf_counter() - t0
 
         # Filter applicable algorithms
@@ -170,18 +160,19 @@ class PipelineRunner(ABC):
         )
         output_folder.mkdir(parents=True, exist_ok=True)
 
-        # Get cache path for domain
-        # cache_path = self.cache_dir / f"{instance_name}_domain.pkl"
-
-        # Set pipeline parameters
         set_pipeline_params(
             output_folder=str(output_folder),
+            data_cache_folder=str(
+                self.project_root / "experiments" / "output" / "_data_cache"
+            ),
             instance_set_name=self.instance_set_name,
             instance_name=instance_name,
             instance_path=str(file_paths[0]),
-            domain_path=str(self.loader.cache_path),
+            instances_dir=str(self.instances_dir),
+            loader_cls=self.loader_cls,
+            loader_kwargs=self.loader_kwargs,
             time_limit_seconds=self.time_limit_sec,
-            gen_tour=self.gen_tour
+            gen_tour=self.gen_tour,
         )
 
         # Build and run pipelines
@@ -199,13 +190,11 @@ class PipelineRunner(ABC):
                                                         {'background': None,
                                                          'logdir': None,
                                                          'logging_conf_file': None,
-                                                         'log_level': 'CRITICAL'
+                                                         'log_level': 'DEBUG'
                                                          }))
             luigi.build(pipelines, local_scheduler=True)
 
             self.create_ranking(instance_name, output_folder)
-            if self.cleanup:
-                self._cleanup(output_folder)
             timings["run_pipelines"] = time.perf_counter() - t0
             timings["total"] = sum(timings.values())
             self.pipeline_runtimes[instance_name] = timings
@@ -233,7 +222,7 @@ class PipelineRunner(ABC):
     def _build_pipelines(self):
         """Build valid pipelines using inhabitation"""
         from ware_ops_pipes.pipelines.templates.template_1 import (
-            InstanceLoader, AbstractItemAssignment, AbstractBatching,
+            LayoutLoader, InstanceLoader, AbstractItemAssignment, AbstractBatching,
             MultiOrderBatching, AbstractPickerRouting,
             AbstractScheduling, AbstractResultAggregation
         )
@@ -246,6 +235,7 @@ class PipelineRunner(ABC):
         max_results = self.max_pipelines if inhabitation_size == 0 else inhabitation_size
 
         validator = UniqueTaskPipelineValidator([
+            LayoutLoader,
             InstanceLoader,
             AbstractItemAssignment,
             AbstractBatching,
@@ -267,16 +257,6 @@ class PipelineRunner(ABC):
                 print(f"\nPipeline {i}:")
                 print(print_tree(pipeline))
         return pipelines
-
-    def _cleanup(self, output_folder: Path):
-        """Clean up intermediate files"""
-        try:
-            for file_path in output_folder.glob("InstanceLoader__*.pkl"):
-                file_path.unlink()
-                if self.verbose:
-                    print(f"Deleted {file_path.name}")
-        except Exception as e:
-            print(f"Cleanup failed: {e}")
 
     def create_ranking(self, instance_name: str, output_folder: Path):
         """Create ranking for this instance"""
