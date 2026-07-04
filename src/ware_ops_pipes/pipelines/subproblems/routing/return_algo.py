@@ -1,9 +1,10 @@
 from ware_ops_algos.algorithms import ReturnRouting
-from ware_ops_pipes.pipelines.templates.template_1 import PickerRouting
+from ware_ops_pipes.pipelines.templates.cosy_template import PickerRouting
 
 
 class Return(PickerRouting):
     abstract = False
+    algo_cls = ReturnRouting
 
     def _get_inited_router(self):
         resources = self._load_resources()

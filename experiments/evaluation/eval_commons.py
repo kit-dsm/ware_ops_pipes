@@ -12,57 +12,98 @@ import orjson
 from tqdm.auto import tqdm
 _USE_TQDM = True
 
+def _path_metadata(path: Path, base: Path) -> dict:
+    rel = path.relative_to(base)
+    parts = rel.parts
 
-def load_summary_jsons(base_path: str, sets_to_load: list[str]) -> List[Dict]:
-    """
-    Load all summary JSON files from the specified directory structure.
-    """
-    summary_data = []
+    if len(parts) != 3:
+        return {
+            "_path_instance_set": None,
+            "_path_instance_name": None,
+            "_path_pipeline_chain_fingerprint": None,
+            "_path_result_aggregation": None,
+        }
 
-    # Walk through all directories
-    for instance_set in os.listdir(base_path):
-        if instance_set not in sets_to_load:  # , "BahceciOencan"
+    filename = parts[2]
+    suffix = "__summary.json"
+
+    if not filename.endswith(suffix):
+        return {
+            "_path_instance_set": None,
+            "_path_instance_name": None,
+            "_path_pipeline_chain_fingerprint": None,
+            "_path_result_aggregation": None,
+        }
+
+    prefix = filename[:-len(suffix)]
+    component_key, chain_fingerprint = prefix.rsplit("__", 1)
+
+    return {
+        "_path_instance_set": parts[0],
+        "_path_instance_name": parts[1],
+        "_path_pipeline_chain_fingerprint": chain_fingerprint,
+        "_path_result_aggregation": component_key,
+    }
+
+
+def _collect_paths_by_set(base_path: str, sets_to_load: list[str]) -> dict[str, list[Path]]:
+    base = Path(base_path)
+    by_set: dict[str, list[Path]] = {}
+
+    for instance_set in sets_to_load:
+        inst_set_dir = base / instance_set
+        print(f"Searching: {inst_set_dir.resolve()}")
+
+        if not inst_set_dir.is_dir():
             continue
-        instance_set_path = os.path.join(base_path, instance_set)
 
-        # Skip if not a directory
-        if not os.path.isdir(instance_set_path):
-            continue
+        paths = sorted(inst_set_dir.glob("*/*__summary.json"))
 
-        for inst in os.listdir(instance_set_path):
-            inst_path = os.path.join(instance_set_path, inst)
+        print(f"  found {len(paths)} summary files")
 
-            # Skip if not a directory
-            if not os.path.isdir(inst_path):
-                continue
+        if paths:
+            by_set[instance_set] = paths
 
-            for content in os.listdir(inst_path):
-                # Filter only files that end with "summary.json"
-                if content.endswith("summary.json"):
-                    file_path = os.path.join(inst_path, content)
-                    # print(f"Loading: {file_path}")
+    return by_set
 
-                    try:
-                        # Load the JSON file
-                        with open(file_path, "r") as f:
-                            data = json.load(f)
+def load_summary_jsons(base_path: str, sets_to_load: list[str]) -> list[dict]:
+    base = Path(base_path)
+    by_set = _collect_paths_by_set(base_path, sets_to_load)
 
-                        # Add file path info
-                        data["file_path"] = file_path
-                        summary_data.append(data)
-                    except Exception as e:
-                        print(f"Error loading {file_path}: {e}")
+    data = []
 
-    return summary_data
+    for paths in by_set.values():
+        for path in paths:
+            row = _load_one(path, base)
+            if row is not None:
+                data.append(row)
+
+    return data
 
 
 def create_summary_dataframe(summary_data: List[Dict]) -> pd.DataFrame:
     rows = []
 
+    stage_to_field = {
+        "item_assignment": "item_assignment_algo",
+        "batching": "batching_algo",
+        "routing": "routing_algo",
+        "scheduling": "scheduling_algo",
+    }
+
     for data in summary_data:
         row = {
-            "instance_name": data.get("instance_name", None),
-            "instance_set": data.get("instance_set", None),
+            "file_path": data.get("file_path"),
+            "instance_name": data.get("instance_name") or data.get("_path_instance_name"),
+            "instance_set": data.get("instance_set") or data.get("_path_instance_set"),
+            "pipeline_chain_fingerprint": (
+                data.get("pipeline_chain_fingerprint")
+                or data.get("_path_pipeline_chain_fingerprint")
+            ),
+            "result_aggregation": (
+                data.get("result_aggregation")
+                or data.get("_path_result_aggregation")
+            ),
             "total_distance": data.get("tours_summary", {}).get("total_distance", 0),
             "makespan": data.get("makespan", None),
             "on_time_rate": data.get("on_time_rate", None),
@@ -72,25 +113,49 @@ def create_summary_dataframe(summary_data: List[Dict]) -> pd.DataFrame:
             "avg_lateness": data.get("avg_lateness", None),
         }
 
-        # Algo names and times from provenance
-        stage_to_field = {
-            "item_assignment": "item_assignment_algo",
-            "batching": "batching_algo",
-            "routing": "routing_algo",
-            "scheduling": "scheduling_algo",
-        }
         provenance = data.get("provenance", [])
-        prov_lookup = {e["stage"]: e for e in provenance if "stage" in e}
+        prov_lookup = {
+            e["stage"]: e
+            for e in provenance
+            if isinstance(e, dict) and "stage" in e
+        }
 
-        for stage, field in stage_to_field.items():
-            entry = prov_lookup.get(stage)
-            row[field] = entry["task_class"] if entry and "task_class" in entry else data.get(field, None)
+        for stage, algo_col in stage_to_field.items():
+            entry = prov_lookup.get(stage, {})
 
-        batching_entry = prov_lookup.get("batching")
-        row["routing_input_time"] = batching_entry["time"] if batching_entry and "time" in batching_entry else data.get(
-            "tours_summary", {}).get("routing_input_time", 0)
+            row[algo_col] = (
+                    entry.get("algo")
+                    or data.get(algo_col)
+                    or entry.get("task_class")
+            )
+            row[f"{stage}_task_class"] = entry.get("task_class")
+            row[f"{stage}_time"] = entry.get("time", data.get(f"{stage}_time"))
 
-        # Per-tour route time (only available when routing is separate from batching)
+            row[f"{stage}_algo_fingerprint"] = entry.get(
+                "algo_fingerprint",
+                data.get(f"{stage}_algo_fingerprint"),
+            )
+            row[f"{stage}_own_fingerprint"] = entry.get(
+                "own_fingerprint",
+                data.get(f"{stage}_own_fingerprint"),
+            )
+            row[f"{stage}_chain_fingerprint"] = entry.get(
+                "chain_fingerprint",
+                data.get(f"{stage}_chain_fingerprint"),
+            )
+            row[f"{stage}_config"] = entry.get(
+                "config",
+                data.get(f"{stage}_config"),
+            )
+            row[f"{stage}_target_path"] = entry.get("target_path")
+
+        # Keep old compatibility columns.
+        batching_entry = prov_lookup.get("batching", {})
+        row["routing_input_time"] = batching_entry.get(
+            "time",
+            data.get("tours_summary", {}).get("routing_input_time", 0),
+        )
+
         batch_times = data.get("tours_summary", {}).get("time_per_tour", {})
         if batch_times:
             times = list(batch_times.values())
@@ -101,10 +166,12 @@ def create_summary_dataframe(summary_data: List[Dict]) -> pd.DataFrame:
             row["median_route_time"] = np.median(times)
             row["std_route_time"] = np.std(times)
         else:
-            routing_entry = prov_lookup.get("routing")
-            row["total_route_time"] = routing_entry["time"] if routing_entry and "time" in routing_entry else data.get("tours_summary", {}).get("execution_time", 0)
+            routing_entry = prov_lookup.get("routing", {})
+            row["total_route_time"] = routing_entry.get(
+                "time",
+                data.get("tours_summary", {}).get("execution_time", 0),
+            )
 
-        # Batch distance statistics
         batch_distances = data.get("tours_summary", {}).get("tour_distances", {})
         if batch_distances:
             distances = list(batch_distances.values())
@@ -122,29 +189,11 @@ def create_summary_dataframe(summary_data: List[Dict]) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def _collect_paths_by_set(base_path: str, sets_to_load: list[str]) -> dict[str, list[Path]]:
-    base = Path(base_path)
-    by_set: dict[str, list[Path]] = {}
-    for s in sets_to_load:
-        inst_set_dir = base / s
-        print(inst_set_dir)
-        if not inst_set_dir.is_dir():
-            continue
-        paths = []
-        for inst_dir in inst_set_dir.iterdir():
-            if inst_dir.is_dir():
-                for p in inst_dir.iterdir():
-                    if p.is_file() and p.name.endswith("summary.json"):
-                        paths.append(p)
-        if paths:
-            by_set[s] = paths
-    return by_set
-
-
-def _load_one(path: Path) -> dict | None:
+def _load_one(path: Path, base: Path) -> dict | None:
     try:
         data = orjson.loads(path.read_bytes())
         data["file_path"] = str(path)
+        data.update(_path_metadata(path, base))
         return data
     except Exception as e:
         print(f"Error loading {path}: {e}")
@@ -152,21 +201,22 @@ def _load_one(path: Path) -> dict | None:
 
 
 def load_summary_jsons_fast(base_path: str, sets_to_load: list[str]) -> list[dict]:
+    base = Path(base_path)
     by_set = _collect_paths_by_set(base_path, sets_to_load)
+
     all_data: list[dict] = []
     total_sets = len(by_set)
-    done_sets = 0
-    print(all_data[:5])
 
-    for s, paths in by_set.items():
+    for done_sets, (instance_set, paths) in enumerate(by_set.items(), start=1):
         ok = 0
         errs = 0
-        desc = f"{s} ({len(paths)} files)"
-        if _USE_TQDM:
-            pbar = tqdm(total=len(paths), desc=desc, leave=False)
-        # File-level parallelism per set
+        desc = f"{instance_set} ({len(paths)} files)"
+
+        pbar = tqdm(total=len(paths), desc=desc, leave=False) if _USE_TQDM else None
+
         with ThreadPoolExecutor(max_workers=os.cpu_count() or 8) as ex:
-            futures = {ex.submit(_load_one, p): p for p in paths}
+            futures = {ex.submit(_load_one, p, base): p for p in paths}
+
             for fut in as_completed(futures):
                 res = fut.result()
                 if res is None:
@@ -174,13 +224,14 @@ def load_summary_jsons_fast(base_path: str, sets_to_load: list[str]) -> list[dic
                 else:
                     ok += 1
                     all_data.append(res)
-                if _USE_TQDM:
+
+                if pbar is not None:
                     pbar.update(1)
-        if _USE_TQDM:
+
+        if pbar is not None:
             pbar.close()
 
-        done_sets += 1
-        print(f"[{done_sets}/{total_sets}] Finished {s}: {ok} ok, {errs} errors")
+        print(f"[{done_sets}/{total_sets}] Finished {instance_set}: {ok} ok, {errs} errors")
 
     return all_data
 

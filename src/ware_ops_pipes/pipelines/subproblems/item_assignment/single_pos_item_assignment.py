@@ -1,11 +1,12 @@
 from ware_ops_algos.algorithms import SinglePositionItemAssignment, RatliffRosenthalRouting
 from ware_ops_algos.domain_models import StorageLocations, LayoutData, Resources
-from ware_ops_pipes.pipelines.templates.template_1 import AbstractItemAssignment
+from ware_ops_pipes.pipelines.templates.cosy_template import AbstractItemAssignment
 from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 
 class SinglePosIA(AbstractItemAssignment):
     abstract = False
+    algo_cls = SinglePositionItemAssignment
 
     def get_inited_item_assigner(self):
         storage_locations: StorageLocations = load_pickle(self.input()["instance"]["storage"].path)
