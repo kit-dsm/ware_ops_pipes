@@ -254,7 +254,6 @@ class LayoutLoader(CoSyLuigiTask):
             "layout_signature": loader.layout_signature(parsed),
         }
 
-        print("Layout payload", payload)
         return _hash_json(payload, n=16)
 
     def output(self):
