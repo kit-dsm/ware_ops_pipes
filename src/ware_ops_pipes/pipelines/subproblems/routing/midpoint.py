@@ -1,10 +1,9 @@
 from ware_ops_algos.algorithms import MidpointRouting
-from ware_ops_pipes.pipelines.templates.cosy_template import PickerRouting
+from ware_ops_pipes.pipelines.templates.template_1 import PickerRouting
 
 
 class Midpoint(PickerRouting):
     abstract = False
-    algo_cls = MidpointRouting
 
     def _get_inited_router(self):
         resources = self._load_resources()
