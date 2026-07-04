@@ -1,1 +1,1 @@
-from .cosy_template import *
+from .template_1 import *
