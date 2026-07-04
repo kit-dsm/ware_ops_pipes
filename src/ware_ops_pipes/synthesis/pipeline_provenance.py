@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from ware_ops_pipes.pipelines.io_helpers import load_pickle
+from luigi.task import flatten
 
+from ware_ops_pipes.pipelines.io_helpers import load_pickle
 
 _SOL_KEY_TO_STAGE = {
     "item_assignment_sol": "item_assignment",
@@ -13,52 +14,10 @@ _SOL_KEY_TO_STAGE = {
 }
 
 
-def _iter_deps(task) -> list:
-    deps = task.requires()
-
-    if deps is None:
-        return []
-
-    if isinstance(deps, dict):
-        return list(deps.values())
-
-    if isinstance(deps, (list, tuple, set)):
-        return list(deps)
-
-    return [deps]
-
-
-def _fingerprint_info(task) -> dict:
-    config = (
-        task.config_fingerprint_payload()
-        if hasattr(task, "config_fingerprint_payload")
-        else {}
-    )
-
-    return {
-        "algo_fingerprint": (
-            task.algo_fingerprint()
-            if hasattr(task, "algo_fingerprint")
-            else None
-        ) or None,
-        "own_fingerprint": (
-            task.own_fingerprint()
-            if hasattr(task, "own_fingerprint")
-            else None
-        ) or None,
-        "chain_fingerprint": (
-            task.chain_fingerprint()
-            if hasattr(task, "chain_fingerprint")
-            else None
-        ) or None,
-        "config": config or None,
-    }
-
-
 def collect_from_graph(task) -> dict[str, dict]:
     """Walk the task DAG depth-first and collect solutions + provenance.
 
-    Returns a dict keyed by stage name, for example:
+    Returns a dict keyed by stage name::
 
         {
             "item_assignment": {
@@ -67,57 +26,51 @@ def collect_from_graph(task) -> dict[str, dict]:
                 "algo": "GreedyItemAssignment",
                 "time": 0.003,
                 "solution": <ItemAssignmentSolution>,
-                "target_path": ".../item_assignment_sol.pkl",
-                "algo_fingerprint": "...",
-                "own_fingerprint": "...",
-                "chain_fingerprint": "...",
-                "config": None,
+                "target_path": "/path/to/item_assignment_sol.pkl",
             },
-            "batching": { ... },
+            "batching": { ... },   # absent for CombinedBR path
             "routing":  { ... },
+            ...
         }
-
-    Fingerprint semantics:
-
-        algo_fingerprint:
-            fingerprint of the base algorithm implementation
-
-        own_fingerprint:
-            fingerprint of the configured component itself
-
-        chain_fingerprint:
-            fingerprint of this component plus all upstream components
     """
     result: dict[str, dict] = {}
     _collect_recursive(task, result, visited=set())
     return result
 
 
-def _collect_recursive(task, result: dict, visited: set) -> None:
+def _collect_recursive(task, result: dict, visited: set):
     task_id = id(task)
     if task_id in visited:
         return
-
     visited.add(task_id)
 
-    for dep in _iter_deps(task):
+    # Recurse into dependencies first (depth-first)
+    deps = task.requires()
+    if isinstance(deps, dict):
+        children = list(deps.values())
+    elif isinstance(deps, (list, tuple)):
+        children = list(deps)
+    else:
+        children = [deps]
+
+    for dep in children:
         _collect_recursive(dep, result, visited)
 
+    # Check if this task has a solution output we recognise
     if not hasattr(task, "output"):
         return
 
     outputs = task.output()
-
     for sol_key, stage_name in _SOL_KEY_TO_STAGE.items():
         if sol_key not in outputs:
             continue
-
         target = outputs[sol_key]
         if not target.exists():
             continue
 
         sol = load_pickle(target.path)
 
+        # For routing_sol the value may be a list[RoutingSolution]
         if isinstance(sol, list):
             algo = sol[0].algo_name if sol else "unknown"
             time = sum(s.execution_time for s in sol)
@@ -132,7 +85,53 @@ def _collect_recursive(task, result: dict, visited: set) -> None:
             "time": time,
             "solution": sol,
             "target_path": target.path,
-            **_fingerprint_info(task),
         }
+        break  # one entry per task
 
-        break
+
+def collect_provenance(task) -> list[dict]:
+    """Recursively walk the task dependency graph and build provenance.
+
+    For each task that produced a solution output (keyed by one of the
+    known *_sol names), load the solution object and extract its
+    ``algo_name`` and ``execution_time``.
+
+    Returns a list ordered from the earliest upstream stage to the
+    task itself (depth-first, dependencies before dependents).
+    """
+    entries: list[dict] = []
+
+    # Recurse into dependencies first (depth-first)
+    for dep in flatten(task.requires()):
+        entries.extend(collect_provenance(dep))
+
+    # Check if this task has a solution output we recognise
+    if hasattr(task, "output"):
+        outputs = task.output()
+        for sol_key, stage_name in _SOL_KEY_TO_STAGE.items():
+            if sol_key in outputs:
+                target = outputs[sol_key]
+                if target.exists():
+                    sol = load_pickle(target.path)
+                    # For routing_sol the value is a list[RoutingSolution];
+                    # sum execution times across tours.
+                    if isinstance(sol, list):
+                        algo = sol[0].algo_name if sol else "unknown"
+                        time = sum(s.execution_time for s in sol)
+                    else:
+                        algo = getattr(sol, "algo_name", type(sol).__name__)
+                        time = getattr(sol, "execution_time", 0.0)
+                    entries.append({
+                        "stage": stage_name,
+                        "algo": algo,
+                        "time": time,
+                        "task_class": type(task).__name__,
+                    })
+                break  # one provenance entry per task
+
+    return entries
+
+
+def provenance_by_stage(provenance: list[dict]) -> dict[str, dict]:
+    """Index provenance list by stage name for easy lookup."""
+    return {entry["stage"]: entry for entry in provenance}

@@ -3,9 +3,8 @@ import time
 from pathlib import Path
 from typing import Tuple
 
+from ware_ops_algos.data_loaders import HesslerIrnichLoader
 from ware_ops_algos.domain_models import BaseWarehouseDomain, load_and_flatten_data_card
-
-from ware_ops_pipes.data_loaders import HesslerIrnichLoader
 from ware_ops_pipes.synthesis.runner import PipelineRunner
 
 instance_data_card_mapping = {
@@ -49,7 +48,7 @@ def main():
                                  "HennWaescherUniform",
                                  "HennWaescherClassBased"],
                         nargs="?",
-                        default="SPRP")
+                        default="BahceciOencan")
     args = parser.parse_args()
     instance_set = args.instance_set
     excluded = ["ExactSolving"]
