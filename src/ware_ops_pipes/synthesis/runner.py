@@ -83,6 +83,7 @@ class PipelineRunner(ABC):
             "LSBatchingNNDueDate": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_due",
             "LSBatchingNNFiFo": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo",
             "LSBatchingNNFiFoOrderNr": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo_ord_nr",
+            "LSBatchingSShapeFiFoOrderNr": "ware_ops_pipes.pipelines.subproblems.batching.ls_sshape_fifo_ord_nr",
             "SPTScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.spt_scheduling",
             "LPTScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.lpt_scheduling",
             "EDDScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.edd_scheduling",
