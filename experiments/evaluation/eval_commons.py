@@ -70,6 +70,9 @@ def create_summary_dataframe(summary_data: List[Dict]) -> pd.DataFrame:
             "max_lateness": data.get("max_lateness", None),
             "max_tardiness": data.get("max_tardiness", None),
             "avg_lateness": data.get("avg_lateness", None),
+            "total_time": data.get("total_time", None),
+            "n_routes": data.get("n_routes", None),
+            "max_stretch": data.get("max_stretch", None),
         }
 
         # Algo names and times from provenance
@@ -191,50 +194,81 @@ def build_strategy(row):
     return "+".join(parts)
 
 
-def vbs_analysis(df, metric_col="total_distance", strategy_col="strategy", instance_col="instance_name", min_max="min"):
-    """
-    Performs VBS vs SBS analysis.
-    Returns a DataFrame with SBS mean, VBS mean, mean regret, and relative gain.
-    """
-    results = []
-    # VBS per instance
-    if min_max == "min":
-        vbs_per_instance = df.groupby(instance_col)[metric_col].min()
-    else:
-        vbs_per_instance = df.groupby(instance_col)[metric_col].max()
-    vbs_strategies = df.loc[df.groupby("instance_name")[metric_col].idxmin(), ["instance_name", "strategy"]]
-    vbs_mean = vbs_per_instance.mean()
+# def vbs_analysis(df, metric_col="total_distance", strategy_col="strategy", instance_col="instance_name", min_max="min"):
+#     """
+#     Performs VBS vs SBS analysis.
+#     Returns a DataFrame with SBS mean, VBS mean, mean regret, and relative gain.
+#     """
+#     results = []
+#     # VBS per instance
+#     if min_max == "min":
+#         vbs_per_instance = df.groupby(instance_col)[metric_col].min()
+#     else:
+#         vbs_per_instance = df.groupby(instance_col)[metric_col].max()
+#     vbs_strategies = df.loc[df.groupby("instance_name")[metric_col].idxmin(), ["instance_name", "strategy"]]
+#     vbs_mean = vbs_per_instance.mean()
+#
+#     # SBS (best on average in group)
+#     avg_by_strategy = df.groupby(strategy_col)[metric_col].mean()
+#     if min_max == "min":
+#         sbs_strategy = avg_by_strategy.idxmin()
+#         sbs_mean = avg_by_strategy.min()
+#     else:
+#         sbs_strategy = avg_by_strategy.idxmax()
+#         sbs_mean = avg_by_strategy.max()
+#     # SBS performance per instance
+#     sbs_perf_per_instance = df[df[strategy_col] == sbs_strategy].set_index(instance_col)[metric_col]
+#     winner_counts = vbs_strategies["strategy"].value_counts()
+#     if min_max == "min":
+#         # lower is better
+#         regret = sbs_perf_per_instance - vbs_per_instance
+#         rel_gain = 100 * (sbs_mean - vbs_mean) / sbs_mean
+#     else:
+#         # higher is better
+#         regret = vbs_per_instance - sbs_perf_per_instance
+#         rel_gain = 100 * (vbs_mean - sbs_mean) / sbs_mean
+#
+#     results.append({
+#         "instance_set": df["instance_set"].unique()[0],
+#         "SBS Strategy": sbs_strategy,
+#         "SBS Mean": sbs_mean,
+#         "VBS Mean": vbs_mean,
+#         # "Mean Regret": mean_regret,
+#         "Relative Gain %": rel_gain
+#     })
+#
+#     return pd.DataFrame(results), winner_counts
 
-    # SBS (best on average in group)
-    avg_by_strategy = df.groupby(strategy_col)[metric_col].mean()
-    if min_max == "min":
-        sbs_strategy = avg_by_strategy.idxmin()
-        sbs_mean = avg_by_strategy.min()
-    else:
-        sbs_strategy = avg_by_strategy.idxmax()
-        sbs_mean = avg_by_strategy.max()
-    # SBS performance per instance
-    sbs_perf_per_instance = df[df[strategy_col] == sbs_strategy].set_index(instance_col)[metric_col]
-    winner_counts = vbs_strategies["strategy"].value_counts()
-    if min_max == "min":
-        # lower is better
-        regret = sbs_perf_per_instance - vbs_per_instance
-        rel_gain = 100 * (sbs_mean - vbs_mean) / sbs_mean
-    else:
-        # higher is better
-        regret = vbs_per_instance - sbs_perf_per_instance
-        rel_gain = 100 * (vbs_mean - sbs_mean) / sbs_mean
+def vbs_analysis(df, metric_col="total_distance", strategy_col="strategy",
+                 instance_col="instance_name", min_max="min", rank_by=None):
+    """
+    VBS vs SBS on metric_col. rank_by is an optional [(col, "min"|"max"), ...]
+    hierarchy for selection; metric_col is always what gets reported. Default
+    ranks on metric_col alone (unchanged single-metric behavior).
+    """
+    if rank_by is None:
+        rank_by = [(metric_col, min_max)]
+    sort_cols = [c for c, _ in rank_by]
+    asc = [d == "max" for _, d in rank_by]  # best row sorts last -> .last()
 
-    results.append({
+    sel = df.sort_values(sort_cols, ascending=asc).groupby(instance_col).last().reset_index()
+    vbs_mean = sel[metric_col].mean()
+    winner_counts = sel[strategy_col].value_counts()
+
+    strat_means = df.groupby(strategy_col)[sort_cols].mean()
+    sbs_strategy = strat_means.sort_values(sort_cols, ascending=asc).index[-1]
+    sbs_mean = strat_means.loc[sbs_strategy, metric_col]
+
+    rel_gain = (100 * (sbs_mean - vbs_mean) / sbs_mean if min_max == "min"
+                else 100 * (vbs_mean - sbs_mean) / sbs_mean)
+
+    return pd.DataFrame([{
         "instance_set": df["instance_set"].unique()[0],
         "SBS Strategy": sbs_strategy,
         "SBS Mean": sbs_mean,
         "VBS Mean": vbs_mean,
-        # "Mean Regret": mean_regret,
-        "Relative Gain %": rel_gain
-    })
-
-    return pd.DataFrame(results), winner_counts
+        "Relative Gain %": rel_gain,
+    }]), winner_counts
 
 
 def grouped_vbs_analysis(df, group_col, metric_col="total_distance", strategy_col="strategy",
