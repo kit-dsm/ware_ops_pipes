@@ -34,7 +34,7 @@ class LayoutLoader(BaseComponent):
 
         return loader_cls(
             instances_dir=Path(self.pipeline_params.instances_dir),
-            **self.pipeline_params.loader_kwargs(),
+            **self.pipeline_params.loader_kwargs()
         )
 
     def _layout_key(self) -> str:
@@ -67,6 +67,9 @@ class LayoutLoader(BaseComponent):
         loader = self._loader()
         parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
         layout = loader.build_layout(parsed)
+        if not self.pipeline_params.gen_tour:
+            # layout.layout_network.graph = None
+            layout.layout_network.predecessor_matrix = None
 
         target = self.output()["layout"]
         os.makedirs(os.path.dirname(target.path), exist_ok=True)
@@ -462,13 +465,13 @@ class AbstractResultAggregation(BaseComponent):
 
         for tour_id, sol in enumerate(routing_sols):
             routing_times[f"tour_{tour_id}_time"] = sol.execution_time
-            distance = sol.route.distance
+            distance = float(sol.route.distance)
             tour_distances[f"tour_{tour_id}_distance"] = distance
             total_distance += distance
 
         return {
             "tour_distances": tour_distances,
-            "total_distance": total_distance,
+            "total_distance": float(total_distance),
             "time_per_tour": routing_times,
         }
 
@@ -478,13 +481,13 @@ class AbstractResultAggregation(BaseComponent):
         tour_distances = {}
         total_distance = 0
         for tour_id, sol in enumerate(combined_sol.routes):
-            distance = sol.distance
+            distance = float(sol.distance)
             tour_distances[f"tour_{tour_id}_distance"] = distance
             total_distance += distance
 
         return {
             "tour_distances": tour_distances,
-            "total_distance": total_distance,
+            "total_distance": float(total_distance),
             "execution_time": combined_sol.execution_time,
         }
 
@@ -632,6 +635,9 @@ class ResultAggregationDueDate(AbstractResultAggregation):
         df_jobs = self._scheduled_jobs_to_frame(scheduled_jobs)
 
         summary["makespan"] = float(df_jobs["end_time"].max())
+        resources = load_pickle(self.input()["instance"]["resources"].path)
+        setup = resources.resources[0].tour_setup_time
+        summary["total_time"] = float(df_jobs["processing_time"].sum() + setup * len(df_jobs))
 
         picker_util = (
             df_jobs.groupby("picker_id")["processing_time"]
