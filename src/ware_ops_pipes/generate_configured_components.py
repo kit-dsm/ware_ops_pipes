@@ -12,6 +12,7 @@ from ware_ops_algos.algorithms.algorithm_cards import (
 SUPPORTED_BASES = {
     "SeedBatching",
     "LocalSearchBatching",
+    "ClarkAndWrightBatching"
 }
 
 PACKAGE_NAME = (
@@ -114,6 +115,32 @@ class {component_name}(ConfiguredLocalSearchBatching):
 '''
 
 
+def render_cw_component(
+    component_name: str,
+    implementation: dict,
+) -> str:
+    routing_class = implementation["routing_class"]
+
+    return f'''\
+# This file is generated. Do not edit manually.
+
+from ware_ops_pipes.pipelines.resolve_algo_class_names import (
+    resolve_algorithm_class,
+)
+
+from ..configured_batching import ConfiguredClarkAndWrightBatching
+from ._support import get_algorithm_card
+
+
+class {component_name}(ConfiguredClarkAndWrightBatching):
+    abstract = False
+
+    algorithm_card = get_algorithm_card({component_name!r})
+
+    routing_class = resolve_algorithm_class({routing_class!r})
+'''
+
+
 def render_component(
     component_name: str,
     implementation: dict,
@@ -130,6 +157,12 @@ def render_component(
         return render_local_search_component(
             component_name,
             implementation,
+        )
+
+    if base == "ClarkAndWrightBatching":
+        return render_cw_component(
+            component_name,
+            implementation
         )
 
     raise ValueError(
