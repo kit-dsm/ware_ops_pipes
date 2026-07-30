@@ -18,6 +18,9 @@ from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_algos.taxonomy.taxonomy import TAXONOMY
 from ware_ops_algos.domain_algo_mapper.domain_algo_mapper import DomainAlgorithmMapper
 from ware_ops_algos.algorithms.algorithm_cards import import_algo_class, load_packaged_algo_cards
+from ware_ops_pipes.pipelines.subproblems.batching.generated.index import (
+    CONFIGURED_COMPONENT_MODULES,
+)
 
 from ware_ops_pipes.ranking.ranking import RankingEvaluator
 from ware_ops_pipes.pipelines import set_pipeline_params, inhabit, print_tree
@@ -73,17 +76,17 @@ class PipelineRunner(ABC):
             "DueDate": "ware_ops_pipes.pipelines.subproblems.batching.due_date",
             "Random": "ware_ops_pipes.pipelines.subproblems.batching.random",
             "CombinedBatchingRoutingAssigning": "ware_ops_pipes.pipelines.subproblems.routing.joint_batching_routing_assigning",
-            "ClosestDepotMinDistanceSeedBatching": "ware_ops_pipes.pipelines.subproblems.batching.seed",
-            "ClosestDepotMaxSharedArticlesSeedBatching": "ware_ops_pipes.pipelines.subproblems.batching.seed_shared_articles",
-            "ClarkAndWrightSShape": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_sshape",
-            "ClarkAndWrightNN": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_nn",
-            "ClarkAndWrightRR": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_rr",
-            "LSBatchingRR": "ware_ops_pipes.pipelines.subproblems.batching.ls_rr",
-            "LSBatchingNNRand": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_rand",
-            "LSBatchingNNDueDate": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_due",
-            "LSBatchingNNFiFo": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo",
-            "LSBatchingNNFiFoOrderNr": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo_ord_nr",
-            "LSBatchingSShapeFiFoOrderNr": "ware_ops_pipes.pipelines.subproblems.batching.ls_sshape_fifo_ord_nr",
+            # "ClosestDepotMinDistanceSeedBatching": "ware_ops_pipes.pipelines.subproblems.batching.seed",
+            # "ClosestDepotMaxSharedArticlesSeedBatching": "ware_ops_pipes.pipelines.subproblems.batching.seed_shared_articles",
+            # "ClarkAndWrightSShape": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_sshape",
+            # "ClarkAndWrightNN": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_nn",
+            # "ClarkAndWrightRR": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_rr",
+            # "LSBatchingRR": "ware_ops_pipes.pipelines.subproblems.batching.ls_rr",
+            # "LSBatchingNNRand": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_rand",
+            # "LSBatchingNNDueDate": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_due",
+            # "LSBatchingNNFiFo": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo",
+            # "LSBatchingNNFiFoOrderNr": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo_ord_nr",
+            # "LSBatchingSShapeFiFoOrderNr": "ware_ops_pipes.pipelines.subproblems.batching.ls_sshape_fifo_ord_nr",
             "SPTScheduler": "ware_ops_pipes.pipelines.subproblems.scheduling.spt_scheduling",
             "LPTScheduler": "ware_ops_pipes.pipelines.subproblems.scheduling.lpt_scheduling",
             "EDDScheduler": "ware_ops_pipes.pipelines.subproblems.scheduling.edd_scheduling",
@@ -203,22 +206,50 @@ class PipelineRunner(ABC):
             print("⚠ No valid pipelines found!")
 
     def _import_models(self, algos_applicable):
-        """Import applicable model implementations"""
-        for algo in algos_applicable:
-            algo_name = algo.algo_name
-            if algo_name not in self.implementation_module:
-                if self.verbose:
-                    print(f"⚠ Unknown model: {algo_name}, skipping...")
-                continue
+        """Import applicable concrete CLS-Luigi components."""
 
+        for card in algos_applicable:
             try:
-                module_path = self.implementation_module[algo_name]
-                cls = import_algo_class(algo_name, module_path)
+                configured_module = CONFIGURED_COMPONENT_MODULES.get(
+                    card.algo_name
+                )
+
+                if configured_module is not None:
+                    import_algo_class(
+                        card.algo_name,
+                        configured_module,
+                    )
+
+                    if self.verbose:
+                        print(
+                            f"✅ {card.algo_name} "
+                            f"from {configured_module}"
+                        )
+
+                    continue
+
+                module_path = self.implementation_module.get(
+                    card.algo_name
+                )
+                if module_path is None:
+                    if self.verbose:
+                        print(
+                            f"⚠ Unknown model: "
+                            f"{card.algo_name}, skipping..."
+                        )
+                    continue
+                import_algo_class(
+                    card.algo_name,
+                    module_path,
+                )
                 if self.verbose:
-                    print(f"✅ {algo_name}")
-            except Exception as e:
+                    print(f"✅ {card.algo_name}")
+            except Exception as exc:
                 if self.verbose:
-                    print(f"❌ Failed to import {algo_name}: {e}")
+                    print(
+                        f"❌ Failed to import "
+                        f"{card.algo_name}: {exc}"
+                    )
 
     def _build_pipelines(self):
         """Build valid pipelines using inhabitation"""
@@ -254,7 +285,7 @@ class PipelineRunner(ABC):
 
         if self.verbose and pipelines:
             print(f"✓ Found {len(pipelines)} valid pipelines")
-            for i, pipeline in enumerate(pipelines[:3], 1):  # Show first 3
+            for i, pipeline in enumerate(pipelines, 1):  # Show first 3
                 print(f"\nPipeline {i}:")
                 print(print_tree(pipeline))
         return pipelines
