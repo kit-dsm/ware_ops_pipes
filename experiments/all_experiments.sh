@@ -70,7 +70,10 @@ FAILED=0
 # SPRP first: warms the layout cache for SPRP-SS (identical layouts).
 run_experiment "hessler_irnich_sprp" "experiments/run_hessler_irnich.py" "SPRP" ${WORKERS_ARG} || FAILED=1
 run_experiment "hessler_irnich_sprp_ss" "experiments/run_hessler_irnich.py" "SPRP-SS" ${WORKERS_ARG} || FAILED=1
-run_experiment "hessler_irnich_bahceci_oencan" "experiments/run_hessler_irnich.py" "BahceciOencan" ${WORKERS_ARG} || FAILED=1
+# BahceciOencan: CBR (Gurobi MILP) is not excluded here. Force 1 worker
+# to avoid Gurobi thread oversubscription (Gurobi defaults to all cores
+# per model; multiple concurrent models would thrash).
+run_experiment "hessler_irnich_bahceci_oencan" "experiments/run_hessler_irnich.py" "BahceciOencan" --workers 1 || FAILED=1
 run_experiment "hessler_irnich_muter_oencan" "experiments/run_hessler_irnich.py" "MuterOencan" ${WORKERS_ARG} || FAILED=1
 run_experiment "hessler_irnich_henn_waescher_uniform" "experiments/run_hessler_irnich.py" "HennWaescherUniform" ${WORKERS_ARG} || FAILED=1
 run_experiment "hessler_irnich_henn_waescher_class_based" "experiments/run_hessler_irnich.py" "HennWaescherClassBased" ${WORKERS_ARG} || FAILED=1
