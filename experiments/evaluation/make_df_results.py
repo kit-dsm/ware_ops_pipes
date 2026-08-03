@@ -182,7 +182,18 @@ def postprocess(df: pd.DataFrame) -> pd.DataFrame:
 
     df["strategy"] = df.apply(build_strategy, axis=1)
     df["problem_type"] = df["instance_set"].map(INSTANCE_PROBLEM_MAP)
-    df["total_cpu_time"] = df["routing_input_time"] + df["total_route_time"]
+
+    # Total CPU time includes all stages.  New columns (ia_time,
+    # scheduling_time) are absent from legacy caches; fall back to 0.
+    for stage_time_col in ["ia_time", "scheduling_time"]:
+        if stage_time_col not in df.columns:
+            df[stage_time_col] = 0.0
+    df["total_cpu_time"] = (
+        df["ia_time"].fillna(0)
+        + df["routing_input_time"].fillna(0)
+        + df["total_route_time"].fillna(0)
+        + df["scheduling_time"].fillna(0)
+    )
 
     missing_problem_type = df[df["problem_type"].isna()]["instance_set"].unique()
     if len(missing_problem_type) > 0:

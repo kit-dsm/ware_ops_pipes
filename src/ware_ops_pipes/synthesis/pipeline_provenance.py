@@ -81,6 +81,7 @@ def _collect_recursive(task, result: dict, visited: set):
         result[stage_name] = {
             "stage": stage_name,
             "task_class": type(task).__name__,
+            "task_module": type(task).__module__,
             "algo": algo,
             "time": time,
             "solution": sol,
@@ -126,6 +127,7 @@ def collect_provenance(task) -> list[dict]:
                         "algo": algo,
                         "time": time,
                         "task_class": type(task).__name__,
+                        "task_module": type(task).__module__,
                     })
                 break  # one provenance entry per task
 

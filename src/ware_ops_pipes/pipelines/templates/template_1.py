@@ -449,11 +449,47 @@ class AbstractResultAggregation(BaseComponent):
                     "algo": entry["algo"],
                     "time": entry["time"],
                     "task_class": entry["task_class"],
+                    "task_module": entry.get("task_module", ""),
                 })
                 summary[f"{stage_name}_algo"] = entry["algo"]
                 summary[f"{stage_name}_time"] = entry["time"]
 
         summary["provenance"] = provenance_list
+
+        # Log instance features from the cached domain objects so downstream
+        # analysis can group by instance characteristics without reloading.
+        try:
+            from luigi.task import flatten
+            deps = flatten(self.requires())
+            instance_task = None
+            for dep in deps:
+                if hasattr(dep, "output") and "orders" in dep.output():
+                    instance_task = dep
+                    break
+            if instance_task is not None:
+                orders = load_pickle(instance_task.output()["orders"].path)
+                resources = load_pickle(instance_task.output()["resources"].path)
+                storage = load_pickle(instance_task.output()["storage"].path)
+                layout = load_pickle(instance_task.output()["layout"].path)
+
+                gd = getattr(layout, "graph_data", None)
+                features = {
+                    "n_orders": len(orders.orders),
+                    "n_pick_locations": getattr(gd, "n_pick_locations", None),
+                    "n_aisles": getattr(gd, "n_aisles", None),
+                    "n_blocks": getattr(gd, "n_blocks", None),
+                    "n_resources": len(resources.resources),
+                    "storage_type": getattr(storage, "get_type_value", lambda: None)(),
+                }
+                # Total order lines
+                total_lines = 0
+                for order in orders.orders:
+                    total_lines += len(order.order_positions) if hasattr(order, "order_positions") else 0
+                features["n_order_lines"] = total_lines
+                summary["instance_features"] = features
+        except Exception:
+            pass
+
         return collected
 
     @staticmethod

@@ -89,9 +89,16 @@ def create_summary_dataframe(summary_data: List[Dict]) -> pd.DataFrame:
             entry = prov_lookup.get(stage)
             row[field] = entry["task_class"] if entry and "task_class" in entry else data.get(field, None)
 
+        # Per-stage times from provenance
+        ia_entry = prov_lookup.get("item_assignment")
+        row["ia_time"] = ia_entry["time"] if ia_entry and "time" in ia_entry else 0.0
+
         batching_entry = prov_lookup.get("batching")
         row["routing_input_time"] = batching_entry["time"] if batching_entry and "time" in batching_entry else data.get(
             "tours_summary", {}).get("routing_input_time", 0)
+
+        scheduling_entry = prov_lookup.get("scheduling")
+        row["scheduling_time"] = scheduling_entry["time"] if scheduling_entry and "time" in scheduling_entry else 0.0
 
         # Per-tour route time (only available when routing is separate from batching)
         batch_times = data.get("tours_summary", {}).get("time_per_tour", {})
@@ -106,6 +113,12 @@ def create_summary_dataframe(summary_data: List[Dict]) -> pd.DataFrame:
         else:
             routing_entry = prov_lookup.get("routing")
             row["total_route_time"] = routing_entry["time"] if routing_entry and "time" in routing_entry else data.get("tours_summary", {}).get("execution_time", 0)
+
+        # Instance features
+        features = data.get("instance_features", {})
+        for feat_name in ["n_orders", "n_pick_locations", "n_aisles", "n_blocks",
+                          "n_resources", "storage_type", "n_order_lines"]:
+            row[feat_name] = features.get(feat_name, None)
 
         # Batch distance statistics
         batch_distances = data.get("tours_summary", {}).get("tour_distances", {})
