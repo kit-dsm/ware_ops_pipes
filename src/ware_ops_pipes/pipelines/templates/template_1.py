@@ -458,14 +458,10 @@ class AbstractResultAggregation(BaseComponent):
 
         # Log instance features from the cached domain objects so downstream
         # analysis can group by instance characteristics without reloading.
+        # The InstanceLoader may be a direct dependency (DueDate aggregation)
+        # or a grandchild (Distance aggregation), so we walk the full graph.
         try:
-            from luigi.task import flatten
-            deps = flatten(self.requires())
-            instance_task = None
-            for dep in deps:
-                if hasattr(dep, "output") and "orders" in dep.output():
-                    instance_task = dep
-                    break
+            instance_task = self._find_instance_task()
             if instance_task is not None:
                 orders = load_pickle(instance_task.output()["orders"].path)
                 resources = load_pickle(instance_task.output()["resources"].path)
@@ -481,7 +477,6 @@ class AbstractResultAggregation(BaseComponent):
                     "n_resources": len(resources.resources),
                     "storage_type": getattr(storage, "get_type_value", lambda: None)(),
                 }
-                # Total order lines
                 total_lines = 0
                 for order in orders.orders:
                     total_lines += len(order.order_positions) if hasattr(order, "order_positions") else 0
@@ -491,6 +486,34 @@ class AbstractResultAggregation(BaseComponent):
             pass
 
         return collected
+
+    @staticmethod
+    def _find_instance_task(task=None, visited=None):
+        """Recursively walk the task graph to find the InstanceLoader task
+        (any task with an 'orders' output).  Returns None if not found."""
+        from luigi.task import flatten as _flatten
+        if task is None:
+            return None
+        if visited is None:
+            visited = set()
+        tid = id(task)
+        if tid in visited:
+            return None
+        visited.add(tid)
+
+        if hasattr(task, "output"):
+            try:
+                outputs = task.output()
+                if isinstance(outputs, dict) and "orders" in outputs:
+                    return task
+            except Exception:
+                pass
+
+        for dep in _flatten(task.requires()):
+            result = AbstractResultAggregation._find_instance_task(dep, visited)
+            if result is not None:
+                return result
+        return None
 
     @staticmethod
     def _compute_tour_summary_from_list(routing_sols: list[RoutingSolution]) -> dict:
