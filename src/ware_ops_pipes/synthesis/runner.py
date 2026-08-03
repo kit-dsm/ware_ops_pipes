@@ -41,7 +41,8 @@ class PipelineRunner(ABC):
             time_limit_sec: int | None = None,
             gen_tour: bool = False,
             loader_kwargs: dict = defaultdict(),
-            loader_cls=None
+            loader_cls=None,
+            workers: int = 1,
     ):
         self.instance_set_name = instance_set_name
         self.instances_dir = Path(instances_dir)
@@ -55,6 +56,7 @@ class PipelineRunner(ABC):
         self.pipeline_runtimes = {}
         self.time_limit_sec = time_limit_sec
         self.gen_tour = gen_tour
+        self.workers = workers
 
         # Component implementations
         self.implementation_module = {
@@ -188,7 +190,7 @@ class PipelineRunner(ABC):
 
         t0 = time.perf_counter()
         if pipelines:
-            print(f"\n✓ Running {len(pipelines)} pipelines...\n")
+            print(f"\n✓ Running {len(pipelines)} pipelines with {self.workers} worker(s)...\n")
             luigi.interface.InterfaceLogging.setup(type('opts',
                                                         (),
                                                         {'background': None,
@@ -196,7 +198,7 @@ class PipelineRunner(ABC):
                                                          'logging_conf_file': None,
                                                          'log_level': 'DEBUG'
                                                          }))
-            luigi.build(pipelines, local_scheduler=True)
+            luigi.build(pipelines, local_scheduler=True, workers=self.workers)
 
             self.create_ranking(instance_name, output_folder)
             timings["run_pipelines"] = time.perf_counter() - t0

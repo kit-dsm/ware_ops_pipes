@@ -28,6 +28,8 @@ def main():
                         choices=["KrisSmallDataCorrected", "KrisLargeData"],
                         nargs="?",
                         default="KrisSmallDataCorrected")
+    parser.add_argument("--workers", type=int, default=1,
+                        help="Number of Luigi workers (parallel pipelines).")
     args = parser.parse_args()
     instance_set = args.instance_set
 
@@ -44,7 +46,8 @@ def main():
                                    "CombinedBatchingRoutingAssigning"],
                          loader_cls=IBRSPLoader,
                          verbose=True,
-                         time_limit_sec=240)
+                         time_limit_sec=240,
+                         workers=args.workers)
     runner.run_all()
     print(runner.pipeline_runtimes)
 

@@ -42,6 +42,8 @@ def main():
                                  "HennWaescherClassBased"],
                         nargs="?",
                         default="BahceciOencan")
+    parser.add_argument("--workers", type=int, default=1,
+                        help="Number of Luigi workers (parallel pipelines).")
     args = parser.parse_args()
     instance_set = args.instance_set
     excluded = ["ExactSolving"]
@@ -59,7 +61,7 @@ def main():
                                  data_card=dc, excluded=excluded, verbose=True,
                                  time_limit_sec=240, loader_cls=HesslerIrnichLoader, loader_kwargs={
                                     "mirror_top_depot": True,
-                                })
+                                }, workers=args.workers)
 
     runner.run_all()
 

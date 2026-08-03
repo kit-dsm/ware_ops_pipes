@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Tuple
+import argparse
 
 from ware_ops_algos.data_loaders import FoodmartLoader
 from ware_ops_algos.domain_models import load_and_flatten_data_card
@@ -25,6 +26,11 @@ def main():
     print("Importing template and subproblems...")
 
     # Configuration
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--workers", type=int, default=1,
+                        help="Number of Luigi workers (parallel pipelines).")
+    args = parser.parse_args()
+
     PROJECT_ROOT = Path(__file__).parent.parent
     DATA_DIR = PROJECT_ROOT / "data"
 
@@ -36,7 +42,8 @@ def main():
                             PROJECT_ROOT, data_card=dc,
                             excluded=["ExactSolving",
                                       "CombinedBatchingRoutingAssigning"], verbose=True,
-                            time_limit_sec=240, loader_cls=FoodmartLoader)
+                            time_limit_sec=240, loader_cls=FoodmartLoader,
+                            workers=args.workers)
     runner.run_all()
     print(runner.pipeline_runtimes)
 
