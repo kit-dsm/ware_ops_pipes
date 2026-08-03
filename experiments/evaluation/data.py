@@ -97,6 +97,16 @@ ALGO_COLS = [
 IAR_ALGOS = {"RatliffRosenthalNF", "RR-NF"}
 BR_ALGOS = {"CombinedBatchingRoutingAssigning", "CBR"}
 
+# Loader timing columns produced by the provenance system.  These are
+# separate from total_cpu_time (which covers algorithm stages only) so
+# that one-time loading costs don't inflate per-pipeline runtimes.
+LOADER_TIME_COLUMNS = [
+    "layout_parse_time", "layout_build_time", "layout_load_time",
+    "layout_cache_hit",
+    "instance_parse_time", "instance_build_time", "instance_load_time",
+    "instance_cache_hit",
+]
+
 # ===========================================================================
 # Instance sets
 # ===========================================================================

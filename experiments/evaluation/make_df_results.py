@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from eval_commons import load_summary_jsons_fast, create_summary_dataframe
@@ -188,6 +189,18 @@ def postprocess(df: pd.DataFrame) -> pd.DataFrame:
     for stage_time_col in ["ia_time", "scheduling_time"]:
         if stage_time_col not in df.columns:
             df[stage_time_col] = 0.0
+
+    # Loader timing columns are absent from legacy caches; default to NaN
+    # so they are excluded from aggregations but kept in the schema.
+    for loader_col in [
+        "layout_parse_time", "layout_build_time", "layout_load_time",
+        "layout_cache_hit",
+        "instance_parse_time", "instance_build_time", "instance_load_time",
+        "instance_cache_hit",
+    ]:
+        if loader_col not in df.columns:
+            df[loader_col] = np.nan
+
     df["total_cpu_time"] = (
         df["ia_time"].fillna(0)
         + df["routing_input_time"].fillna(0)

@@ -1,6 +1,7 @@
 import os
 import hashlib
 import json
+import time
 from pathlib import Path
 
 import luigi
@@ -65,8 +66,15 @@ class LayoutLoader(BaseComponent):
 
     def run(self):
         loader = self._loader()
+
+        t0 = time.perf_counter()
         parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
+        t_parse = time.perf_counter() - t0
+
+        t1 = time.perf_counter()
         layout = loader.build_layout(parsed)
+        t_build = time.perf_counter() - t1
+
         if not self.pipeline_params.gen_tour:
             # layout.layout_network.graph = None
             layout.layout_network.predecessor_matrix = None
@@ -77,6 +85,15 @@ class LayoutLoader(BaseComponent):
         tmp_path = f"{target.path}.tmp.{os.getpid()}"
         dump_pickle(tmp_path, layout)
         os.replace(tmp_path, target.path)
+
+        dump_json(
+            f"{target.path}.timing.json",
+            {
+                "parse_time": t_parse,
+                "build_time": t_build,
+                "total_time": t_parse + t_build,
+            },
+        )
 
 
 class InstanceLoader(BaseComponent):
@@ -108,22 +125,37 @@ class InstanceLoader(BaseComponent):
 
     def run(self):
         loader = self._loader()
+
+        t0 = time.perf_counter()
         parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
+        t_parse = time.perf_counter() - t0
 
         layout = load_pickle(
             self.input()["layout_loader"]["layout"].path
         )
 
+        t1 = time.perf_counter()
         domain: BaseWarehouseDomain = loader.build_domain_with_layout(
             parsed,
             layout,
         )
+        t_build = time.perf_counter() - t1
 
         self._dump("orders", domain.orders)
         self._dump("resources", domain.resources)
         self._dump("articles", domain.articles)
         self._dump("storage", domain.storage)
         self._dump("warehouse_info", domain.warehouse_info)
+
+        orders_target = self.output()["orders"]
+        dump_json(
+            f"{orders_target.path}.timing.json",
+            {
+                "parse_time": t_parse,
+                "build_time": t_build,
+                "total_time": t_parse + t_build,
+            },
+        )
 
     def _dump(self, key: str, obj) -> None:
         target = self.output()[key]
@@ -461,7 +493,7 @@ class AbstractResultAggregation(BaseComponent):
         # The InstanceLoader may be a direct dependency (DueDate aggregation)
         # or a grandchild (Distance aggregation), so we walk the full graph.
         try:
-            instance_task = self._find_instance_task()
+            instance_task = self._find_instance_task(self)
             if instance_task is not None:
                 orders = load_pickle(instance_task.output()["orders"].path)
                 resources = load_pickle(instance_task.output()["resources"].path)
@@ -482,6 +514,35 @@ class AbstractResultAggregation(BaseComponent):
                     total_lines += len(order.order_positions) if hasattr(order, "order_positions") else 0
                 features["n_order_lines"] = total_lines
                 summary["instance_features"] = features
+
+                # Loader timing: read sidecar JSONs written by LayoutLoader.run()
+                # and InstanceLoader.run().  Absent sidecar means the task was
+                # skipped by Luigi (cache hit) — report zero time.
+                loader_timing: dict[str, float | bool] = {}
+                for kind, task in (
+                    ("layout", instance_task.requires().get("layout_loader")),
+                    ("instance", instance_task),
+                ):
+                    if task is None:
+                        continue
+                    out = task.output()
+                    if kind == "layout":
+                        timing_path = f"{out['layout'].path}.timing.json"
+                    else:
+                        timing_path = f"{out['orders'].path}.timing.json"
+                    try:
+                        timing = load_json(timing_path)
+                        loader_timing[f"{kind}_parse_time"] = timing.get("parse_time", 0.0)
+                        loader_timing[f"{kind}_build_time"] = timing.get("build_time", 0.0)
+                        loader_timing[f"{kind}_load_time"] = timing.get("total_time", 0.0)
+                        loader_timing[f"{kind}_cache_hit"] = False
+                    except Exception:
+                        loader_timing[f"{kind}_parse_time"] = 0.0
+                        loader_timing[f"{kind}_build_time"] = 0.0
+                        loader_timing[f"{kind}_load_time"] = 0.0
+                        loader_timing[f"{kind}_cache_hit"] = True
+                if loader_timing:
+                    summary["loader_timing"] = loader_timing
         except Exception:
             pass
 

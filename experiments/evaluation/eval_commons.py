@@ -120,6 +120,16 @@ def create_summary_dataframe(summary_data: List[Dict]) -> pd.DataFrame:
                           "n_resources", "storage_type", "n_order_lines"]:
             row[feat_name] = features.get(feat_name, None)
 
+        # Loader timing (layout + instance). Absent in legacy summaries.
+        lt = data.get("loader_timing", {})
+        for lt_key in [
+            "layout_parse_time", "layout_build_time", "layout_load_time",
+            "layout_cache_hit",
+            "instance_parse_time", "instance_build_time", "instance_load_time",
+            "instance_cache_hit",
+        ]:
+            row[lt_key] = lt.get(lt_key, None)
+
         # Batch distance statistics
         batch_distances = data.get("tours_summary", {}).get("tour_distances", {})
         if batch_distances:
