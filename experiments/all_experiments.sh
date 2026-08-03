@@ -43,10 +43,8 @@ run_experiment() {
 
 FAILED=0
 
-# Foodmart
-run_experiment "foodmart" "experiments/run_foodmart.py" || FAILED=1
-
 # Hessler-Irnich / literature instance sets
+# SPRP first: warms the layout cache for SPRP-SS (identical layouts).
 run_experiment "hessler_irnich_sprp" "experiments/run_hessler_irnich.py" "SPRP" || FAILED=1
 run_experiment "hessler_irnich_sprp_ss" "experiments/run_hessler_irnich.py" "SPRP-SS" || FAILED=1
 run_experiment "hessler_irnich_bahceci_oencan" "experiments/run_hessler_irnich.py" "BahceciOencan" || FAILED=1
@@ -54,7 +52,10 @@ run_experiment "hessler_irnich_muter_oencan" "experiments/run_hessler_irnich.py"
 run_experiment "hessler_irnich_henn_waescher_uniform" "experiments/run_hessler_irnich.py" "HennWaescherUniform" || FAILED=1
 run_experiment "hessler_irnich_henn_waescher_class_based" "experiments/run_hessler_irnich.py" "HennWaescherClassBased" || FAILED=1
 
-# IBRSP / Kris instance sets
+# Foodmart (separate loader / layout cache)
+run_experiment "foodmart" "experiments/run_foodmart.py" || FAILED=1
+
+# IBRSP / Kris instance sets (separate loader / layout cache)
 run_experiment "ibrsp_kris_small_corrected" "experiments/run_ibrsp.py" "KrisSmallDataCorrected" || FAILED=1
 run_experiment "ibrsp_kris_large" "experiments/run_ibrsp.py" "KrisLargeData" || FAILED=1
 
