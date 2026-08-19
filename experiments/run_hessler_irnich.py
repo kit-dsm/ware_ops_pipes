@@ -38,6 +38,7 @@ def main():
                                  "SPRP-SS",
                                  "BahceciOencan",
                                  "MuterOencan",
+                                 "MuterOencanWG"
                                  "HennWaescherUniform",
                                  "HennWaescherClassBased"],
                         nargs="?",
