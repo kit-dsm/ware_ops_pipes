@@ -28,6 +28,9 @@ Objects, Algorithm Cards and Algorithm Repository, Problem Taxonomy, Pipeline
 Synthesizer, and Pipeline Evaluator. The first three are implemented primarily
 in `ware_ops_algos`; the last two are implemented here.
 
+The maintained [documentation](https://kit-dsm.github.io/ware_ops_pipes/)
+introduces pipeline synthesis and shows how to add a pipeline component.
+
 ## Installation
 
 Python 3.11 or newer and [uv](https://docs.astral.sh/uv/) are required for the
@@ -171,6 +174,10 @@ compact reference points:
 
 The custom batching example in `ware_ops_algos/examples/custom_batching.py`
 shows the algorithm-interface part without changing either repository.
+
+[`examples/extend_with_custom_batching.py`](examples/extend_with_custom_batching.py)
+shows the corresponding pipeline-component wrapper and verifies that CLS-Luigi
+registers it for synthesis.
 
 ## License and citation
 
