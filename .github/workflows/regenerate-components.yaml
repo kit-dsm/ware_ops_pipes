@@ -1,8 +1,8 @@
 name: Regenerate configured components
 
 on:
-  push:
-    branches: [main]
+  repository_dispatch:
+    types: [configs-changed]
 
 permissions:
   contents: write
@@ -16,14 +16,15 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13"
 
       - uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
 
-      - name: Install project
-        run: uv sync
+      - name: Install ware_ops_algos at dispatched SHA
+        run: |
+          uv add "ware-ops-algos @ git+https://github.com/kit-dsm/ware_ops_algos.git@${{ github.event.client_payload.sha }}"
 
       - name: Run component generator
         run: uv run python src/ware_ops_pipes/generate_configured_components.py
@@ -33,7 +34,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          git add src/ware_ops_pipes/pipelines/subproblems/batching/generated/
+          git add pyproject.toml uv.lock src/ware_ops_pipes/pipelines/subproblems/batching/generated/
 
           if git diff --cached --quiet; then
             echo "No changes to generated components."
