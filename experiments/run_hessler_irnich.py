@@ -1,9 +1,8 @@
 import argparse
-import time
 from pathlib import Path
 from typing import Tuple
 
-from ware_ops_algos.domain_models import BaseWarehouseDomain, load_and_flatten_data_card
+from ware_ops_algos.domain_models import load_and_flatten_data_card
 
 from ware_ops_pipes.data_loaders import HesslerIrnichLoader
 from ware_ops_pipes.synthesis.runner import PipelineRunner
@@ -14,7 +13,6 @@ instance_data_card_mapping = {
     "BahceciOencan": "bahceci_oencan.yaml",
     "HennWaescherUniform": "henn_waescher.yaml",
     "HennWaescherClassBased": "henn_waescher.yaml",
-    "MuterOencan": "muter_oencan.yaml",
     "MuterOencanWG": "muter_oencan.yaml",
 }
 
@@ -38,7 +36,6 @@ def main():
                         choices=["SPRP",
                                  "SPRP-SS",
                                  "BahceciOencan",
-                                 "MuterOencan",
                                  "MuterOencanWG",
                                  "HennWaescherUniform",
                                  "HennWaescherClassBased"],

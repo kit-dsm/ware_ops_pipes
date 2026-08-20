@@ -1,10 +1,9 @@
 import argparse
-import time
 from pathlib import Path
 from typing import Tuple
 
 from ware_ops_algos.data_loaders import IBRSPLoader
-from ware_ops_algos.domain_models import BaseWarehouseDomain, load_and_flatten_data_card
+from ware_ops_algos.domain_models import load_and_flatten_data_card
 from ware_ops_pipes.synthesis.runner import PipelineRunner
 
 
@@ -37,8 +36,6 @@ def main():
     DATA_DIR = PROJECT_ROOT / "data"
 
     instances_base = DATA_DIR / "instances"
-    cache_base = DATA_DIR / "instances" / "caches"
-
     dc = load_and_flatten_data_card(DATA_DIR / "data_cards" / "kris.yaml")
     runner = IBRSPRunner(instance_set, instances_base / instance_set, PROJECT_ROOT,
                          data_card=dc,

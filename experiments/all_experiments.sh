@@ -74,7 +74,7 @@ run_experiment "hessler_irnich_sprp_ss" "experiments/run_hessler_irnich.py" "SPR
 # to avoid Gurobi thread oversubscription (Gurobi defaults to all cores
 # per model; multiple concurrent models would thrash).
 run_experiment "hessler_irnich_bahceci_oencan" "experiments/run_hessler_irnich.py" "BahceciOencan" --workers 1 || FAILED=1
-run_experiment "hessler_irnich_muter_oencan" "experiments/run_hessler_irnich.py" "MuterOencan" ${WORKERS_ARG} || FAILED=1
+run_experiment "hessler_irnich_muter_oencan" "experiments/run_hessler_irnich.py" "MuterOencanWG" ${WORKERS_ARG} || FAILED=1
 run_experiment "hessler_irnich_henn_waescher_uniform" "experiments/run_hessler_irnich.py" "HennWaescherUniform" ${WORKERS_ARG} || FAILED=1
 run_experiment "hessler_irnich_henn_waescher_class_based" "experiments/run_hessler_irnich.py" "HennWaescherClassBased" ${WORKERS_ARG} || FAILED=1
 

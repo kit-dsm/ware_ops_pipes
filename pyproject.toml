@@ -5,11 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ware-ops-pipes"
 version = "0.1.0"
-description = "Pipeline tool to build and run automated warehouse optimization."
+description = "Context-aware synthesis of optimization pipelines for warehouse optimization."
+readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
 dependencies = [
-    "ware-ops-algos @ git+https://github.com/kit-dsm/ware_ops_algos.git@042dcff65c1fe0f11c8659c2977dd42c3f079982",
+    "ware-ops-algos @ git+https://github.com/kit-dsm/ware_ops_algos.git@f0bdbf0dd44a534fa256c631303ba1243fed98fb",
     "cls-luigi==0.1.1",
     "luigi==3.6.0",
     "pandas"
@@ -28,16 +29,6 @@ eval = [
     "lxml",
     "pyarrow"
 ]
-docs = [
-    "sphinx",
-    "sphinx-design",
-    "sphinx-autoapi",
-    "sphinx-copybutton",
-    "furo",
-    "myst-nb",
-    "nbsphinx",
-]
-
 [tool.setuptools]
 package-dir = {"" = "src"}
 

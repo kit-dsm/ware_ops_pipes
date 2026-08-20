@@ -35,8 +35,6 @@ def main():
     DATA_DIR = PROJECT_ROOT / "data"
 
     instances_base = DATA_DIR / "instances"
-    cache_base = DATA_DIR / "instances" / "caches"
-
     dc = load_and_flatten_data_card(DATA_DIR / "data_cards" / "foodmart.yaml")
     runner = FoodmartRunner("FoodmartData", instances_base / "FoodmartData",
                             PROJECT_ROOT, data_card=dc,

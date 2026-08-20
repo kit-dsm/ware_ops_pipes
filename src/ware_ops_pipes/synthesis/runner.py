@@ -11,8 +11,6 @@ from cls.fcl import FiniteCombinatoryLogic
 from cls.subtypes import Subtypes
 from cls_luigi.inhabitation_task import RepoMeta
 from cls_luigi.unique_task_pipeline_validator import UniqueTaskPipelineValidator
-from gurobipy._core import defaultdict
-
 from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_algos.taxonomy.taxonomy import TAXONOMY
@@ -34,23 +32,22 @@ class PipelineRunner(ABC):
             instances_dir: Path,
             project_root: Path,
             data_card,
-            excluded: list = [],
+            excluded: list | None = None,
             max_pipelines: int = 10,
             verbose: bool = True,
             ranker=RankingEvaluator,
             time_limit_sec: int | None = None,
             gen_tour: bool = False,
-            loader_kwargs: dict = defaultdict(),
+            loader_kwargs: dict | None = None,
             loader_cls=None,
             workers: int = 1,
     ):
         self.instance_set_name = instance_set_name
         self.instances_dir = Path(instances_dir)
-        self.loader_kwargs = loader_kwargs
+        self.loader_kwargs = loader_kwargs or {}
         self.loader_cls = loader_cls
 
         self.project_root = Path(project_root)
-        self.src_dir = project_root / "src" / "warehouse_algos"
         self.max_pipelines = max_pipelines
         self.verbose = verbose
         self.pipeline_runtimes = {}
@@ -86,7 +83,7 @@ class PipelineRunner(ABC):
         if self.verbose:
             print(f"Loaded {len(self.algos)} model cards")
         self.data_card = data_card
-        self.excluded = excluded
+        self.excluded = excluded or []
         self.loader: DataLoader | None = None
         self.ranker = ranker
 
@@ -111,7 +108,7 @@ class PipelineRunner(ABC):
             try:
                 self.run_instance(instance_name, file_paths)
             except Exception as e:
-                print(f"❌ Error processing {instance_name}: {e}")
+                print(f"Error processing {instance_name}: {e}")
                 if self.verbose:
                     import traceback
                     traceback.print_exc()
@@ -138,7 +135,7 @@ class PipelineRunner(ABC):
         timings["filter_and_import"] = time.perf_counter() - t0
 
         if self.verbose:
-            print(f"✓ {len(algos_applicable)}/{len(self.algos)} algorithms applicable")
+            print(f"{len(algos_applicable)}/{len(self.algos)} algorithms applicable")
 
         # Import applicable models
         final_algos = []
@@ -179,13 +176,13 @@ class PipelineRunner(ABC):
 
         t0 = time.perf_counter()
         if pipelines:
-            print(f"\n✓ Running {len(pipelines)} pipelines with {self.workers} worker(s)...\n")
+            print(f"\nRunning {len(pipelines)} pipelines with {self.workers} worker(s)...\n")
             luigi.interface.InterfaceLogging.setup(type('opts',
                                                         (),
                                                         {'background': None,
                                                          'logdir': None,
                                                          'logging_conf_file': None,
-                                                         'log_level': 'DEBUG'
+                                                         'log_level': 'DEBUG' if self.verbose else 'WARNING'
                                                          }))
             luigi.build(pipelines, local_scheduler=True, workers=self.workers)
 
@@ -194,7 +191,7 @@ class PipelineRunner(ABC):
             timings["total"] = sum(timings.values())
             self.pipeline_runtimes[instance_name] = timings
         else:
-            print("⚠ No valid pipelines found!")
+            print("No valid pipelines found.")
 
     def _import_models(self, algos_applicable):
         """Import applicable concrete CLS-Luigi components."""
@@ -213,7 +210,7 @@ class PipelineRunner(ABC):
 
                     if self.verbose:
                         print(
-                            f"✅ {card.algo_name} "
+                            f"Imported {card.algo_name} "
                             f"from {configured_module}"
                         )
 
@@ -225,7 +222,7 @@ class PipelineRunner(ABC):
                 if module_path is None:
                     if self.verbose:
                         print(
-                            f"⚠ Unknown model: "
+                            f"Unknown model: "
                             f"{card.algo_name}, skipping..."
                         )
                     continue
@@ -234,11 +231,11 @@ class PipelineRunner(ABC):
                     module_path,
                 )
                 if self.verbose:
-                    print(f"✅ {card.algo_name}")
+                    print(f"Imported {card.algo_name}")
             except Exception as exc:
                 if self.verbose:
                     print(
-                        f"❌ Failed to import "
+                        f"Failed to import "
                         f"{card.algo_name}: {exc}"
                     )
 
@@ -275,7 +272,7 @@ class PipelineRunner(ABC):
         ]
 
         if self.verbose and pipelines:
-            print(f"✓ Found {len(pipelines)} valid pipelines")
+            print(f"Found {len(pipelines)} valid pipelines")
             for i, pipeline in enumerate(pipelines, 1):  # Show first 3
                 print(f"\nPipeline {i}:")
                 print(print_tree(pipeline))
@@ -299,7 +296,7 @@ class PipelineRunner(ABC):
                 return best
 
         except Exception as e:
-            print(f"⚠ Ranking error: {e}")
+            print(f"Ranking error: {e}")
 
     def save_runtimes(self):
         output_folder = (
