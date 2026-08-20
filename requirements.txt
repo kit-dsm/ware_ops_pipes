@@ -1,5 +1,5 @@
 pandas~=2.3.3
-ware_ops_algos~=0.1.0
+ware-ops-algos @ git+https://github.com/kit-dsm/ware_ops_algos.git@042dcff65c1fe0f11c8659c2977dd42c3f079982
 cls-luigi==0.1.1
 cls-python==0.1.4
 luigi==3.6.0

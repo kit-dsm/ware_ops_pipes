@@ -1,0 +1,8 @@
+instance_set,IA,B,R,IAR,BR,S,pipelines_per_instance
+SPRP,1,1,6,0,0,0,6
+SPRP-SS,5,1,6,1,0,0,31
+BahceciOencan,1,11,6,0,1,0,67
+HennWaescher,1,11,6,0,0,0,66
+MuterOencan,1,11,6,0,0,0,66
+Foodmart,1,9,5,0,0,0,45
+Kris,1,15,5,0,0,3,300

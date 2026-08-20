@@ -42,7 +42,7 @@ orders:
   objects:
     - name: Order
       features:
-        - name: order_number
+        - name: order_id
         - name: due_date
         - name: order_date
 

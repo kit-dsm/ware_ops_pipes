@@ -48,11 +48,22 @@ class TardinessMetric(Metric):
             return math.inf
 
 
+class PickingTimeMetric(Metric):
+    name = "picking_time"
+    direction = "min"
+
+    def compute(self, summary: Dict) -> float:
+        if "total_time" in summary.keys():
+            return float(summary["total_time"])
+        return math.inf
+
+
 OBJECTIVE_TO_METRIC: dict[str, type[Metric]] = {
     "distance": DistanceMetric,
     "makespan": MakespanMetric,
     "completion_time": MakespanMetric,
     "tardiness": TardinessMetric,
+    "picking_time": PickingTimeMetric,
 }
 
 

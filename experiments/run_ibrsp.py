@@ -11,20 +11,12 @@ from ware_ops_pipes.synthesis.runner import PipelineRunner
 class IBRSPRunner(PipelineRunner):
     """Runner for IBRSP instances"""
 
-    def __init__(self, instance_set_name: str, instances_dir: Path, cache_dir: Path,
-                 project_root: Path, **kwargs):
-        super().__init__(instance_set_name, instances_dir, cache_dir, project_root, **kwargs)
-        self.loader = IBRSPLoader(str(instances_dir), str(cache_dir))
-
     def discover_instances(self) -> list[Tuple[str, list[Path]]]:
         instances = []
         for filepath in self.instances_dir.glob("*.txt"):
             if filepath.is_file():
                 instances.append((filepath.stem, [filepath]))
         return instances
-
-    def load_domain(self, instance_name: str, file_paths: list[Path]) -> BaseWarehouseDomain:
-        return self.loader.load(file_paths[0].name, use_cache=True)
 
 
 def main():
@@ -36,6 +28,8 @@ def main():
                         choices=["KrisSmallDataCorrected", "KrisLargeData"],
                         nargs="?",
                         default="KrisSmallDataCorrected")
+    parser.add_argument("--workers", type=int, default=1,
+                        help="Number of Luigi workers (parallel pipelines).")
     args = parser.parse_args()
     instance_set = args.instance_set
 
@@ -46,13 +40,14 @@ def main():
     cache_base = DATA_DIR / "instances" / "caches"
 
     dc = load_and_flatten_data_card(DATA_DIR / "data_cards" / "kris.yaml")
-    runner = IBRSPRunner(instance_set, instances_base / instance_set,
-                         cache_base / instance_set, PROJECT_ROOT,
+    runner = IBRSPRunner(instance_set, instances_base / instance_set, PROJECT_ROOT,
                          data_card=dc,
                          excluded=["ExactSolving",
                                    "CombinedBatchingRoutingAssigning"],
+                         loader_cls=IBRSPLoader,
                          verbose=True,
-                         time_limit_sec=240)
+                         time_limit_sec=240,
+                         workers=args.workers)
     runner.run_all()
     print(runner.pipeline_runtimes)
 

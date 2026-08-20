@@ -1,0 +1,8 @@
+Instance Set,Objective,Feasible / Instances,Gap to Ref. [%]
+SPRP,distance,"2,400 / 2,400",0.0
+SPRP-SS,distance,"14,300 / 14,300",0.0
+Bahceci--Öncan,distance,"1,350 / 1,350",0.017495643216526566
+Henn--Wäscher,distance,"5,759 / 5,759",3.96920469188893
+Muter--Öncan (WG geometry),distance,270 / 270,5.648067889061148
+Foodmart,distance,42 / 42,6.961020772869266
+Kris,picking time,272 / 295,5.941624072118562

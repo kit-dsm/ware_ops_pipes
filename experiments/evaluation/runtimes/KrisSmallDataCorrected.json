@@ -1,0 +1,1696 @@
+{
+  "instances_103_1": {
+    "load_domain": 1.2479722499847412e-07,
+    "filter_and_import": 0.00022096280008554459,
+    "build_pipelines": 1.3174731638282537,
+    "run_pipelines": 8.861007334664464,
+    "total": 10.178701586090028
+  },
+  "instances_73_1": {
+    "load_domain": 1.387670636177063e-07,
+    "filter_and_import": 0.0002781655639410019,
+    "build_pipelines": 1.2479018149897456,
+    "run_pipelines": 7.329497396014631,
+    "total": 8.577677515335381
+  },
+  "instances_77_1": {
+    "load_domain": 7.916241884231567e-08,
+    "filter_and_import": 0.000314515084028244,
+    "build_pipelines": 1.242939873598516,
+    "run_pipelines": 5.9252342926338315,
+    "total": 7.168488760478795
+  },
+  "instances_79_1": {
+    "load_domain": 9.220093488693237e-08,
+    "filter_and_import": 0.0002763504162430763,
+    "build_pipelines": 1.2444985983893275,
+    "run_pipelines": 6.560171530582011,
+    "total": 7.804946571588516
+  },
+  "instances_165_1": {
+    "load_domain": 9.499490261077881e-08,
+    "filter_and_import": 0.00035717524588108063,
+    "build_pipelines": 1.2668005852028728,
+    "run_pipelines": 12.554444424808025,
+    "total": 13.821602280251682
+  },
+  "instances_162_1": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.0002801530063152313,
+    "build_pipelines": 1.2733092121779919,
+    "run_pipelines": 7.5606986144557595,
+    "total": 8.834288026206195
+  },
+  "instances_125_1": {
+    "load_domain": 5.122274160385132e-08,
+    "filter_and_import": 0.00028371158987283707,
+    "build_pipelines": 1.2573311207816005,
+    "run_pipelines": 7.493151775561273,
+    "total": 8.750766659155488
+  },
+  "instances_235_1": {
+    "load_domain": 5.494803190231323e-08,
+    "filter_and_import": 0.00027419254183769226,
+    "build_pipelines": 1.2680993936955929,
+    "run_pipelines": 14.596563029102981,
+    "total": 15.864936670288444
+  },
+  "instances_145_1": {
+    "load_domain": 5.774199962615967e-08,
+    "filter_and_import": 0.0002935631200671196,
+    "build_pipelines": 1.2775298431515694,
+    "run_pipelines": 8.798802058212459,
+    "total": 10.076625522226095
+  },
+  "instances_67_1": {
+    "load_domain": 7.450580596923828e-08,
+    "filter_and_import": 0.0002839360386133194,
+    "build_pipelines": 1.2613511020317674,
+    "run_pipelines": 7.639890654012561,
+    "total": 8.901525766588748
+  },
+  "instances_48_1": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.00027714483439922333,
+    "build_pipelines": 1.2647871933877468,
+    "run_pipelines": 7.688481166027486,
+    "total": 8.953545557335019
+  },
+  "instances_49_1": {
+    "load_domain": 5.494803190231323e-08,
+    "filter_and_import": 0.00027881935238838196,
+    "build_pipelines": 1.251548578031361,
+    "run_pipelines": 6.761314230039716,
+    "total": 8.013141682371497
+  },
+  "instances_22_1": {
+    "load_domain": 5.4016709327697754e-08,
+    "filter_and_import": 0.000283033587038517,
+    "build_pipelines": 1.2589329686015844,
+    "run_pipelines": 8.183241890743375,
+    "total": 9.442457946948707
+  },
+  "instances_180_1": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.00029758084565401077,
+    "build_pipelines": 1.2539351433515549,
+    "run_pipelines": 12.73441179189831,
+    "total": 13.988644560799003
+  },
+  "instances_159_1": {
+    "load_domain": 5.494803190231323e-08,
+    "filter_and_import": 0.00030019041150808334,
+    "build_pipelines": 1.258797232992947,
+    "run_pipelines": 8.636825887486339,
+    "total": 9.895923365838826
+  },
+  "instances_56_1": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.00028253626078367233,
+    "build_pipelines": 1.2840725695714355,
+    "run_pipelines": 6.9236353589221835,
+    "total": 8.20799051783979
+  },
+  "instances_216_1": {
+    "load_domain": 6.891787052154541e-08,
+    "filter_and_import": 0.0002933954820036888,
+    "build_pipelines": 1.262697790749371,
+    "run_pipelines": 11.084022779017687,
+    "total": 12.347014034166932
+  },
+  "instances_98_1": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.00027760211378335953,
+    "build_pipelines": 1.2362688602879643,
+    "run_pipelines": 7.485059002414346,
+    "total": 8.721605524420738
+  },
+  "instances_173_1": {
+    "load_domain": 4.190951585769653e-08,
+    "filter_and_import": 0.00027556344866752625,
+    "build_pipelines": 1.2697924608364701,
+    "run_pipelines": 11.407710553146899,
+    "total": 12.677778619341552
+  },
+  "instances_31_1": {
+    "load_domain": 7.543712854385376e-08,
+    "filter_and_import": 0.0002791453152894974,
+    "build_pipelines": 1.280138997361064,
+    "run_pipelines": 7.131562466733158,
+    "total": 8.41198068484664
+  },
+  "instances_71_1": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.00029046181589365005,
+    "build_pipelines": 1.2767434008419514,
+    "run_pipelines": 6.00011030677706,
+    "total": 7.277144216932356
+  },
+  "instances_87_1": {
+    "load_domain": 4.842877388000488e-08,
+    "filter_and_import": 0.00027454923838377,
+    "build_pipelines": 1.2712490046396852,
+    "run_pipelines": 8.75330612435937,
+    "total": 10.024829726666212
+  },
+  "instances_65_1": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.0002838093787431717,
+    "build_pipelines": 1.2441632226109505,
+    "run_pipelines": 7.825595217756927,
+    "total": 9.070042309351265
+  },
+  "instances_166_1": {
+    "load_domain": 8.754432201385498e-08,
+    "filter_and_import": 0.0002895388752222061,
+    "build_pipelines": 1.2982707638293505,
+    "run_pipelines": 11.154676879756153,
+    "total": 12.453237270005047
+  },
+  "instances_76_1": {
+    "load_domain": 6.239861249923706e-08,
+    "filter_and_import": 0.0002833511680364609,
+    "build_pipelines": 1.46714280359447,
+    "run_pipelines": 8.659750146791339,
+    "total": 10.127176363952458
+  },
+  "instances_59_1": {
+    "load_domain": 5.4016709327697754e-08,
+    "filter_and_import": 0.0002843458205461502,
+    "build_pipelines": 1.267090605571866,
+    "run_pipelines": 6.835957563482225,
+    "total": 8.103332568891346
+  },
+  "instances_130_1": {
+    "load_domain": 5.029141902923584e-08,
+    "filter_and_import": 0.0002784412354230881,
+    "build_pipelines": 1.2507913587614894,
+    "run_pipelines": 8.48479940649122,
+    "total": 9.735869256779552
+  },
+  "instances_188_1": {
+    "load_domain": 3.818422555923462e-08,
+    "filter_and_import": 0.00028251204639673233,
+    "build_pipelines": 1.257874958217144,
+    "run_pipelines": 12.157298039644957,
+    "total": 13.415455548092723
+  },
+  "instances_57_1": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.00028502847999334335,
+    "build_pipelines": 1.2725237784907222,
+    "run_pipelines": 6.912894749082625,
+    "total": 8.18570360261947
+  },
+  "instances_175_1": {
+    "load_domain": 5.681067705154419e-08,
+    "filter_and_import": 0.00030901096761226654,
+    "build_pipelines": 1.2694675968959928,
+    "run_pipelines": 14.70002297591418,
+    "total": 15.969799640588462
+  },
+  "instances_62_1": {
+    "load_domain": 4.936009645462036e-08,
+    "filter_and_import": 0.00028687436133623123,
+    "build_pipelines": 1.2842012532055378,
+    "run_pipelines": 8.97367353271693,
+    "total": 10.2581617096439
+  },
+  "instances_128_1": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.00028060562908649445,
+    "build_pipelines": 1.3039419362321496,
+    "run_pipelines": 9.054879668168724,
+    "total": 10.359102263115346
+  },
+  "instances_19_1": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.0002835802733898163,
+    "build_pipelines": 1.266544908285141,
+    "run_pipelines": 7.2018569596111774,
+    "total": 8.468685504049063
+  },
+  "instances_224_1": {
+    "load_domain": 5.8673322200775146e-08,
+    "filter_and_import": 0.0002961382269859314,
+    "build_pipelines": 1.2654053485020995,
+    "run_pipelines": 8.695924285799265,
+    "total": 9.961625831201673
+  },
+  "instances_190_1": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.0002777399495244026,
+    "build_pipelines": 1.259894729591906,
+    "run_pipelines": 12.304297137074172,
+    "total": 13.564469662494957
+  },
+  "instances_223_1": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.0002766847610473633,
+    "build_pipelines": 1.2715066187083721,
+    "run_pipelines": 9.390263653360307,
+    "total": 10.662047004327178
+  },
+  "instances_228_1": {
+    "load_domain": 5.494803190231323e-08,
+    "filter_and_import": 0.0002799229696393013,
+    "build_pipelines": 1.2632048390805721,
+    "run_pipelines": 12.07790725119412,
+    "total": 13.341392068192363
+  },
+  "instances_109_1": {
+    "load_domain": 6.705522537231445e-08,
+    "filter_and_import": 0.00028310343623161316,
+    "build_pipelines": 1.3098112531006336,
+    "run_pipelines": 9.721468212082982,
+    "total": 11.031562635675073
+  },
+  "instances_115_1": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.00033052917569875717,
+    "build_pipelines": 1.296947419643402,
+    "run_pipelines": 7.877117017284036,
+    "total": 9.1743950182572
+  },
+  "instances_193_1": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.0002956027165055275,
+    "build_pipelines": 1.3103177910670638,
+    "run_pipelines": 10.550404815003276,
+    "total": 11.861018253490329
+  },
+  "instances_177_1": {
+    "load_domain": 4.284083843231201e-08,
+    "filter_and_import": 0.00028529949486255646,
+    "build_pipelines": 1.2617047699168324,
+    "run_pipelines": 9.816358024254441,
+    "total": 11.078348136506975
+  },
+  "instances_226_1": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.0002929605543613434,
+    "build_pipelines": 1.290164440870285,
+    "run_pipelines": 12.515799721702933,
+    "total": 13.806257167831063
+  },
+  "instances_158_1": {
+    "load_domain": 1.1548399925231934e-07,
+    "filter_and_import": 0.00028104614466428757,
+    "build_pipelines": 1.2612381596118212,
+    "run_pipelines": 8.272882608696818,
+    "total": 9.534401929937303
+  },
+  "instances_30_1": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.00028466247022151947,
+    "build_pipelines": 1.2837040731683373,
+    "run_pipelines": 8.001055582426488,
+    "total": 9.285044371150434
+  },
+  "instances_10_1": {
+    "load_domain": 7.729977369308472e-08,
+    "filter_and_import": 0.00027839746326208115,
+    "build_pipelines": 1.2954274080693722,
+    "run_pipelines": 7.113058600574732,
+    "total": 8.40876448340714
+  },
+  "instances_29_1": {
+    "load_domain": 6.239861249923706e-08,
+    "filter_and_import": 0.00028420891612768173,
+    "build_pipelines": 1.31592283770442,
+    "run_pipelines": 7.024201518855989,
+    "total": 8.34040862787515
+  },
+  "instances_171_1": {
+    "load_domain": 4.842877388000488e-08,
+    "filter_and_import": 0.0002804268151521683,
+    "build_pipelines": 1.28060869500041,
+    "run_pipelines": 10.50901164766401,
+    "total": 11.789900817908347
+  },
+  "instances_181_1": {
+    "load_domain": 5.4016709327697754e-08,
+    "filter_and_import": 0.00028846412897109985,
+    "build_pipelines": 1.275935715995729,
+    "run_pipelines": 14.581698068417609,
+    "total": 15.857922302559018
+  },
+  "instances_41_1": {
+    "load_domain": 1.4901161193847656e-07,
+    "filter_and_import": 0.00040567293763160706,
+    "build_pipelines": 1.2941394979134202,
+    "run_pipelines": 7.134523498825729,
+    "total": 8.429068818688393
+  },
+  "instances_229_1": {
+    "load_domain": 5.029141902923584e-08,
+    "filter_and_import": 0.00028211530297994614,
+    "build_pipelines": 1.2772314762696624,
+    "run_pipelines": 11.962180431000888,
+    "total": 13.23969407286495
+  },
+  "instances_139_1": {
+    "load_domain": 4.284083843231201e-08,
+    "filter_and_import": 0.0002844762057065964,
+    "build_pipelines": 1.2603120850399137,
+    "run_pipelines": 9.943031850270927,
+    "total": 11.203628454357386
+  },
+  "instances_184_1": {
+    "load_domain": 6.705522537231445e-08,
+    "filter_and_import": 0.00031202472746372223,
+    "build_pipelines": 1.2543718507513404,
+    "run_pipelines": 11.793747113086283,
+    "total": 13.048431055620313
+  },
+  "instances_164_1": {
+    "load_domain": 6.05359673500061e-08,
+    "filter_and_import": 0.00028544291853904724,
+    "build_pipelines": 1.2971212407574058,
+    "run_pipelines": 11.526570838876069,
+    "total": 12.82397758308798
+  },
+  "instances_186_1": {
+    "load_domain": 8.009374141693115e-08,
+    "filter_and_import": 0.00028884410858154297,
+    "build_pipelines": 1.2912827217951417,
+    "run_pipelines": 11.473602703772485,
+    "total": 12.76517434976995
+  },
+  "instances_95_1": {
+    "load_domain": 7.078051567077637e-08,
+    "filter_and_import": 0.0002899179235100746,
+    "build_pipelines": 1.2888600649312139,
+    "run_pipelines": 8.050822635181248,
+    "total": 9.339972688816488
+  },
+  "instances_53_1": {
+    "load_domain": 6.332993507385254e-08,
+    "filter_and_import": 0.0002787252888083458,
+    "build_pipelines": 1.2899803258478642,
+    "run_pipelines": 7.409702569246292,
+    "total": 8.6999616837129
+  },
+  "instances_230_1": {
+    "load_domain": 7.264316082000732e-08,
+    "filter_and_import": 0.0002890266478061676,
+    "build_pipelines": 1.2741693779826164,
+    "run_pipelines": 12.62587018404156,
+    "total": 13.900328661315143
+  },
+  "instances_102_1": {
+    "load_domain": 6.798654794692993e-08,
+    "filter_and_import": 0.00028702057898044586,
+    "build_pipelines": 1.2937905304133892,
+    "run_pipelines": 13.695177460089326,
+    "total": 14.989255079068244
+  },
+  "instances_20_1": {
+    "load_domain": 7.450580596923828e-08,
+    "filter_and_import": 0.00029612332582473755,
+    "build_pipelines": 1.6269680950790644,
+    "run_pipelines": 8.52673570625484,
+    "total": 10.153999999165535
+  },
+  "instances_94_1": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.0003032619133591652,
+    "build_pipelines": 1.3025315767154098,
+    "run_pipelines": 9.129995598457754,
+    "total": 10.432830496691167
+  },
+  "instances_210_1": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.00030055828392505646,
+    "build_pipelines": 1.283505436964333,
+    "run_pipelines": 13.377141593024135,
+    "total": 14.660947644151747
+  },
+  "instances_1_1": {
+    "load_domain": 6.51925802230835e-08,
+    "filter_and_import": 0.00027754437178373337,
+    "build_pipelines": 1.2802884513512254,
+    "run_pipelines": 7.237950600683689,
+    "total": 8.518516661599278
+  },
+  "instances_151_1": {
+    "load_domain": 5.494803190231323e-08,
+    "filter_and_import": 0.0002792198210954666,
+    "build_pipelines": 1.2852602945640683,
+    "run_pipelines": 8.49193021748215,
+    "total": 9.777469786815345
+  },
+  "instances_26_1": {
+    "load_domain": 5.774199962615967e-08,
+    "filter_and_import": 0.00028617214411497116,
+    "build_pipelines": 1.2931267200037837,
+    "run_pipelines": 8.90909249521792,
+    "total": 10.202505445107818
+  },
+  "instances_243_1": {
+    "load_domain": 5.4016709327697754e-08,
+    "filter_and_import": 0.0002832561731338501,
+    "build_pipelines": 1.2894806135445833,
+    "run_pipelines": 12.210501682944596,
+    "total": 13.500265606679022
+  },
+  "instances_108_1": {
+    "load_domain": 5.494803190231323e-08,
+    "filter_and_import": 0.00030207447707653046,
+    "build_pipelines": 1.301913428120315,
+    "run_pipelines": 8.569604056887329,
+    "total": 9.871819614432752
+  },
+  "instances_43_1": {
+    "load_domain": 6.05359673500061e-08,
+    "filter_and_import": 0.00028828997164964676,
+    "build_pipelines": 1.3070853957906365,
+    "run_pipelines": 7.308004411868751,
+    "total": 8.615378158167005
+  },
+  "instances_47_1": {
+    "load_domain": 5.681067705154419e-08,
+    "filter_and_import": 0.000279976986348629,
+    "build_pipelines": 1.2843786627054214,
+    "run_pipelines": 7.045996145345271,
+    "total": 8.330654841847718
+  },
+  "instances_91_1": {
+    "load_domain": 7.450580596923828e-08,
+    "filter_and_import": 0.00028563011437654495,
+    "build_pipelines": 1.2826091889292002,
+    "run_pipelines": 9.097948807291687,
+    "total": 10.38084370084107
+  },
+  "instances_106_1": {
+    "load_domain": 7.264316082000732e-08,
+    "filter_and_import": 0.0003445092588663101,
+    "build_pipelines": 1.2893449207767844,
+    "run_pipelines": 9.048728152178228,
+    "total": 10.33841765485704
+  },
+  "instances_219_1": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.0002849828451871872,
+    "build_pipelines": 1.3230938399210572,
+    "run_pipelines": 11.91004839912057,
+    "total": 13.233427268452942
+  },
+  "instances_37_1": {
+    "load_domain": 5.4016709327697754e-08,
+    "filter_and_import": 0.00034650228917598724,
+    "build_pipelines": 1.2935959631577134,
+    "run_pipelines": 7.832104631699622,
+    "total": 9.12604715116322
+  },
+  "instances_12_1": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.0002853637561202049,
+    "build_pipelines": 1.2965044425800443,
+    "run_pipelines": 8.054661815986037,
+    "total": 9.351451674476266
+  },
+  "instances_17_1": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.00028260983526706696,
+    "build_pipelines": 1.3047136832028627,
+    "run_pipelines": 6.688878179527819,
+    "total": 7.9938745172694325
+  },
+  "instances_117_1": {
+    "load_domain": 1.2200325727462769e-07,
+    "filter_and_import": 0.0002800673246383667,
+    "build_pipelines": 1.2782734781503677,
+    "run_pipelines": 7.603882685303688,
+    "total": 8.882436352781951
+  },
+  "instances_198_1": {
+    "load_domain": 6.984919309616089e-08,
+    "filter_and_import": 0.0002896692603826523,
+    "build_pipelines": 1.3108895318582654,
+    "run_pipelines": 9.512025990523398,
+    "total": 10.823205261491239
+  },
+  "instances_209_1": {
+    "load_domain": 6.146728992462158e-08,
+    "filter_and_import": 0.00030441954731941223,
+    "build_pipelines": 1.2941864607855678,
+    "run_pipelines": 13.674352266825736,
+    "total": 14.968843208625913
+  },
+  "instances_195_1": {
+    "load_domain": 6.332993507385254e-08,
+    "filter_and_import": 0.0003471840173006058,
+    "build_pipelines": 1.3198594078421593,
+    "run_pipelines": 10.97709155548364,
+    "total": 12.297298210673034
+  },
+  "instances_203_1": {
+    "load_domain": 1.0244548320770264e-07,
+    "filter_and_import": 0.00028412044048309326,
+    "build_pipelines": 1.3108648359775543,
+    "run_pipelines": 12.459375624544919,
+    "total": 13.77052468340844
+  },
+  "instances_104_1": {
+    "load_domain": 7.450580596923828e-08,
+    "filter_and_import": 0.00028395745903253555,
+    "build_pipelines": 1.301642695441842,
+    "run_pipelines": 10.267117040231824,
+    "total": 11.569043767638505
+  },
+  "instances_110_1": {
+    "load_domain": 6.05359673500061e-08,
+    "filter_and_import": 0.00031806062906980515,
+    "build_pipelines": 1.309526146389544,
+    "run_pipelines": 10.972708957269788,
+    "total": 12.282553224824369
+  },
+  "instances_129_1": {
+    "load_domain": 5.029141902923584e-08,
+    "filter_and_import": 0.0002957768738269806,
+    "build_pipelines": 1.3316068202257156,
+    "run_pipelines": 10.996703961864114,
+    "total": 12.328606609255075
+  },
+  "instances_101_1": {
+    "load_domain": 3.166496753692627e-08,
+    "filter_and_import": 0.00028380192816257477,
+    "build_pipelines": 1.3406737009063363,
+    "run_pipelines": 11.114244595170021,
+    "total": 12.455202129669487
+  },
+  "instances_189_1": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.0002844426780939102,
+    "build_pipelines": 1.305024373345077,
+    "run_pipelines": 14.689112263731658,
+    "total": 15.994421135634184
+  },
+  "instances_197_1": {
+    "load_domain": 5.029141902923584e-08,
+    "filter_and_import": 0.00028543639928102493,
+    "build_pipelines": 1.3349851397797465,
+    "run_pipelines": 10.134588049724698,
+    "total": 11.469858676195145
+  },
+  "instances_13_1": {
+    "load_domain": 7.636845111846924e-08,
+    "filter_and_import": 0.00028364453464746475,
+    "build_pipelines": 1.2930550398305058,
+    "run_pipelines": 8.518162989988923,
+    "total": 9.811501750722528
+  },
+  "instances_82_1": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.0002894774079322815,
+    "build_pipelines": 1.2980611491948366,
+    "run_pipelines": 10.935383765026927,
+    "total": 12.23373445123434
+  },
+  "instances_50_1": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.0003052968531847,
+    "build_pipelines": 1.3209616327658296,
+    "run_pipelines": 7.990137632004917,
+    "total": 9.311404609121382
+  },
+  "instances_111_1": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.0002883933484554291,
+    "build_pipelines": 1.331122082658112,
+    "run_pipelines": 9.536308182403445,
+    "total": 10.8677187114954
+  },
+  "instances_72_1": {
+    "load_domain": 6.705522537231445e-08,
+    "filter_and_import": 0.00029999949038028717,
+    "build_pipelines": 1.3003320442512631,
+    "run_pipelines": 6.7421541744843125,
+    "total": 8.042786285281181
+  },
+  "instances_8_1": {
+    "load_domain": 6.239861249923706e-08,
+    "filter_and_import": 0.0002863975241780281,
+    "build_pipelines": 1.2910428512841463,
+    "run_pipelines": 6.33798851724714,
+    "total": 7.629317828454077
+  },
+  "instances_80_1": {
+    "load_domain": 5.494803190231323e-08,
+    "filter_and_import": 0.0002742595970630646,
+    "build_pipelines": 1.3044448317959905,
+    "run_pipelines": 7.704663617536426,
+    "total": 9.009382763877511
+  },
+  "instances_92_1": {
+    "load_domain": 6.798654794692993e-08,
+    "filter_and_import": 0.0002799713984131813,
+    "build_pipelines": 1.2694591553881764,
+    "run_pipelines": 11.812670468352735,
+    "total": 13.082409663125873
+  },
+  "instances_74_1": {
+    "load_domain": 5.122274160385132e-08,
+    "filter_and_import": 0.00028485432267189026,
+    "build_pipelines": 1.3158823437988758,
+    "run_pipelines": 7.700403674505651,
+    "total": 9.01657092384994
+  },
+  "instances_2_1": {
+    "load_domain": 5.494803190231323e-08,
+    "filter_and_import": 0.0002765282988548279,
+    "build_pipelines": 1.340222079306841,
+    "run_pipelines": 8.504648154601455,
+    "total": 9.845146817155182
+  },
+  "instances_153_1": {
+    "load_domain": 4.936009645462036e-08,
+    "filter_and_import": 0.00028313975781202316,
+    "build_pipelines": 1.3095266539603472,
+    "run_pipelines": 9.844500503502786,
+    "total": 11.154310346581042
+  },
+  "instances_237_1": {
+    "load_domain": 5.029141902923584e-08,
+    "filter_and_import": 0.0003054896369576454,
+    "build_pipelines": 1.336566316895187,
+    "run_pipelines": 12.444281082600355,
+    "total": 13.781152939423919
+  },
+  "instances_154_1": {
+    "load_domain": 5.029141902923584e-08,
+    "filter_and_import": 0.0002932567149400711,
+    "build_pipelines": 1.3318369509652257,
+    "run_pipelines": 9.591217475011945,
+    "total": 10.92334773298353
+  },
+  "instances_140_1": {
+    "load_domain": 5.774199962615967e-08,
+    "filter_and_import": 0.0003335624933242798,
+    "build_pipelines": 1.3198168193921447,
+    "run_pipelines": 8.861121057532728,
+    "total": 10.181271497160196
+  },
+  "instances_60_1": {
+    "load_domain": 4.936009645462036e-08,
+    "filter_and_import": 0.00030943378806114197,
+    "build_pipelines": 1.320000547915697,
+    "run_pipelines": 7.260228727944195,
+    "total": 8.58053875900805
+  },
+  "instances_179_1": {
+    "load_domain": 5.122274160385132e-08,
+    "filter_and_import": 0.00028786156326532364,
+    "build_pipelines": 1.3208560328930616,
+    "run_pipelines": 10.778516238555312,
+    "total": 12.09966018423438
+  },
+  "instances_81_1": {
+    "load_domain": 6.05359673500061e-08,
+    "filter_and_import": 0.0002952180802822113,
+    "build_pipelines": 1.3202100554481149,
+    "run_pipelines": 7.04973690956831,
+    "total": 8.370242243632674
+  },
+  "instances_28_1": {
+    "load_domain": 3.4458935260772705e-08,
+    "filter_and_import": 0.00028208177536726,
+    "build_pipelines": 1.3116400595754385,
+    "run_pipelines": 8.451130314730108,
+    "total": 9.763052490539849
+  },
+  "instances_34_1": {
+    "load_domain": 4.936009645462036e-08,
+    "filter_and_import": 0.0003537256270647049,
+    "build_pipelines": 1.3461074028164148,
+    "run_pipelines": 7.492660326883197,
+    "total": 8.839121504686773
+  },
+  "instances_54_1": {
+    "load_domain": 6.332993507385254e-08,
+    "filter_and_import": 0.000293768011033535,
+    "build_pipelines": 1.3329989667981863,
+    "run_pipelines": 8.790234047919512,
+    "total": 10.123526846058667
+  },
+  "instances_116_1": {
+    "load_domain": 7.264316082000732e-08,
+    "filter_and_import": 0.0002820603549480438,
+    "build_pipelines": 1.3286983789876103,
+    "run_pipelines": 8.77562702819705,
+    "total": 10.10460754018277
+  },
+  "instances_51_1": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.0002855909988284111,
+    "build_pipelines": 1.3013592325150967,
+    "run_pipelines": 7.7073006154969335,
+    "total": 9.00894548650831
+  },
+  "instances_61_1": {
+    "load_domain": 4.284083843231201e-08,
+    "filter_and_import": 0.00030617043375968933,
+    "build_pipelines": 1.3526838347315788,
+    "run_pipelines": 7.756846873089671,
+    "total": 9.109836921095848
+  },
+  "instances_182_1": {
+    "load_domain": 7.82310962677002e-08,
+    "filter_and_import": 0.0003016209229826927,
+    "build_pipelines": 1.3863279083743691,
+    "run_pipelines": 12.747582961805165,
+    "total": 14.134212569333613
+  },
+  "instances_143_1": {
+    "load_domain": 6.51925802230835e-08,
+    "filter_and_import": 0.0002965722233057022,
+    "build_pipelines": 1.2979753036051989,
+    "run_pipelines": 8.68658606056124,
+    "total": 9.984858001582325
+  },
+  "instances_211_1": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.0003014225512742996,
+    "build_pipelines": 1.3325405297800899,
+    "run_pipelines": 13.311816655099392,
+    "total": 14.64465865958482
+  },
+  "instances_124_1": {
+    "load_domain": 7.82310962677002e-08,
+    "filter_and_import": 0.0002862522378563881,
+    "build_pipelines": 1.3178386352956295,
+    "run_pipelines": 9.850387509912252,
+    "total": 11.168512475676835
+  },
+  "instances_169_1": {
+    "load_domain": 7.171183824539185e-08,
+    "filter_and_import": 0.0002820184454321861,
+    "build_pipelines": 1.3458260791376233,
+    "run_pipelines": 9.991057559847832,
+    "total": 11.337165729142725
+  },
+  "instances_68_1": {
+    "load_domain": 6.332993507385254e-08,
+    "filter_and_import": 0.0002846512943506241,
+    "build_pipelines": 1.3228645557537675,
+    "run_pipelines": 8.141696913167834,
+    "total": 9.464846183545887
+  },
+  "instances_148_1": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.00028581544756889343,
+    "build_pipelines": 1.3764971476048231,
+    "run_pipelines": 9.472895937040448,
+    "total": 10.849678959697485
+  },
+  "instances_149_1": {
+    "load_domain": 5.029141902923584e-08,
+    "filter_and_import": 0.0002899589017033577,
+    "build_pipelines": 1.367196535691619,
+    "run_pipelines": 10.607066093944013,
+    "total": 11.974552638828754
+  },
+  "instances_112_1": {
+    "load_domain": 6.426125764846802e-08,
+    "filter_and_import": 0.0002812761813402176,
+    "build_pipelines": 1.3486558878794312,
+    "run_pipelines": 9.612364613451064,
+    "total": 10.961301841773093
+  },
+  "instances_221_1": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.0003391299396753311,
+    "build_pipelines": 1.3091391744092107,
+    "run_pipelines": 11.225657348521054,
+    "total": 12.535135705955327
+  },
+  "instances_16_1": {
+    "load_domain": 4.842877388000488e-08,
+    "filter_and_import": 0.0003450857475399971,
+    "build_pipelines": 1.3203616254031658,
+    "run_pipelines": 7.508681081235409,
+    "total": 8.829387840814888
+  },
+  "instances_70_1": {
+    "load_domain": 6.332993507385254e-08,
+    "filter_and_import": 0.0002890927717089653,
+    "build_pipelines": 1.3152212081477046,
+    "run_pipelines": 7.424225251190364,
+    "total": 8.739735615439713
+  },
+  "instances_88_1": {
+    "load_domain": 1.2479722499847412e-07,
+    "filter_and_import": 0.00029468070715665817,
+    "build_pipelines": 1.3526559406891465,
+    "run_pipelines": 8.775543892756104,
+    "total": 10.128494638949633
+  },
+  "instances_24_1": {
+    "load_domain": 5.122274160385132e-08,
+    "filter_and_import": 0.00034688785672187805,
+    "build_pipelines": 1.3460645796731114,
+    "run_pipelines": 8.363467206247151,
+    "total": 9.709878724999726
+  },
+  "instances_157_1": {
+    "load_domain": 7.729977369308472e-08,
+    "filter_and_import": 0.00028544291853904724,
+    "build_pipelines": 1.3687378009781241,
+    "run_pipelines": 10.94552043825388,
+    "total": 12.314543759450316
+  },
+  "instances_201_1": {
+    "load_domain": 4.377216100692749e-08,
+    "filter_and_import": 0.0002781404182314873,
+    "build_pipelines": 1.3338505327701569,
+    "run_pipelines": 11.868063810281456,
+    "total": 13.202192527242005
+  },
+  "instances_174_1": {
+    "load_domain": 4.563480615615845e-08,
+    "filter_and_import": 0.0002848999574780464,
+    "build_pipelines": 1.346960373222828,
+    "run_pipelines": 12.092887450940907,
+    "total": 13.44013276975602
+  },
+  "instances_196_1": {
+    "load_domain": 7.078051567077637e-08,
+    "filter_and_import": 0.00028885435312986374,
+    "build_pipelines": 1.35769019741565,
+    "run_pipelines": 10.200682939961553,
+    "total": 11.558662062510848
+  },
+  "instances_236_1": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.0002887751907110214,
+    "build_pipelines": 1.350195755250752,
+    "run_pipelines": 12.983719353564084,
+    "total": 14.33420392870903
+  },
+  "instances_23_1": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.0003206683322787285,
+    "build_pipelines": 1.3443604791536927,
+    "run_pipelines": 8.477352568879724,
+    "total": 9.822033762931824
+  },
+  "instances_176_1": {
+    "load_domain": 8.475035429000854e-08,
+    "filter_and_import": 0.0002871965989470482,
+    "build_pipelines": 1.3354769321158528,
+    "run_pipelines": 16.846699504181743,
+    "total": 18.182463717646897
+  },
+  "instances_121_1": {
+    "load_domain": 5.774199962615967e-08,
+    "filter_and_import": 0.00031382031738758087,
+    "build_pipelines": 1.329442755319178,
+    "run_pipelines": 10.837152844294906,
+    "total": 12.166909477673471
+  },
+  "instances_55_1": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.000301373191177845,
+    "build_pipelines": 1.3411807185038924,
+    "run_pipelines": 9.589540963992476,
+    "total": 10.931023102253675
+  },
+  "instances_15_1": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.00028963200747966766,
+    "build_pipelines": 1.3431309219449759,
+    "run_pipelines": 9.014908746816218,
+    "total": 10.35832935385406
+  },
+  "instances_163_1": {
+    "load_domain": 4.563480615615845e-08,
+    "filter_and_import": 0.00028998591005802155,
+    "build_pipelines": 1.3646686282008886,
+    "run_pipelines": 12.45208502188325,
+    "total": 13.817043681629002
+  },
+  "instances_215_1": {
+    "load_domain": 7.078051567077637e-08,
+    "filter_and_import": 0.0003020782023668289,
+    "build_pipelines": 1.3570393780246377,
+    "run_pipelines": 12.871665337122977,
+    "total": 14.229006864130497
+  },
+  "instances_114_1": {
+    "load_domain": 4.284083843231201e-08,
+    "filter_and_import": 0.0002802722156047821,
+    "build_pipelines": 1.3302262760698795,
+    "run_pipelines": 16.44051835592836,
+    "total": 17.771024947054684
+  },
+  "instances_135_1": {
+    "load_domain": 6.239861249923706e-08,
+    "filter_and_import": 0.0003168126568198204,
+    "build_pipelines": 1.3722886992618442,
+    "run_pipelines": 9.651226608082652,
+    "total": 11.023832182399929
+  },
+  "instances_167_1": {
+    "load_domain": 1.2293457984924316e-07,
+    "filter_and_import": 0.00028553418815135956,
+    "build_pipelines": 1.3326354157179594,
+    "run_pipelines": 12.35122434888035,
+    "total": 13.684145421721041
+  },
+  "instances_69_1": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.00029833707958459854,
+    "build_pipelines": 1.3546045133844018,
+    "run_pipelines": 9.162304141558707,
+    "total": 10.517207036726177
+  },
+  "instances_44_1": {
+    "load_domain": 4.936009645462036e-08,
+    "filter_and_import": 0.00027912575751543045,
+    "build_pipelines": 1.3450103560462594,
+    "run_pipelines": 8.368760611861944,
+    "total": 9.714050143025815
+  },
+  "instances_18_1": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.0002858983352780342,
+    "build_pipelines": 1.3399667805060744,
+    "run_pipelines": 8.573482091538608,
+    "total": 9.913734815083444
+  },
+  "instances_146_1": {
+    "load_domain": 7.729977369308472e-08,
+    "filter_and_import": 0.000285957008600235,
+    "build_pipelines": 1.322432312183082,
+    "run_pipelines": 10.251414441503584,
+    "total": 11.57413278799504
+  },
+  "instances_231_1": {
+    "load_domain": 6.05359673500061e-08,
+    "filter_and_import": 0.00027869269251823425,
+    "build_pipelines": 1.3498930120840669,
+    "run_pipelines": 11.34683379996568,
+    "total": 12.697005565278232
+  },
+  "instances_131_1": {
+    "load_domain": 9.12696123123169e-08,
+    "filter_and_import": 0.00030270684510469437,
+    "build_pipelines": 1.3537607323378325,
+    "run_pipelines": 9.65386526659131,
+    "total": 11.00792879704386
+  },
+  "instances_123_1": {
+    "load_domain": 1.257285475730896e-07,
+    "filter_and_import": 0.00029310397803783417,
+    "build_pipelines": 1.3215978555381298,
+    "run_pipelines": 8.87485633417964,
+    "total": 10.196747419424355
+  },
+  "instances_97_1": {
+    "load_domain": 6.984919309616089e-08,
+    "filter_and_import": 0.0002944041043519974,
+    "build_pipelines": 1.3702198592945933,
+    "run_pipelines": 9.069290414452553,
+    "total": 10.439804747700691
+  },
+  "instances_3_1": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.00029123667627573013,
+    "build_pipelines": 1.3602362256497145,
+    "run_pipelines": 8.098329504020512,
+    "total": 9.458857012912631
+  },
+  "instances_11_1": {
+    "load_domain": 1.2852251529693604e-07,
+    "filter_and_import": 0.0002836519852280617,
+    "build_pipelines": 1.3521184725686908,
+    "run_pipelines": 7.946310708299279,
+    "total": 9.298712961375713
+  },
+  "instances_142_1": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.0002988986670970917,
+    "build_pipelines": 1.3770638657733798,
+    "run_pipelines": 9.35138216149062,
+    "total": 10.72874497808516
+  },
+  "instances_127_1": {
+    "load_domain": 3.5390257835388184e-08,
+    "filter_and_import": 0.00028788764029741287,
+    "build_pipelines": 1.348134838975966,
+    "run_pipelines": 11.370359406806529,
+    "total": 12.71878216881305
+  },
+  "instances_96_1": {
+    "load_domain": 5.122274160385132e-08,
+    "filter_and_import": 0.00028834305703639984,
+    "build_pipelines": 1.373492792248726,
+    "run_pipelines": 9.897960774600506,
+    "total": 11.27174196112901
+  },
+  "instances_132_1": {
+    "load_domain": 6.984919309616089e-08,
+    "filter_and_import": 0.0002901758998632431,
+    "build_pipelines": 1.4095197562128305,
+    "run_pipelines": 9.535184036009014,
+    "total": 10.9449940379709
+  },
+  "instances_27_1": {
+    "load_domain": 3.91155481338501e-08,
+    "filter_and_import": 0.00029770657420158386,
+    "build_pipelines": 1.3576276954263449,
+    "run_pipelines": 8.315655904822052,
+    "total": 9.673581345938146
+  },
+  "instances_240_1": {
+    "load_domain": 4.842877388000488e-08,
+    "filter_and_import": 0.00030239857733249664,
+    "build_pipelines": 1.4216240970417857,
+    "run_pipelines": 12.175578408874571,
+    "total": 13.597504952922463
+  },
+  "instances_147_1": {
+    "load_domain": 5.4016709327697754e-08,
+    "filter_and_import": 0.0002842061221599579,
+    "build_pipelines": 1.3654210213571787,
+    "run_pipelines": 11.556050109677017,
+    "total": 12.921755391173065
+  },
+  "instances_160_1": {
+    "load_domain": 1.2386590242385864e-07,
+    "filter_and_import": 0.00028750207275152206,
+    "build_pipelines": 1.3652879809960723,
+    "run_pipelines": 11.577908242121339,
+    "total": 12.943483849056065
+  },
+  "instances_192_1": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.000293780118227005,
+    "build_pipelines": 1.372267011553049,
+    "run_pipelines": 12.440240129828453,
+    "total": 13.81280096899718
+  },
+  "instances_202_1": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.0003092056140303612,
+    "build_pipelines": 1.3780787279829383,
+    "run_pipelines": 46.05885003786534,
+    "total": 47.43723801802844
+  },
+  "instances_58_1": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.00028792954981327057,
+    "build_pipelines": 1.4017211962491274,
+    "run_pipelines": 8.424104263074696,
+    "total": 9.826113448478281
+  },
+  "instances_25_1": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.0002932082861661911,
+    "build_pipelines": 1.3971747299656272,
+    "run_pipelines": 9.438780272379518,
+    "total": 10.836248266510665
+  },
+  "instances_137_1": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.00032061804085969925,
+    "build_pipelines": 1.4209175817668438,
+    "run_pipelines": 11.457964200526476,
+    "total": 12.87920244783163
+  },
+  "instances_78_1": {
+    "load_domain": 5.8673322200775146e-08,
+    "filter_and_import": 0.0002939477562904358,
+    "build_pipelines": 1.4054548479616642,
+    "run_pipelines": 9.053270334377885,
+    "total": 10.459019188769162
+  },
+  "instances_64_1": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.00029578711837530136,
+    "build_pipelines": 1.4291369449347258,
+    "run_pipelines": 8.650263176299632,
+    "total": 10.07969596143812
+  },
+  "instances_141_1": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.0002953987568616867,
+    "build_pipelines": 1.373835382051766,
+    "run_pipelines": 9.72880742419511,
+    "total": 11.102938264608383
+  },
+  "instances_89_1": {
+    "load_domain": 5.8673322200775146e-08,
+    "filter_and_import": 0.00029004644602537155,
+    "build_pipelines": 1.4105021739378572,
+    "run_pipelines": 9.293784487992525,
+    "total": 10.70457676704973
+  },
+  "instances_9_1": {
+    "load_domain": 6.426125764846802e-08,
+    "filter_and_import": 0.0002951463684439659,
+    "build_pipelines": 1.402461526915431,
+    "run_pipelines": 8.091655058786273,
+    "total": 9.494411796331406
+  },
+  "instances_208_1": {
+    "load_domain": 6.705522537231445e-08,
+    "filter_and_import": 0.00030333269387483597,
+    "build_pipelines": 1.4641877701506019,
+    "run_pipelines": 13.77472488116473,
+    "total": 15.239216051064432
+  },
+  "instances_138_1": {
+    "load_domain": 8.195638656616211e-08,
+    "filter_and_import": 0.0002856086939573288,
+    "build_pipelines": 1.3687504353001714,
+    "run_pipelines": 10.454888268373907,
+    "total": 11.823924394324422
+  },
+  "instances_83_1": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.00028890836983919144,
+    "build_pipelines": 1.3458349835127592,
+    "run_pipelines": 10.157109313644469,
+    "total": 11.503233253024518
+  },
+  "instances_205_1": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.00028997287154197693,
+    "build_pipelines": 1.38777110632509,
+    "run_pipelines": 11.347428197041154,
+    "total": 12.73548933584243
+  },
+  "instances_105_1": {
+    "load_domain": 5.4016709327697754e-08,
+    "filter_and_import": 0.00028001051396131516,
+    "build_pipelines": 1.375396135263145,
+    "run_pipelines": 10.75116276089102,
+    "total": 12.126838960684836
+  },
+  "instances_234_1": {
+    "load_domain": 8.102506399154663e-08,
+    "filter_and_import": 0.0003114501014351845,
+    "build_pipelines": 1.356373880058527,
+    "run_pipelines": 11.97299075126648,
+    "total": 13.329676162451506
+  },
+  "instances_212_1": {
+    "load_domain": 5.774199962615967e-08,
+    "filter_and_import": 0.00028121937066316605,
+    "build_pipelines": 1.3500476097688079,
+    "run_pipelines": 13.259147669188678,
+    "total": 14.609476556070149
+  },
+  "instances_42_1": {
+    "load_domain": 6.51925802230835e-08,
+    "filter_and_import": 0.00028528831899166107,
+    "build_pipelines": 1.3831235878169537,
+    "run_pipelines": 8.031025676056743,
+    "total": 9.414434617385268
+  },
+  "instances_39_1": {
+    "load_domain": 6.705522537231445e-08,
+    "filter_and_import": 0.00028891395777463913,
+    "build_pipelines": 1.403628802858293,
+    "run_pipelines": 9.687024216167629,
+    "total": 11.090942000038922
+  },
+  "instances_4_1": {
+    "load_domain": 6.05359673500061e-08,
+    "filter_and_import": 0.0002872338518500328,
+    "build_pipelines": 1.3929041400551796,
+    "run_pipelines": 8.855075741186738,
+    "total": 10.248267175629735
+  },
+  "instances_242_1": {
+    "load_domain": 6.984919309616089e-08,
+    "filter_and_import": 0.0003008665516972542,
+    "build_pipelines": 1.5069049037992954,
+    "run_pipelines": 13.484118711203337,
+    "total": 14.991324551403522
+  },
+  "instances_36_1": {
+    "load_domain": 4.936009645462036e-08,
+    "filter_and_import": 0.00028965435922145844,
+    "build_pipelines": 1.3700848668813705,
+    "run_pipelines": 8.471722634509206,
+    "total": 9.842097205109894
+  },
+  "instances_218_1": {
+    "load_domain": 6.426125764846802e-08,
+    "filter_and_import": 0.0002900250256061554,
+    "build_pipelines": 1.4290209515020251,
+    "run_pipelines": 14.091752596199512,
+    "total": 15.521063636988401
+  },
+  "instances_113_1": {
+    "load_domain": 5.774199962615967e-08,
+    "filter_and_import": 0.00029360223561525345,
+    "build_pipelines": 1.4032039223238826,
+    "run_pipelines": 10.070601229555905,
+    "total": 11.474098811857402
+  },
+  "instances_191_1": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.000309159979224205,
+    "build_pipelines": 1.393242433667183,
+    "run_pipelines": 68.7055778959766,
+    "total": 70.09912953712046
+  },
+  "instances_194_1": {
+    "load_domain": 6.51925802230835e-08,
+    "filter_and_import": 0.00028600171208381653,
+    "build_pipelines": 2.2377483434975147,
+    "run_pipelines": 12.809919673018157,
+    "total": 15.047954083420336
+  },
+  "instances_199_1": {
+    "load_domain": 5.8673322200775146e-08,
+    "filter_and_import": 0.00029562972486019135,
+    "build_pipelines": 1.3778775120154023,
+    "run_pipelines": 17.76285489462316,
+    "total": 19.141028095036745
+  },
+  "instances_75_1": {
+    "load_domain": 6.239861249923706e-08,
+    "filter_and_import": 0.00028617866337299347,
+    "build_pipelines": 1.3784758560359478,
+    "run_pipelines": 9.748734906315804,
+    "total": 11.127497003413737
+  },
+  "instances_90_1": {
+    "load_domain": 7.264316082000732e-08,
+    "filter_and_import": 0.0002822410315275192,
+    "build_pipelines": 1.4110204270109534,
+    "run_pipelines": 10.350502260960639,
+    "total": 11.76180500164628
+  },
+  "instances_33_1": {
+    "load_domain": 8.009374141693115e-08,
+    "filter_and_import": 0.0003080954775214195,
+    "build_pipelines": 1.420113181695342,
+    "run_pipelines": 9.05961737409234,
+    "total": 10.480038731358945
+  },
+  "instances_238_1": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.00030636508017778397,
+    "build_pipelines": 1.4314987836405635,
+    "run_pipelines": 13.26495596114546,
+    "total": 14.696761162020266
+  },
+  "instances_155_1": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.0002882927656173706,
+    "build_pipelines": 1.3909144196659327,
+    "run_pipelines": 11.72932303790003,
+    "total": 13.120525795035064
+  },
+  "instances_136_1": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.0002870485186576843,
+    "build_pipelines": 1.40854655764997,
+    "run_pipelines": 11.84463863633573,
+    "total": 13.253472295589745
+  },
+  "instances_187_1": {
+    "load_domain": 8.381903171539307e-08,
+    "filter_and_import": 0.0002975417301058769,
+    "build_pipelines": 1.4104498159140348,
+    "run_pipelines": 12.927701691165566,
+    "total": 14.338449132628739
+  },
+  "instances_168_1": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.0002933098003268242,
+    "build_pipelines": 1.3998028244823217,
+    "run_pipelines": 14.11908845603466,
+    "total": 15.519184636883438
+  },
+  "instances_133_1": {
+    "load_domain": 6.239861249923706e-08,
+    "filter_and_import": 0.00028679706156253815,
+    "build_pipelines": 1.4064429523423314,
+    "run_pipelines": 10.475378068163991,
+    "total": 11.882107879966497
+  },
+  "instances_63_1": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.0002821115776896477,
+    "build_pipelines": 1.390658974647522,
+    "run_pipelines": 8.071916148997843,
+    "total": 9.462857287377119
+  },
+  "instances_225_1": {
+    "load_domain": 6.891787052154541e-08,
+    "filter_and_import": 0.0002831052988767624,
+    "build_pipelines": 1.3954146597534418,
+    "run_pipelines": 11.195550967007875,
+    "total": 12.591248800978065
+  },
+  "instances_152_1": {
+    "load_domain": 1.0523945093154907e-07,
+    "filter_and_import": 0.0003388887271285057,
+    "build_pipelines": 1.4453046321868896,
+    "run_pipelines": 12.199025232344866,
+    "total": 13.644668858498335
+  },
+  "instances_200_1": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.0003099525347352028,
+    "build_pipelines": 1.4503707066178322,
+    "run_pipelines": 15.460417745634913,
+    "total": 16.911098456941545
+  },
+  "instances_204_1": {
+    "load_domain": 6.426125764846802e-08,
+    "filter_and_import": 0.00031869951635599136,
+    "build_pipelines": 1.4440564457327127,
+    "run_pipelines": 13.403000213205814,
+    "total": 14.84737542271614
+  },
+  "instances_66_1": {
+    "load_domain": 7.078051567077637e-08,
+    "filter_and_import": 0.00028292834758758545,
+    "build_pipelines": 1.4608547519892454,
+    "run_pipelines": 9.559180745854974,
+    "total": 11.020318496972322
+  },
+  "instances_7_1": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.0003201337531208992,
+    "build_pipelines": 1.3917160341516137,
+    "run_pipelines": 8.5481738736853,
+    "total": 9.940210086293519
+  },
+  "instances_214_1": {
+    "load_domain": 1.0337680578231812e-07,
+    "filter_and_import": 0.00028041470795869827,
+    "build_pipelines": 1.44536835514009,
+    "run_pipelines": 12.505892794579268,
+    "total": 13.951541667804122
+  },
+  "instances_222_1": {
+    "load_domain": 6.891787052154541e-08,
+    "filter_and_import": 0.00028489623218774796,
+    "build_pipelines": 1.4065121123567224,
+    "run_pipelines": 12.043543851934373,
+    "total": 13.450340929441154
+  },
+  "instances_93_1": {
+    "load_domain": 6.891787052154541e-08,
+    "filter_and_import": 0.0002877376973628998,
+    "build_pipelines": 1.4012251095846295,
+    "run_pipelines": 11.136423503048718,
+    "total": 12.537936419248581
+  },
+  "instances_206_1": {
+    "load_domain": 6.146728992462158e-08,
+    "filter_and_import": 0.0002835020422935486,
+    "build_pipelines": 1.4127431958913803,
+    "run_pipelines": 12.055796953849494,
+    "total": 13.468823713250458
+  },
+  "instances_170_1": {
+    "load_domain": 1.6298145055770874e-07,
+    "filter_and_import": 0.00032419804483652115,
+    "build_pipelines": 1.3852203041315079,
+    "run_pipelines": 10.968764102086425,
+    "total": 12.35430876724422
+  },
+  "instances_122_1": {
+    "load_domain": 6.146728992462158e-08,
+    "filter_and_import": 0.00028216931968927383,
+    "build_pipelines": 1.390114496462047,
+    "run_pipelines": 9.716522570699453,
+    "total": 11.10691929794848
+  },
+  "instances_46_1": {
+    "load_domain": 3.91155481338501e-08,
+    "filter_and_import": 0.00033862795680761337,
+    "build_pipelines": 1.3921202775090933,
+    "run_pipelines": 10.167156950570643,
+    "total": 11.559615895152092
+  },
+  "instances_45_1": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.00028663501143455505,
+    "build_pipelines": 1.4199463184922934,
+    "run_pipelines": 9.273261649534106,
+    "total": 10.693494658917189
+  },
+  "instances_233_1": {
+    "load_domain": 7.264316082000732e-08,
+    "filter_and_import": 0.0003557847812771797,
+    "build_pipelines": 1.4765829211100936,
+    "run_pipelines": 12.338026924990118,
+    "total": 13.81496570352465
+  },
+  "instances_119_1": {
+    "load_domain": 4.842877388000488e-08,
+    "filter_and_import": 0.00029644183814525604,
+    "build_pipelines": 1.4754254231229424,
+    "run_pipelines": 11.878241321071982,
+    "total": 13.353963234461844
+  },
+  "instances_213_1": {
+    "load_domain": 6.984919309616089e-08,
+    "filter_and_import": 0.00027895718812942505,
+    "build_pipelines": 1.391885875724256,
+    "run_pipelines": 13.659165749326348,
+    "total": 15.051330652087927
+  },
+  "instances_85_1": {
+    "load_domain": 9.313225746154785e-08,
+    "filter_and_import": 0.0004293937236070633,
+    "build_pipelines": 1.4177526589483023,
+    "run_pipelines": 10.343455324880779,
+    "total": 11.761637470684946
+  },
+  "instances_99_1": {
+    "load_domain": 7.450580596923828e-08,
+    "filter_and_import": 0.00029109884053468704,
+    "build_pipelines": 1.402856539003551,
+    "run_pipelines": 10.203872250393033,
+    "total": 11.607019962742925
+  },
+  "instances_207_1": {
+    "load_domain": 5.029141902923584e-08,
+    "filter_and_import": 0.00028553977608680725,
+    "build_pipelines": 1.3865193063393235,
+    "run_pipelines": 12.964801830239594,
+    "total": 14.351606726646423
+  },
+  "instances_183_1": {
+    "load_domain": 6.146728992462158e-08,
+    "filter_and_import": 0.00028627272695302963,
+    "build_pipelines": 1.4161900030449033,
+    "run_pipelines": 14.905733793973923,
+    "total": 16.32221013121307
+  },
+  "instances_172_1": {
+    "load_domain": 6.05359673500061e-08,
+    "filter_and_import": 0.00029377732425928116,
+    "build_pipelines": 1.4124161303043365,
+    "run_pipelines": 14.64198305271566,
+    "total": 16.054693020880222
+  },
+  "instances_241_1": {
+    "load_domain": 5.681067705154419e-08,
+    "filter_and_import": 0.00029053911566734314,
+    "build_pipelines": 1.4200306683778763,
+    "run_pipelines": 12.203612143173814,
+    "total": 13.623933407478034
+  },
+  "instances_38_1": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.00028149131685495377,
+    "build_pipelines": 1.4046358382329345,
+    "run_pipelines": 9.235821234062314,
+    "total": 10.64073861669749
+  },
+  "instances_134_1": {
+    "load_domain": 1.2852251529693604e-07,
+    "filter_and_import": 0.00028920453041791916,
+    "build_pipelines": 1.3857516432181,
+    "run_pipelines": 12.44259028416127,
+    "total": 13.828631260432303
+  },
+  "instances_32_1": {
+    "load_domain": 5.494803190231323e-08,
+    "filter_and_import": 0.0002832561731338501,
+    "build_pipelines": 1.4479052685201168,
+    "run_pipelines": 9.949397443793714,
+    "total": 11.397586023434997
+  },
+  "instances_21_1": {
+    "load_domain": 9.499490261077881e-08,
+    "filter_and_import": 0.0003894669935107231,
+    "build_pipelines": 1.42464598454535,
+    "run_pipelines": 9.893779034726322,
+    "total": 11.318814581260085
+  },
+  "instances_14_1": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.00028993841260671616,
+    "build_pipelines": 1.4162443522363901,
+    "run_pipelines": 9.989101164974272,
+    "total": 11.40563550312072
+  },
+  "instances_86_1": {
+    "load_domain": 6.146728992462158e-08,
+    "filter_and_import": 0.0002870485186576843,
+    "build_pipelines": 1.4435541536659002,
+    "run_pipelines": 10.796745992265642,
+    "total": 12.24058725591749
+  },
+  "instances_232_1": {
+    "load_domain": 7.35744833946228e-08,
+    "filter_and_import": 0.0002882275730371475,
+    "build_pipelines": 1.4251999640837312,
+    "run_pipelines": 12.252886368893087,
+    "total": 13.678374634124339
+  },
+  "instances_118_1": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.0002883234992623329,
+    "build_pipelines": 1.4135908707976341,
+    "run_pipelines": 11.256193150766194,
+    "total": 12.670072389766574
+  },
+  "instances_107_1": {
+    "load_domain": 5.8673322200775146e-08,
+    "filter_and_import": 0.0003031976521015167,
+    "build_pipelines": 1.4156584739685059,
+    "run_pipelines": 10.953245620243251,
+    "total": 12.369207350537181
+  },
+  "instances_40_1": {
+    "load_domain": 1.2200325727462769e-07,
+    "filter_and_import": 0.00027854088693857193,
+    "build_pipelines": 1.3962922105565667,
+    "run_pipelines": 8.785237683914602,
+    "total": 10.181808557361364
+  },
+  "instances_217_1": {
+    "load_domain": 5.029141902923584e-08,
+    "filter_and_import": 0.0003135167062282562,
+    "build_pipelines": 1.4309462113305926,
+    "run_pipelines": 12.944766423664987,
+    "total": 14.376026201993227
+  },
+  "instances_150_1": {
+    "load_domain": 5.494803190231323e-08,
+    "filter_and_import": 0.0002857763320207596,
+    "build_pipelines": 1.4552159793674946,
+    "run_pipelines": 10.135463623329997,
+    "total": 11.590965433977544
+  },
+  "instances_185_1": {
+    "load_domain": 6.146728992462158e-08,
+    "filter_and_import": 0.00027753226459026337,
+    "build_pipelines": 1.4295335141941905,
+    "run_pipelines": 13.384556167759001,
+    "total": 14.814367275685072
+  },
+  "instances_239_1": {
+    "load_domain": 6.798654794692993e-08,
+    "filter_and_import": 0.0002825595438480377,
+    "build_pipelines": 1.4200044926255941,
+    "run_pipelines": 12.714798896573484,
+    "total": 14.135086016729474
+  },
+  "instances_84_1": {
+    "load_domain": 4.377216100692749e-08,
+    "filter_and_import": 0.00028417911380529404,
+    "build_pipelines": 1.4278107387945056,
+    "run_pipelines": 10.699710928834975,
+    "total": 12.127805890515447
+  },
+  "instances_144_1": {
+    "load_domain": 6.51925802230835e-08,
+    "filter_and_import": 0.0002983538433909416,
+    "build_pipelines": 1.4318764545023441,
+    "run_pipelines": 10.175666080787778,
+    "total": 11.607840954326093
+  },
+  "instances_156_1": {
+    "load_domain": 6.239861249923706e-08,
+    "filter_and_import": 0.00027700234204530716,
+    "build_pipelines": 1.4199144626036286,
+    "run_pipelines": 11.393940480425954,
+    "total": 12.81413200777024
+  },
+  "instances_120_1": {
+    "load_domain": 4.842877388000488e-08,
+    "filter_and_import": 0.00029899366199970245,
+    "build_pipelines": 1.4490060340613127,
+    "run_pipelines": 13.59970511868596,
+    "total": 15.049010194838047
+  },
+  "instances_5_1": {
+    "load_domain": 4.842877388000488e-08,
+    "filter_and_import": 0.000287642702460289,
+    "build_pipelines": 1.4319844543933868,
+    "run_pipelines": 10.381319668143988,
+    "total": 11.813591813668609
+  },
+  "instances_35_1": {
+    "load_domain": 5.494803190231323e-08,
+    "filter_and_import": 0.0002965787425637245,
+    "build_pipelines": 1.4542852230370045,
+    "run_pipelines": 9.286678376607597,
+    "total": 10.741260233335197
+  },
+  "instances_178_1": {
+    "load_domain": 6.332993507385254e-08,
+    "filter_and_import": 0.00029001757502555847,
+    "build_pipelines": 1.4484327882528305,
+    "run_pipelines": 14.019334624521434,
+    "total": 15.468057493679225
+  },
+  "instances_161_1": {
+    "load_domain": 3.91155481338501e-08,
+    "filter_and_import": 0.0003006523475050926,
+    "build_pipelines": 1.468636590987444,
+    "run_pipelines": 11.040243390016258,
+    "total": 12.509180672466755
+  },
+  "instances_100_1": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.00028601568192243576,
+    "build_pipelines": 1.4493602979928255,
+    "run_pipelines": 11.875481927767396,
+    "total": 13.325128293596208
+  },
+  "instances_52_1": {
+    "load_domain": 6.51925802230835e-08,
+    "filter_and_import": 0.0002943696454167366,
+    "build_pipelines": 1.4168890602886677,
+    "run_pipelines": 9.213871572166681,
+    "total": 10.631055067293346
+  },
+  "instances_227_1": {
+    "load_domain": 4.563480615615845e-08,
+    "filter_and_import": 0.0002887863665819168,
+    "build_pipelines": 1.4924196414649487,
+    "run_pipelines": 13.602002208121121,
+    "total": 15.094710681587458
+  },
+  "instances_126_1": {
+    "load_domain": 6.332993507385254e-08,
+    "filter_and_import": 0.00028363894671201706,
+    "build_pipelines": 1.4166722623631358,
+    "run_pipelines": 9.94091421738267,
+    "total": 11.357870182022452
+  },
+  "instances_6_1": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.00029943883419036865,
+    "build_pipelines": 1.462364474311471,
+    "run_pipelines": 8.993584216572344,
+    "total": 10.45624817442149
+  }
+}

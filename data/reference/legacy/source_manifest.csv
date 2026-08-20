@@ -1,0 +1,12 @@
+source_id,benchmark,path,input_kind,used_in_paper,purpose,source
+hi2024_sprp,SPRP,data/reference/raw/hessler_irnich/results_SPRP.csv,raw machine-readable,yes,exact reference values,Heßler and Irnich (2024)
+hi2024_sprp_ss,SPRP-SS,data/reference/raw/hessler_irnich/results_SPRP-SS.csv,raw machine-readable,yes,exact reference values,Heßler and Irnich (2024)
+hi2022_bahceci,BahceciOencan,data/reference/raw/hessler_irnich/results_BahceciOencan.csv,raw machine-readable,yes,published OBRP values,Heßler and Irnich (2022)
+hi2022_henn_ids,HennWaescher,data/reference/raw/hessler_irnich/results_HennWaescher.csv,raw machine-readable,yes,instance identifier mapping only,Heßler and Irnich (2022)
+wg2023_henn,HennWaescher,data/reference/raw/wahlen_gschwind_2023/detailedResults-HW_*.csv,raw machine-readable,yes,reference values and proof flags,Wahlen and Gschwind (2023)
+hi2022_muter,MuterOencan,data/reference/raw/hessler_irnich/results_Muter.csv,raw machine-readable,no,different instance geometry,Heßler and Irnich (2022)
+wg2023_muter,MuterOencanWG,data/reference/raw/wahlen_gschwind_2023/detailedResults-MO.csv,raw machine-readable,yes,WG-geometry reference values and proof flags,Wahlen and Gschwind (2023)
+wahlen2026_foodmart,Foodmart,data/reference/transcribed/wahlen_2026_foodmart_table_b15.csv,manual table transcription,yes,42 Table B.15 optima,Wahlen (2026)
+briant_solutions,Kris,data/reference/raw/briant_et_al/solutions,raw published solutions,no,retained but not used,Briant et al. (2023)
+briant_reported,Kris,data/reference/raw/briant_et_al/reported_results,raw machine-readable,yes,reported optima and upper bounds,Briant et al. (2023)
+hi2022_foodmart_old,Foodmart,data/reference/raw/hessler_irnich/results_Foodmart.csv,raw machine-readable,no,replaced by the Table B.15 values,Heßler and Irnich (2022)
