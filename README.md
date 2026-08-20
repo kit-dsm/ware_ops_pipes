@@ -35,23 +35,21 @@ introduces pipeline synthesis and shows how to add a pipeline component.
 
 ## Installation
 
-Python 3.13 and [uv](https://docs.astral.sh/uv/) are required for the
-reproduction commands below. The required interpreter is recorded in
-`.python-version` and enforced by `pyproject.toml`; the exact dependency
-resolution and `ware_ops_algos` revision are pinned in `uv.lock`. `uv` is the
-canonical tool for installing the locked environment and running the examples,
-experiments, and evaluation.
+Python 3.11 or newer and [uv](https://docs.astral.sh/uv/) are required for the
+reproduction commands below. The exact `ware_ops_algos` revision is pinned in
+both `pyproject.toml` and `uv.lock`. `uv` is the canonical tool for installing
+the locked environment and running the examples, experiments, and evaluation.
 
 ```bash
 git clone https://github.com/kit-dsm/ware_ops_pipes.git
 cd ware_ops_pipes
-uv sync --locked --extra eval
+uv sync --frozen --extra eval
 ```
 
 Run the self-contained applicability example to check the installation:
 
 ```bash
-uv run --locked python examples/list_applicable_algorithms.py
+uv run --frozen python examples/list_applicable_algorithms.py
 ```
 
 ### Gurobi
@@ -66,21 +64,12 @@ and [academic licensing information](https://support.gurobi.com/hc/en-us/article
 
 ## Examples
 
-The synthetic getting-started example makes the domain-to-synthesis hand-off
-observable without requiring benchmark instances. It prints the order demand,
-the applicable algorithm-card count, assigned pick nodes, and route distances,
-then writes a route comparison plot:
-
-```bash
-uv run --locked python examples/getting_started.py --output docs/source/_static/getting_started_routes.svg
-```
-
 `examples/list_applicable_algorithms.py` loads the Foodmart data card and lists
 the compatible executable algorithm configurations. To synthesize and execute
 pipelines for one Foodmart instance after obtaining the benchmark data, run:
 
 ```bash
-uv run --locked python examples/run_one_foodmart_instance.py data/instances/FoodmartData/instances_d5_ord5_MAL.txt --max-pipelines 3
+uv run --frozen python examples/run_one_foodmart_instance.py data/instances/FoodmartData/instances_d5_ord5_MAL.txt --max-pipelines 3
 ```
 
 The second example connects a `ware_ops_pipes` benchmark loader with the
@@ -121,15 +110,15 @@ repository root. Each runner processes every `.txt` file in the selected
 directory and writes instance-level outputs below `experiments/output/`.
 
 ```bash
-uv run --locked python experiments/run_hessler_irnich.py SPRP --workers 1
-uv run --locked python experiments/run_hessler_irnich.py SPRP-SS --workers 1
-uv run --locked python experiments/run_hessler_irnich.py BahceciOencan --workers 1
-uv run --locked python experiments/run_hessler_irnich.py HennWaescherUniform --workers 1
-uv run --locked python experiments/run_hessler_irnich.py HennWaescherClassBased --workers 1
-uv run --locked python experiments/run_hessler_irnich.py MuterOencanWG --workers 1
-uv run --locked python experiments/run_foodmart.py --workers 1
-uv run --locked python experiments/run_ibrsp.py KrisSmallDataCorrected --workers 1
-uv run --locked python experiments/run_ibrsp.py KrisLargeData --workers 1
+uv run --frozen python experiments/run_hessler_irnich.py SPRP --workers 1
+uv run --frozen python experiments/run_hessler_irnich.py SPRP-SS --workers 1
+uv run --frozen python experiments/run_hessler_irnich.py BahceciOencan --workers 1
+uv run --frozen python experiments/run_hessler_irnich.py HennWaescherUniform --workers 1
+uv run --frozen python experiments/run_hessler_irnich.py HennWaescherClassBased --workers 1
+uv run --frozen python experiments/run_hessler_irnich.py MuterOencanWG --workers 1
+uv run --frozen python experiments/run_foodmart.py --workers 1
+uv run --frozen python experiments/run_ibrsp.py KrisSmallDataCorrected --workers 1
+uv run --frozen python experiments/run_ibrsp.py KrisLargeData --workers 1
 ```
 
 On Linux, all runners can also be started sequentially with:
@@ -156,11 +145,11 @@ The expected SHA-256 checksum is
 Then run:
 
 ```bash
-uv run --locked python experiments/evaluation/02_prepare_literature_references.py
-uv run --locked python experiments/evaluation/03_compare_vbs_to_references.py
-uv run --locked python experiments/evaluation/04_generate_paper_tables.py
-uv run --locked python experiments/evaluation/05_generate_runtime_table.py
-uv run --locked python experiments/evaluation/06_plot_foodmart_scaling.py
+uv run --frozen python experiments/evaluation/02_prepare_literature_references.py
+uv run --frozen python experiments/evaluation/03_compare_vbs_to_references.py
+uv run --frozen python experiments/evaluation/04_generate_paper_tables.py
+uv run --frozen python experiments/evaluation/05_generate_runtime_table.py
+uv run --frozen python experiments/evaluation/06_plot_foodmart_scaling.py
 ```
 
 Generated tables are written to `experiments/evaluation/tables/`; the appendix
@@ -168,7 +157,7 @@ figure is written to `experiments/evaluation/figures/`. If the raw experiment
 outputs are available under `experiments/output/`, rebuild the summary first:
 
 ```bash
-uv run --locked python experiments/evaluation/01_prepare_pipeline_results.py
+uv run --frozen python experiments/evaluation/01_prepare_pipeline_results.py
 ```
 
 The literature reference inputs and their provenance are described in
