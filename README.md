@@ -32,7 +32,8 @@ in `ware_ops_algos`; the last two are implemented here.
 
 Python 3.11 or newer and [uv](https://docs.astral.sh/uv/) are required for the
 reproduction commands below. The exact `ware_ops_algos` revision is pinned in
-both `pyproject.toml` and `uv.lock`.
+both `pyproject.toml` and `uv.lock`. `uv` is the canonical tool for installing
+the locked environment and running the examples, experiments, and evaluation.
 
 ```bash
 git clone https://github.com/kit-dsm/ware_ops_pipes.git
