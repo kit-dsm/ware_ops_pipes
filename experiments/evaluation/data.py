@@ -1,17 +1,4 @@
-"""
-Canonical data loading, normalization, and shared constants for CASOP
-evaluation scripts.
-
-This module is the single source of truth for:
-- short algorithm names
-- algo columns and strategy construction
-- instance-set normalization and display names
-- problem-type mapping
-- objective specifications
-- the gap tolerance
-- regret thresholds
-- complete-case dataframe preparation (NO RR-NF exclusion)
-"""
+"""Shared data loading and constants for the evaluation scripts."""
 
 from __future__ import annotations
 
@@ -97,9 +84,7 @@ ALGO_COLS = [
 IAR_ALGOS = {"RatliffRosenthalNF", "RR-NF"}
 BR_ALGOS = {"CombinedBatchingRoutingAssigning", "CBR"}
 
-# Loader timing columns produced by the provenance system.  These are
-# separate from total_cpu_time (which covers algorithm stages only) so
-# that one-time loading costs don't inflate per-pipeline runtimes.
+# Loading times are kept separate from the algorithm runtimes.
 LOADER_TIME_COLUMNS = [
     "layout_parse_time", "layout_build_time", "layout_load_time",
     "layout_cache_hit",
