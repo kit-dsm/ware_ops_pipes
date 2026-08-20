@@ -18,6 +18,10 @@ their results by the objective declared in the data card.
 
 - `src/ware_ops_pipes/`: pipeline components, synthesis, execution, and ranking
 - `src/ware_ops_pipes/data_loaders/`: benchmark parsers and the loader interface
+- `src/ware_ops_pipes/pipelines/subproblems/batching/generated/`: auto-generated
+  CLS-Luigi components for configured batching algorithms (seed, local search,
+  Clark & Wright). These are regenerated automatically by CI when
+  `ware_ops_algos` algorithm cards change. Do not edit by hand.
 - `data/data_cards/`: data cards for the benchmark sets
 - `data/instances/`: local benchmark directory; full benchmark collections are
   not stored in Git

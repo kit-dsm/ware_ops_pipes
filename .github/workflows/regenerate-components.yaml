@@ -1,0 +1,43 @@
+name: Regenerate configured components
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install project
+        run: uv sync
+
+      - name: Run component generator
+        run: uv run python src/ware_ops_pipes/generate_configured_components.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          git add src/ware_ops_pipes/pipelines/subproblems/batching/generated/
+
+          if git diff --cached --quiet; then
+            echo "No changes to generated components."
+          else
+            git commit -m "regenerate configured batching components"
+            git push
+          fi
