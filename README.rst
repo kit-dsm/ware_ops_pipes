@@ -17,19 +17,17 @@ batching and routing, and joint batching, scheduling, and routing problems.
 Installation
 ------------
 
-Python 3.11 or newer is required. The exact ``ware_ops_algos`` revision used by
-this release is pinned in ``pyproject.toml`` and ``uv.lock``.
+Python 3.13 is required. The supported interpreter and exact
+``ware_ops_algos`` revision are pinned in ``.python-version``,
+``pyproject.toml``, and ``uv.lock``.
 
 .. code-block:: bash
 
    git clone https://github.com/kit-dsm/ware_ops_pipes.git
    cd ware_ops_pipes
-   python -m venv .venv
-   source .venv/bin/activate
-   pip install -e ".[eval]"
+   uv sync --locked --extra eval
 
-On Windows, activate the environment with
-``.venv\Scripts\activate``.
+Use ``uv run`` to execute commands in the locked Python 3.13 environment.
 
 Experiments
 -----------

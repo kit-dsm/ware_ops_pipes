@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "ware-ops-pipes"
 version = "0.1.0"
 description = "Pipeline tool to build and run automated warehouse optimization."
-requires-python = ">=3.11"
+requires-python = "==3.13.*"
 license = { file = "LICENSE" }
 dependencies = [
     "ware-ops-algos @ git+https://github.com/kit-dsm/ware_ops_algos.git@042dcff65c1fe0f11c8659c2977dd42c3f079982",
