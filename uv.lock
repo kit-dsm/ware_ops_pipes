@@ -2877,7 +2877,7 @@ wheels = [
 [[package]]
 name = "ware-ops-algos"
 version = "0.1.0"
-source = { git = "https://github.com/kit-dsm/ware_ops_algos.git?rev=f0bdbf0dd44a534fa256c631303ba1243fed98fb#f0bdbf0dd44a534fa256c631303ba1243fed98fb" }
+source = { git = "https://github.com/kit-dsm/ware_ops_algos.git?rev=4d928e7f605b2be78353958d2f523d7309f98966#4d928e7f605b2be78353958d2f523d7309f98966" }
 dependencies = [
     { name = "alns" },
     { name = "gurobipy" },
@@ -2937,7 +2937,7 @@ requires-dist = [
     { name = "sphinx", marker = "extra == 'docs'" },
     { name = "sphinx-copybutton", marker = "extra == 'docs'" },
     { name = "tqdm", marker = "extra == 'eval'" },
-    { name = "ware-ops-algos", git = "https://github.com/kit-dsm/ware_ops_algos.git?rev=f0bdbf0dd44a534fa256c631303ba1243fed98fb" },
+    { name = "ware-ops-algos", git = "https://github.com/kit-dsm/ware_ops_algos.git?rev=4d928e7f605b2be78353958d2f523d7309f98966" },
 ]
 provides-extras = ["dev", "eval", "docs"]
 

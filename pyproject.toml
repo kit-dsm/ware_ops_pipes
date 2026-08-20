@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
 dependencies = [
-    "ware-ops-algos @ git+https://github.com/kit-dsm/ware_ops_algos.git@f0bdbf0dd44a534fa256c631303ba1243fed98fb",
+    "ware-ops-algos @ git+https://github.com/kit-dsm/ware_ops_algos.git@4d928e7f605b2be78353958d2f523d7309f98966",
     "cls-luigi==0.1.1",
     "luigi==3.6.0",
     "pandas"
