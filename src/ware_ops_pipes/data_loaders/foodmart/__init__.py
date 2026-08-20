@@ -1,2 +1,1 @@
 from .foodmart_loader import FoodmartLoader
-from .foodmart_results_loader import FoodmartResultsLoader

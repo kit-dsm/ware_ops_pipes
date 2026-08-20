@@ -7,7 +7,6 @@ import networkx as nx
 import pandas as pd
 from scipy.sparse.csgraph import floyd_warshall
 
-from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models import (
     Article,
     ArticleType,
@@ -32,6 +31,8 @@ from ware_ops_algos.domain_models import (
     WarehouseInfoType,
 )
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
+from ware_ops_algos.domain_models.layout.graph_generators import ShelfStorageGraphGenerator
+from ware_ops_pipes.data_loaders.base import DataLoader
 
 
 class HesslerIrnichLoader(DataLoader):
@@ -88,8 +89,6 @@ class HesslerIrnichLoader(DataLoader):
         }
 
     def build_layout(self, parsed: Dict[str, Any]) -> LayoutData:
-        from ware_ops_algos.data_loaders.generators import ShelfStorageGraphGenerator
-
         ctx = self._layout_context(parsed)
 
         layout_parameters = LayoutParameters(

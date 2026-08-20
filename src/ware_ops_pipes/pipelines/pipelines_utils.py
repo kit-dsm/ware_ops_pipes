@@ -69,6 +69,5 @@ def set_pipeline_params(
         sort_keys=True,
     )
 
-    global_parameters.domain_path = None
     global_parameters.time_limit_sec = time_limit_seconds
     global_parameters.gen_tour = gen_tour

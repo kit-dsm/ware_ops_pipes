@@ -776,7 +776,7 @@ if __name__ == "__main__":
     from luigi.task import flatten
 
     from pathlib import Path
-    from ware_ops_algos.data_loaders import HesslerIrnichLoader
+    from ware_ops_pipes.data_loaders import HesslerIrnichLoader
 
     from ware_ops_pipes.synthesis.runner import PipelineRunner, collect_from_graph
 

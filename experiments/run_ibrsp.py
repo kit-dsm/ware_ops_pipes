@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 from typing import Tuple
 
-from ware_ops_algos.data_loaders import IBRSPLoader
+from ware_ops_pipes.data_loaders import IBRSPLoader
 from ware_ops_algos.domain_models import load_and_flatten_data_card
 from ware_ops_pipes.synthesis.runner import PipelineRunner
 

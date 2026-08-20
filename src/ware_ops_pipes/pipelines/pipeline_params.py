@@ -43,15 +43,11 @@ class PipelineParams(luigi.Config):
     time_limit_sec = luigi.OptionalIntParameter(default=None)
     gen_tour = luigi.BoolParameter(default=False)
 
-    instance_set_name = luigi.Parameter(default=None)
-    instance_name = luigi.Parameter(default=None)
-    instance_path = luigi.Parameter(default=None)
-    instances_dir = luigi.Parameter(default=None)
-
-    # Keep temporarily if old code still references it.
-    domain_path = luigi.Parameter(default=None)
-
-    loader_name = luigi.Parameter(default=None)
+    instance_set_name = luigi.Parameter(default="")
+    instance_name = luigi.Parameter(default="")
+    instance_path = luigi.Parameter(default="")
+    instances_dir = luigi.Parameter(default="")
+    loader_name = luigi.Parameter(default="")
     loader_kwargs_json = luigi.Parameter(default="{}")
 
     def loader_kwargs(self) -> dict:

@@ -6,7 +6,6 @@ from typing import Any
 import networkx as nx
 from scipy.sparse.csgraph import floyd_warshall
 
-from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models import (
     Article,
     ArticleType,
@@ -30,6 +29,11 @@ from ware_ops_algos.domain_models import (
     WarehouseInfo,
     WarehouseInfoType,
 )
+from ware_ops_algos.domain_models.layout.graph_generators import (
+    ExplicitGraphGenerator,
+    distance_matrix_generator_from_shortest_paths,
+)
+from ware_ops_pipes.data_loaders.base import DataLoader
 
 
 class IBRSPLoader(DataLoader):
@@ -83,11 +87,6 @@ class IBRSPLoader(DataLoader):
         }
 
     def build_layout(self, parsed: dict[str, Any]) -> LayoutData:
-        from ware_ops_algos.data_loaders.generators import (
-            ExplicitGraphGenerator,
-            distance_matrix_generator_from_shortest_paths,
-        )
-
         header = parsed["header"]
         arcs = parsed["arcs"]
         shortest_paths = parsed["shortest_paths"]

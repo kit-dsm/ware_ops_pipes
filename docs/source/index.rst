@@ -6,6 +6,9 @@ used in *Context-Aware Synthesis of Optimization Pipelines for Warehouse
 Optimization*. It connects Data Cards, Algorithm Cards, and the Problem
 Taxonomy to executable CLS-Luigi pipelines.
 
+Benchmark loaders and experiment preparation are maintained in this repository.
+They construct the common domain objects provided by ``ware_ops_algos``.
+
 .. toctree::
    :maxdepth: 2
 

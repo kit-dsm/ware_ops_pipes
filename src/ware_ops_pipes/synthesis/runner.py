@@ -11,7 +11,7 @@ from cls.fcl import FiniteCombinatoryLogic
 from cls.subtypes import Subtypes
 from cls_luigi.inhabitation_task import RepoMeta
 from cls_luigi.unique_task_pipeline_validator import UniqueTaskPipelineValidator
-from ware_ops_algos.data_loaders import DataLoader
+from ware_ops_pipes.data_loaders import DataLoader
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_algos.taxonomy.taxonomy import TAXONOMY
 from ware_ops_algos.domain_algo_mapper.domain_algo_mapper import DomainAlgorithmMapper

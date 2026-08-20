@@ -7,15 +7,17 @@ configurations and synthesizes executable optimization pipelines for item
 assignment, batching, routing, and scheduling.
 
 The repository works with [`ware_ops_algos`](https://github.com/kit-dsm/ware_ops_algos),
-which provides the common domain model, data loaders, algorithm implementations,
-algorithm cards, and problem taxonomy. `ware_ops_pipes` uses the algorithm cards
-and data cards to identify applicable algorithms, composes valid pipelines with
+which provides the common domain model, algorithm implementations, algorithm
+cards, layout construction, and problem taxonomy. `ware_ops_pipes` provides the
+benchmark loaders and uses the algorithm cards and data cards to identify
+applicable algorithms, composes valid pipelines with
 [`CLS-Luigi`](https://github.com/cls-python/cls-luigi), executes them, and ranks
 their results by the objective declared in the data card.
 
 ## Repository structure
 
 - `src/ware_ops_pipes/`: pipeline components, synthesis, execution, and ranking
+- `src/ware_ops_pipes/data_loaders/`: benchmark parsers and the loader interface
 - `data/data_cards/`: data cards for the benchmark sets
 - `data/instances/`: local benchmark directory; full benchmark collections are
   not stored in Git
@@ -70,8 +72,9 @@ pipelines for one Foodmart instance after obtaining the benchmark data, run:
 uv run --frozen python examples/run_one_foodmart_instance.py data/instances/FoodmartData/instances_d5_ord5_MAL.txt --max-pipelines 3
 ```
 
-The second example connects the `ware_ops_algos` loader and algorithm cards to
-the CASOP pipeline synthesizer. See the
+The second example connects a `ware_ops_pipes` benchmark loader with the
+`ware_ops_algos` domain model and algorithm cards through the CASOP pipeline
+synthesizer. See the
 [`ware_ops_algos` examples](https://github.com/kit-dsm/ware_ops_algos/tree/main/examples)
 for direct use of the domain model and algorithms, including a small custom
 batching implementation.
