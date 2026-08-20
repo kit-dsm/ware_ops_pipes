@@ -9,10 +9,8 @@ algorithms from `ware_ops_algos`_ into executable pipelines using `CLS-Luigi`_.
 .. _CLS-Luigi: https://github.com/cls-python/cls-luigi
 
 The repository accompanies the paper *Context-Aware Synthesis of Optimization
-Pipelines for Warehouse Operations*. The experiments cover seven established
-benchmark families: SPRP, SPRP-SS, Bahceci--Öncan, Henn--Wäscher,
-Muter--Öncan, Foodmart, and Kris. Together they represent routing, joint
-batching and routing, and joint batching, scheduling, and routing problems.
+Pipelines for Warehouse Operations*. The experiments cover the seven instance sets: SPRP, SPRP-SS, Bahceci--Öncan, Henn--Wäscher,
+Muter--Öncan, Foodmart, and Kris. 
 
 Installation
 ------------
