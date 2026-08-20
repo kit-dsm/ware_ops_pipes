@@ -16,7 +16,7 @@ The following runnable example defines a batching algorithm, wraps it as a
 
 .. code-block:: bash
 
-   uv run --frozen python examples/extend_with_custom_batching.py
+   uv run --locked python examples/extend_with_custom_batching.py
 
 .. literalinclude:: ../../examples/extend_with_custom_batching.py
    :language: python
