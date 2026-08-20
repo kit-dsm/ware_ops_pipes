@@ -122,5 +122,6 @@ experiments/output/
 .agent/
 agent_notes/
 experiments/evaluation/df_results.parquet
+experiments/evaluation/df_results.pkl
 data/instances/*
 !data/instances/README.md
