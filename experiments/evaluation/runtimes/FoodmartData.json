@@ -1,0 +1,1010 @@
+{
+  "instances_d20_ord35_MAL": {
+    "load_domain": 1.2386590242385864e-07,
+    "filter_and_import": 0.00019008945673704147,
+    "build_pipelines": 0.24659298919141293,
+    "run_pipelines": 11.690535575151443,
+    "total": 11.937318777665496
+  },
+  "instances_d20_ord11_MAL": {
+    "load_domain": 1.424923539161682e-07,
+    "filter_and_import": 0.00027878768742084503,
+    "build_pipelines": 0.2476595351472497,
+    "run_pipelines": 4.28870072029531,
+    "total": 4.5366391856223345
+  },
+  "instances_d20_ord22_MAL": {
+    "load_domain": 8.381903171539307e-08,
+    "filter_and_import": 0.0003013601526618004,
+    "build_pipelines": 0.24991144705563784,
+    "run_pipelines": 8.9515630742535,
+    "total": 9.20177596528083
+  },
+  "instances_d10_ord48_MAL": {
+    "load_domain": 5.8673322200775146e-08,
+    "filter_and_import": 0.00023230351507663727,
+    "build_pipelines": 0.2516343016177416,
+    "run_pipelines": 11.353719518519938,
+    "total": 11.605586182326078
+  },
+  "instances_d20_ord30_MAL": {
+    "load_domain": 5.4016709327697754e-08,
+    "filter_and_import": 0.00025479868054389954,
+    "build_pipelines": 0.25116326566785574,
+    "run_pipelines": 9.830414180643857,
+    "total": 10.081832299008965
+  },
+  "instances_d20_ord10_MAL": {
+    "load_domain": 9.592622518539429e-08,
+    "filter_and_import": 0.00027230381965637207,
+    "build_pipelines": 0.24944227188825607,
+    "run_pipelines": 4.3177028419449925,
+    "total": 4.56741751357913
+  },
+  "instances_d20_ord18_MAL": {
+    "load_domain": 5.4016709327697754e-08,
+    "filter_and_import": 0.00030992552638053894,
+    "build_pipelines": 0.2526093749329448,
+    "run_pipelines": 6.827299320138991,
+    "total": 7.0802186746150255
+  },
+  "instances_d10_ord16_MAL": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.00023684464395046234,
+    "build_pipelines": 0.250486733391881,
+    "run_pipelines": 5.393144554458559,
+    "total": 5.6438681883737445
+  },
+  "instances_d5_ord31_MAL": {
+    "load_domain": 4.190951585769653e-08,
+    "filter_and_import": 0.00023525580763816833,
+    "build_pipelines": 0.2542709019035101,
+    "run_pipelines": 6.865789568983018,
+    "total": 7.1202957686036825
+  },
+  "instances_d10_ord5_MAL": {
+    "load_domain": 7.636845111846924e-08,
+    "filter_and_import": 0.00023708585649728775,
+    "build_pipelines": 0.2522575072944164,
+    "run_pipelines": 1.8296517916023731,
+    "total": 2.082146461121738
+  },
+  "instances_d5_ord5_MAL": {
+    "load_domain": 6.426125764846802e-08,
+    "filter_and_import": 0.0003545433282852173,
+    "build_pipelines": 0.24875654000788927,
+    "run_pipelines": 1.4360487014055252,
+    "total": 1.6851598490029573
+  },
+  "instances_ord50_fsd10_MAL": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.00023638736456632614,
+    "build_pipelines": 0.24796281103044748,
+    "run_pipelines": 6.784616767428815,
+    "total": 7.032816018909216
+  },
+  "instances_d5_ord36_MAL": {
+    "load_domain": 3.91155481338501e-08,
+    "filter_and_import": 0.0002464326098561287,
+    "build_pipelines": 0.26205195114016533,
+    "run_pipelines": 7.931237448006868,
+    "total": 8.193535870872438
+  },
+  "instances_d10_ord30_MAL": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.00024367403239011765,
+    "build_pipelines": 0.2508288165554404,
+    "run_pipelines": 9.204601743258536,
+    "total": 9.455674281343818
+  },
+  "instances_d5_ord46_MAL": {
+    "load_domain": 7.35744833946228e-08,
+    "filter_and_import": 0.00024318043142557144,
+    "build_pipelines": 0.2489590048789978,
+    "run_pipelines": 10.031225339509547,
+    "total": 10.280427598394454
+  },
+  "instances_d5_ord6_MAL": {
+    "load_domain": 6.891787052154541e-08,
+    "filter_and_import": 0.00028259027749300003,
+    "build_pipelines": 0.2507623825222254,
+    "run_pipelines": 1.5879644798114896,
+    "total": 1.8390095215290785
+  },
+  "instances_d10_ord17_MAL": {
+    "load_domain": 4.377216100692749e-08,
+    "filter_and_import": 0.0002728113904595375,
+    "build_pipelines": 0.2459336332976818,
+    "run_pipelines": 5.836011561565101,
+    "total": 6.0822180500254035
+  },
+  "instances_d20_ord45_MAL": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.0002445429563522339,
+    "build_pipelines": 0.25895713083446026,
+    "run_pipelines": 13.003709693439305,
+    "total": 13.262911426834762
+  },
+  "instances_d10_ord6_MAL": {
+    "load_domain": 5.4016709327697754e-08,
+    "filter_and_import": 0.00028292741626501083,
+    "build_pipelines": 0.2504142224788666,
+    "run_pipelines": 2.2258265055716038,
+    "total": 2.4765237094834447
+  },
+  "instances_d5_ord32_MAL": {
+    "load_domain": 8.66129994392395e-08,
+    "filter_and_import": 0.0002670874819159508,
+    "build_pipelines": 0.25750727392733097,
+    "run_pipelines": 7.031713920645416,
+    "total": 7.289488368667662
+  },
+  "instances_d5_ord29_MAL": {
+    "load_domain": 7.078051567077637e-08,
+    "filter_and_import": 0.0002480754628777504,
+    "build_pipelines": 0.25818309653550386,
+    "run_pipelines": 6.872941819019616,
+    "total": 7.131373061798513
+  },
+  "instances_d5_ord34_MAL": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.00024220440536737442,
+    "build_pipelines": 0.2532788189128041,
+    "run_pipelines": 7.72909043263644,
+    "total": 7.982611511833966
+  },
+  "instances_d10_ord13_MAL": {
+    "load_domain": 3.818422555923462e-08,
+    "filter_and_import": 0.00025107990950345993,
+    "build_pipelines": 0.25352984946221113,
+    "run_pipelines": 4.707576459273696,
+    "total": 4.961357426829636
+  },
+  "instances_d20_ord47_MAL": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.000337439589202404,
+    "build_pipelines": 0.2529148319736123,
+    "run_pipelines": 13.907100096344948,
+    "total": 14.160352427512407
+  },
+  "instances_d20_ord37_MAL": {
+    "load_domain": 4.377216100692749e-08,
+    "filter_and_import": 0.00023814570158720016,
+    "build_pipelines": 0.25338477082550526,
+    "run_pipelines": 11.733406651765108,
+    "total": 11.987029612064362
+  },
+  "instances_d5_ord48_MAL": {
+    "load_domain": 4.563480615615845e-08,
+    "filter_and_import": 0.0002460004761815071,
+    "build_pipelines": 0.24889050610363483,
+    "run_pipelines": 10.481334432959557,
+    "total": 10.730470985174179
+  },
+  "instances_d10_ord19_MAL": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.0002330997958779335,
+    "build_pipelines": 0.25872127059847116,
+    "run_pipelines": 6.433910937979817,
+    "total": 6.692865361459553
+  },
+  "instances_d10_ord27_MAL": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.00023553334176540375,
+    "build_pipelines": 0.25564285833388567,
+    "run_pipelines": 7.998000698164105,
+    "total": 8.25387913454324
+  },
+  "instances_d10_ord25_MAL": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.0002389363944530487,
+    "build_pipelines": 0.25518049765378237,
+    "run_pipelines": 7.588030831888318,
+    "total": 7.843450325541198
+  },
+  "instances_d5_ord44_MAL": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.0002411147579550743,
+    "build_pipelines": 0.2603700431063771,
+    "run_pipelines": 10.195944728329778,
+    "total": 10.456555938348174
+  },
+  "instances_d20_ord27_MAL": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.00023898109793663025,
+    "build_pipelines": 0.24909013602882624,
+    "run_pipelines": 9.726481012068689,
+    "total": 9.975810188800097
+  },
+  "instances_d5_ord22_MAL": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.00025090761482715607,
+    "build_pipelines": 0.2528567695990205,
+    "run_pipelines": 5.457211227156222,
+    "total": 5.710318957455456
+  },
+  "instances_d20_ord39_MAL": {
+    "load_domain": 4.190951585769653e-08,
+    "filter_and_import": 0.00023523252457380295,
+    "build_pipelines": 0.25125642865896225,
+    "run_pipelines": 14.583575858734548,
+    "total": 14.8350675618276
+  },
+  "instances_d5_ord14_MAL": {
+    "load_domain": 4.563480615615845e-08,
+    "filter_and_import": 0.00023524276912212372,
+    "build_pipelines": 0.2588561400771141,
+    "run_pipelines": 3.5436729984357953,
+    "total": 3.8027644269168377
+  },
+  "instances_d5_ord30_MAL": {
+    "load_domain": 3.91155481338501e-08,
+    "filter_and_import": 0.00023856200277805328,
+    "build_pipelines": 0.2558342767879367,
+    "run_pipelines": 7.032680311240256,
+    "total": 7.288753189146519
+  },
+  "instances_d5_ord50_MAL": {
+    "load_domain": 6.705522537231445e-08,
+    "filter_and_import": 0.0002976302057504654,
+    "build_pipelines": 0.2570439260452986,
+    "run_pipelines": 11.27391486428678,
+    "total": 11.531256487593055
+  },
+  "instances_d20_ord31_MAL": {
+    "load_domain": 4.563480615615845e-08,
+    "filter_and_import": 0.00023892708122730255,
+    "build_pipelines": 0.25705037359148264,
+    "run_pipelines": 11.340980771929026,
+    "total": 11.598270118236542
+  },
+  "instances_d10_ord50_MAL": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.00023544766008853912,
+    "build_pipelines": 0.257112056016922,
+    "run_pipelines": 13.956426185555756,
+    "total": 14.213773745112121
+  },
+  "instances_d5_ord33_MAL": {
+    "load_domain": 4.563480615615845e-08,
+    "filter_and_import": 0.0002460051327943802,
+    "build_pipelines": 0.2604940542951226,
+    "run_pipelines": 7.616269389167428,
+    "total": 7.877009494230151
+  },
+  "instances_d20_ord8_MAL": {
+    "load_domain": 6.05359673500061e-08,
+    "filter_and_import": 0.00024267472326755524,
+    "build_pipelines": 0.2554210349917412,
+    "run_pipelines": 3.768410443328321,
+    "total": 4.024074213579297
+  },
+  "instances_d20_ord9_MAL": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.00023251958191394806,
+    "build_pipelines": 0.24901156313717365,
+    "run_pipelines": 4.0516775874421,
+    "total": 4.300921729765832
+  },
+  "instances_d20_ord12_MAL": {
+    "load_domain": 5.122274160385132e-08,
+    "filter_and_import": 0.00025332532823085785,
+    "build_pipelines": 0.2546843308955431,
+    "run_pipelines": 5.00908786803484,
+    "total": 5.264025575481355
+  },
+  "instances_d5_ord13_MAL": {
+    "load_domain": 5.681067705154419e-08,
+    "filter_and_import": 0.00024291593581438065,
+    "build_pipelines": 0.2604520218446851,
+    "run_pipelines": 3.2475118711590767,
+    "total": 3.508206865750253
+  },
+  "instances_d10_ord35_MAL": {
+    "load_domain": 6.239861249923706e-08,
+    "filter_and_import": 0.0002468787133693695,
+    "build_pipelines": 0.2567509040236473,
+    "run_pipelines": 9.953662171028554,
+    "total": 10.210660016164184
+  },
+  "instances_d5_ord40_MAL": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.00026850681751966476,
+    "build_pipelines": 0.2542299572378397,
+    "run_pipelines": 8.826244215480983,
+    "total": 9.08074273262173
+  },
+  "instances_ord1000_fsd10_MAL": {
+    "load_domain": 6.426125764846802e-08,
+    "filter_and_import": 0.00023398641496896744,
+    "build_pipelines": 0.25457062013447285,
+    "run_pipelines": 253.81921039242297,
+    "total": 254.07401506323367
+  },
+  "instances_d20_ord6_MAL": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.0002454295754432678,
+    "build_pipelines": 0.26445294357836246,
+    "run_pipelines": 2.8234382327646017,
+    "total": 3.088136659003794
+  },
+  "instances_d10_ord43_MAL": {
+    "load_domain": 6.332993507385254e-08,
+    "filter_and_import": 0.00024449266493320465,
+    "build_pipelines": 0.2568590175360441,
+    "run_pipelines": 11.922030943445861,
+    "total": 12.179134516976774
+  },
+  "instances_d10_ord18_MAL": {
+    "load_domain": 6.798654794692993e-08,
+    "filter_and_import": 0.0002708146348595619,
+    "build_pipelines": 0.25162762496620417,
+    "run_pipelines": 7.220278351567686,
+    "total": 7.472176859155297
+  },
+  "instances_d5_ord12_MAL": {
+    "load_domain": 7.636845111846924e-08,
+    "filter_and_import": 0.0002468647435307503,
+    "build_pipelines": 0.25396515894681215,
+    "run_pipelines": 3.047041656449437,
+    "total": 3.301253756508231
+  },
+  "instances_d20_ord19_MAL": {
+    "load_domain": 4.936009645462036e-08,
+    "filter_and_import": 0.000242588110268116,
+    "build_pipelines": 0.2538164649158716,
+    "run_pipelines": 7.502314059995115,
+    "total": 7.756373162381351
+  },
+  "instances_d10_ord36_MAL": {
+    "load_domain": 4.377216100692749e-08,
+    "filter_and_import": 0.00024290848523378372,
+    "build_pipelines": 0.2719080466777086,
+    "run_pipelines": 10.206115779466927,
+    "total": 10.47826677840203
+  },
+  "instances_ord100_fsd10_MAL": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.0002392781898379326,
+    "build_pipelines": 0.2602444961667061,
+    "run_pipelines": 25.200421071611345,
+    "total": 25.460904892534018
+  },
+  "instances_d20_ord14_MAL": {
+    "load_domain": 4.284083843231201e-08,
+    "filter_and_import": 0.0002390146255493164,
+    "build_pipelines": 0.25810936838388443,
+    "run_pipelines": 5.503956294618547,
+    "total": 5.762304720468819
+  },
+  "instances_d20_ord42_MAL": {
+    "load_domain": 6.05359673500061e-08,
+    "filter_and_import": 0.00023506581783294678,
+    "build_pipelines": 0.25394470803439617,
+    "run_pipelines": 12.869047381915152,
+    "total": 13.123227216303349
+  },
+  "instances_d5_ord19_MAL": {
+    "load_domain": 5.8673322200775146e-08,
+    "filter_and_import": 0.00024668965488672256,
+    "build_pipelines": 0.25643799174577,
+    "run_pipelines": 4.888592949137092,
+    "total": 5.1452776892110705
+  },
+  "instances_d20_ord40_MAL": {
+    "load_domain": 4.190951585769653e-08,
+    "filter_and_import": 0.00024166982620954514,
+    "build_pipelines": 0.25266247522085905,
+    "run_pipelines": 14.234014264307916,
+    "total": 14.4869184512645
+  },
+  "instances_d20_ord41_MAL": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.0002391831949353218,
+    "build_pipelines": 0.26156020909547806,
+    "run_pipelines": 12.810221674852073,
+    "total": 13.072021123021841
+  },
+  "instances_d10_ord21_MAL": {
+    "load_domain": 8.102506399154663e-08,
+    "filter_and_import": 0.0002790400758385658,
+    "build_pipelines": 0.25559523701667786,
+    "run_pipelines": 6.97983814496547,
+    "total": 7.23571250308305
+  },
+  "instances_d20_ord24_MAL": {
+    "load_domain": 4.936009645462036e-08,
+    "filter_and_import": 0.000249277800321579,
+    "build_pipelines": 0.2611482199281454,
+    "run_pipelines": 9.521283467300236,
+    "total": 9.7826810143888
+  },
+  "instances_d10_ord26_MAL": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.0002347957342863083,
+    "build_pipelines": 0.2547755688428879,
+    "run_pipelines": 8.00351202301681,
+    "total": 8.258522432297468
+  },
+  "instances_d20_ord20_MAL": {
+    "load_domain": 4.0978193283081055e-08,
+    "filter_and_import": 0.0002682618796825409,
+    "build_pipelines": 0.26797450333833694,
+    "run_pipelines": 7.937227460555732,
+    "total": 8.205470266751945
+  },
+  "instances_d10_ord10_MAL": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.00023475941270589828,
+    "build_pipelines": 0.2614785674959421,
+    "run_pipelines": 4.865409957244992,
+    "total": 5.127123343758285
+  },
+  "instances_d20_ord28_MAL": {
+    "load_domain": 6.426125764846802e-08,
+    "filter_and_import": 0.0002519730478525162,
+    "build_pipelines": 0.25918975099921227,
+    "run_pipelines": 10.524301532655954,
+    "total": 10.783743320964277
+  },
+  "instances_d5_ord27_MAL": {
+    "load_domain": 5.4016709327697754e-08,
+    "filter_and_import": 0.00023508723825216293,
+    "build_pipelines": 0.2604342205449939,
+    "run_pipelines": 9.469693187624216,
+    "total": 9.730362549424171
+  },
+  "instances_d5_ord26_MAL": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.0002414565533399582,
+    "build_pipelines": 0.2557304250076413,
+    "run_pipelines": 6.782196249812841,
+    "total": 7.038168176077306
+  },
+  "instances_ord500_fsd10_MAL": {
+    "load_domain": 6.705522537231445e-08,
+    "filter_and_import": 0.00024332664906978607,
+    "build_pipelines": 0.2555442238226533,
+    "run_pipelines": 254.8515086788684,
+    "total": 255.10729629639536
+  },
+  "instances_d10_ord39_MAL": {
+    "load_domain": 6.51925802230835e-08,
+    "filter_and_import": 0.0002376371994614601,
+    "build_pipelines": 0.2582817170768976,
+    "run_pipelines": 11.204378811642528,
+    "total": 11.462898231111467
+  },
+  "instances_d20_ord32_MAL": {
+    "load_domain": 4.470348358154297e-08,
+    "filter_and_import": 0.00024521443992853165,
+    "build_pipelines": 0.2612971030175686,
+    "run_pipelines": 11.787950304336846,
+    "total": 12.049492666497827
+  },
+  "instances_d5_ord49_MAL": {
+    "load_domain": 5.774199962615967e-08,
+    "filter_and_import": 0.00024299230426549911,
+    "build_pipelines": 0.2602772228419781,
+    "run_pipelines": 11.893519795499742,
+    "total": 12.154040068387985
+  },
+  "instances_d5_ord45_MAL": {
+    "load_domain": 8.475035429000854e-08,
+    "filter_and_import": 0.0002889670431613922,
+    "build_pipelines": 0.27761280816048384,
+    "run_pipelines": 10.55687764659524,
+    "total": 10.83477950654924
+  },
+  "instances_d10_ord28_MAL": {
+    "load_domain": 9.220093488693237e-08,
+    "filter_and_import": 0.00031173601746559143,
+    "build_pipelines": 0.25607257429510355,
+    "run_pipelines": 8.769694079644978,
+    "total": 9.026078482158482
+  },
+  "instances_d10_ord37_MAL": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.0002321973443031311,
+    "build_pipelines": 0.2573327934369445,
+    "run_pipelines": 11.999588697217405,
+    "total": 12.257153743878007
+  },
+  "instances_ord2000_fsd10_MAL": {
+    "load_domain": 6.426125764846802e-08,
+    "filter_and_import": 0.0002475893124938011,
+    "build_pipelines": 0.26418130472302437,
+    "run_pipelines": 259.59851185046136,
+    "total": 259.86294080875814
+  },
+  "instances_d5_ord17_MAL": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.00024471525102853775,
+    "build_pipelines": 0.2624817481264472,
+    "run_pipelines": 4.451127618551254,
+    "total": 4.7138541378080845
+  },
+  "instances_d10_ord12_MAL": {
+    "load_domain": 1.0058283805847168e-07,
+    "filter_and_import": 0.00026366766542196274,
+    "build_pipelines": 0.26921654772013426,
+    "run_pipelines": 4.635224098339677,
+    "total": 4.904704414308071
+  },
+  "instances_d10_ord41_MAL": {
+    "load_domain": 4.936009645462036e-08,
+    "filter_and_import": 0.00025106966495513916,
+    "build_pipelines": 0.258050580509007,
+    "run_pipelines": 11.748788751661777,
+    "total": 12.007090451195836
+  },
+  "instances_d5_ord7_MAL": {
+    "load_domain": 5.8673322200775146e-08,
+    "filter_and_import": 0.00025806762278079987,
+    "build_pipelines": 0.2618768336251378,
+    "run_pipelines": 1.8623596271499991,
+    "total": 2.12449458707124
+  },
+  "instances_d10_ord7_MAL": {
+    "load_domain": 4.0978193283081055e-08,
+    "filter_and_import": 0.00024907756596803665,
+    "build_pipelines": 0.25497167091816664,
+    "run_pipelines": 2.6426143124699593,
+    "total": 2.897835101932287
+  },
+  "instances_d5_ord16_MAL": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.00022690091282129288,
+    "build_pipelines": 0.26572071574628353,
+    "run_pipelines": 4.181793255731463,
+    "total": 4.447740924544632
+  },
+  "instances_d10_ord11_MAL": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.00024065934121608734,
+    "build_pipelines": 0.2631106926128268,
+    "run_pipelines": 4.242791945114732,
+    "total": 4.506143349222839
+  },
+  "instances_d5_ord35_MAL": {
+    "load_domain": 7.636845111846924e-08,
+    "filter_and_import": 0.000318317674100399,
+    "build_pipelines": 0.26941513549536467,
+    "run_pipelines": 8.389270670711994,
+    "total": 8.65900420024991
+  },
+  "instances_d5_ord37_MAL": {
+    "load_domain": 3.818422555923462e-08,
+    "filter_and_import": 0.0002664681524038315,
+    "build_pipelines": 0.27064424753189087,
+    "run_pipelines": 8.698141858913004,
+    "total": 8.969052612781525
+  },
+  "instances_d20_ord33_MAL": {
+    "load_domain": 5.774199962615967e-08,
+    "filter_and_import": 0.00024689268320798874,
+    "build_pipelines": 0.2629858599975705,
+    "run_pipelines": 13.208773484453559,
+    "total": 13.472006294876337
+  },
+  "instances_d20_ord36_MAL": {
+    "load_domain": 6.332993507385254e-08,
+    "filter_and_import": 0.00027689244598150253,
+    "build_pipelines": 0.26567297894507647,
+    "run_pipelines": 12.637522269971669,
+    "total": 12.903472204692662
+  },
+  "instances_d20_ord15_MAL": {
+    "load_domain": 4.0046870708465576e-08,
+    "filter_and_import": 0.00024378299713134766,
+    "build_pipelines": 0.26577545423060656,
+    "run_pipelines": 6.178136000409722,
+    "total": 6.444155277684331
+  },
+  "instances_d20_ord50_MAL": {
+    "load_domain": 4.936009645462036e-08,
+    "filter_and_import": 0.00024481769651174545,
+    "build_pipelines": 0.26677896454930305,
+    "run_pipelines": 15.978162967599928,
+    "total": 16.24518679920584
+  },
+  "instances_d10_ord45_MAL": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.00024813413619995117,
+    "build_pipelines": 0.2577002439647913,
+    "run_pipelines": 12.33618939947337,
+    "total": 12.594137825071812
+  },
+  "instances_d5_ord47_MAL": {
+    "load_domain": 7.543712854385376e-08,
+    "filter_and_import": 0.0003406517207622528,
+    "build_pipelines": 0.2557378662750125,
+    "run_pipelines": 10.859462255612016,
+    "total": 11.115540849044919
+  },
+  "instances_d10_ord20_MAL": {
+    "load_domain": 4.0978193283081055e-08,
+    "filter_and_import": 0.0002422882243990898,
+    "build_pipelines": 0.2622837107628584,
+    "run_pipelines": 7.923904547467828,
+    "total": 8.186430587433279
+  },
+  "instances_d10_ord42_MAL": {
+    "load_domain": 5.122274160385132e-08,
+    "filter_and_import": 0.0002529006451368332,
+    "build_pipelines": 0.25880168937146664,
+    "run_pipelines": 11.91168708819896,
+    "total": 12.170741729438305
+  },
+  "instances_d5_ord41_MAL": {
+    "load_domain": 6.332993507385254e-08,
+    "filter_and_import": 0.0002562711015343666,
+    "build_pipelines": 0.26478993333876133,
+    "run_pipelines": 9.934339332394302,
+    "total": 10.199385600164533
+  },
+  "instances_ord200_fsd10_MAL": {
+    "load_domain": 5.681067705154419e-08,
+    "filter_and_import": 0.0002566436305642128,
+    "build_pipelines": 0.2625329867005348,
+    "run_pipelines": 103.41820967011154,
+    "total": 103.68099935725331
+  },
+  "instances_d20_ord25_MAL": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.00023961160331964493,
+    "build_pipelines": 0.25922701228410006,
+    "run_pipelines": 10.654931431636214,
+    "total": 10.914398103021085
+  },
+  "instances_d10_ord15_MAL": {
+    "load_domain": 5.122274160385132e-08,
+    "filter_and_import": 0.00024096667766571045,
+    "build_pipelines": 0.2612473927438259,
+    "run_pipelines": 5.631103875115514,
+    "total": 5.892592285759747
+  },
+  "instances_d10_ord8_MAL": {
+    "load_domain": 7.636845111846924e-08,
+    "filter_and_import": 0.00024107284843921661,
+    "build_pipelines": 0.25983127392828465,
+    "run_pipelines": 2.931535741314292,
+    "total": 3.191608164459467
+  },
+  "instances_d10_ord38_MAL": {
+    "load_domain": 5.122274160385132e-08,
+    "filter_and_import": 0.0002427203580737114,
+    "build_pipelines": 0.2557161618024111,
+    "run_pipelines": 12.216461069881916,
+    "total": 12.472420003265142
+  },
+  "instances_d5_ord28_MAL": {
+    "load_domain": 4.284083843231201e-08,
+    "filter_and_import": 0.00024969596415758133,
+    "build_pipelines": 0.2649671407416463,
+    "run_pipelines": 7.293186944909394,
+    "total": 7.558403824456036
+  },
+  "instances_d5_ord8_MAL": {
+    "load_domain": 5.21540641784668e-08,
+    "filter_and_import": 0.00024147424846887589,
+    "build_pipelines": 0.2676121536642313,
+    "run_pipelines": 2.1216434072703123,
+    "total": 2.3894970873370767
+  },
+  "instances_d20_ord26_MAL": {
+    "load_domain": 5.587935447692871e-08,
+    "filter_and_import": 0.0002405662089586258,
+    "build_pipelines": 0.2616408383473754,
+    "run_pipelines": 9.826676809228957,
+    "total": 10.088558269664645
+  },
+  "instances_d5_ord20_MAL": {
+    "load_domain": 7.450580596923828e-08,
+    "filter_and_import": 0.0002499781548976898,
+    "build_pipelines": 0.26474045868963003,
+    "run_pipelines": 5.25839015468955,
+    "total": 5.523380666039884
+  },
+  "instances_d10_ord49_MAL": {
+    "load_domain": 5.681067705154419e-08,
+    "filter_and_import": 0.00024842843413352966,
+    "build_pipelines": 0.26142703648656607,
+    "run_pipelines": 12.795980357564986,
+    "total": 13.057655879296362
+  },
+  "instances_d20_ord16_MAL": {
+    "load_domain": 5.774199962615967e-08,
+    "filter_and_import": 0.00023785140365362167,
+    "build_pipelines": 0.27074987441301346,
+    "run_pipelines": 6.848765840753913,
+    "total": 7.11975362431258
+  },
+  "instances_d5_ord38_MAL": {
+    "load_domain": 7.543712854385376e-08,
+    "filter_and_import": 0.00030634645372629166,
+    "build_pipelines": 0.28252287209033966,
+    "run_pipelines": 9.241354794241488,
+    "total": 9.524184088222682
+  },
+  "instances_d20_ord38_MAL": {
+    "load_domain": 6.05359673500061e-08,
+    "filter_and_import": 0.0002792198210954666,
+    "build_pipelines": 0.2682151896879077,
+    "run_pipelines": 12.854645757004619,
+    "total": 13.12314022704959
+  },
+  "instances_d10_ord46_MAL": {
+    "load_domain": 6.146728992462158e-08,
+    "filter_and_import": 0.0002399953082203865,
+    "build_pipelines": 0.2639747550711036,
+    "run_pipelines": 13.511899798177183,
+    "total": 13.776114610023797
+  },
+  "instances_d10_ord22_MAL": {
+    "load_domain": 3.91155481338501e-08,
+    "filter_and_import": 0.00023427046835422516,
+    "build_pipelines": 0.26901774387806654,
+    "run_pipelines": 7.452772009186447,
+    "total": 7.722024062648416
+  },
+  "instances_d5_ord18_MAL": {
+    "load_domain": 4.563480615615845e-08,
+    "filter_and_import": 0.00023704953491687775,
+    "build_pipelines": 0.2639492219313979,
+    "run_pipelines": 4.9794244058430195,
+    "total": 5.24361072294414
+  },
+  "instances_d5_ord39_MAL": {
+    "load_domain": 4.563480615615845e-08,
+    "filter_and_import": 0.0002449573948979378,
+    "build_pipelines": 0.2684892127290368,
+    "run_pipelines": 11.731605996377766,
+    "total": 12.000340212136507
+  },
+  "instances_d5_ord42_MAL": {
+    "load_domain": 4.563480615615845e-08,
+    "filter_and_import": 0.00024239812046289444,
+    "build_pipelines": 0.25729408767074347,
+    "run_pipelines": 10.998286763206124,
+    "total": 11.255823294632137
+  },
+  "instances_d20_ord7_MAL": {
+    "load_domain": 5.3085386753082275e-08,
+    "filter_and_import": 0.00029652751982212067,
+    "build_pipelines": 0.2743256688117981,
+    "run_pipelines": 3.561808407306671,
+    "total": 3.836430656723678
+  },
+  "instances_d10_ord44_MAL": {
+    "load_domain": 5.8673322200775146e-08,
+    "filter_and_import": 0.0002768049016594887,
+    "build_pipelines": 0.26340844575315714,
+    "run_pipelines": 12.036757859401405,
+    "total": 12.300443168729544
+  },
+  "instances_d20_ord17_MAL": {
+    "load_domain": 5.029141902923584e-08,
+    "filter_and_import": 0.00024040788412094116,
+    "build_pipelines": 0.2683626776561141,
+    "run_pipelines": 7.151743421331048,
+    "total": 7.420346557162702
+  },
+  "instances_d20_ord23_MAL": {
+    "load_domain": 5.681067705154419e-08,
+    "filter_and_import": 0.00024079624563455582,
+    "build_pipelines": 0.26731717493385077,
+    "run_pipelines": 9.017783694900572,
+    "total": 9.285341722890735
+  },
+  "instances_d20_ord5_MAL": {
+    "load_domain": 5.122274160385132e-08,
+    "filter_and_import": 0.00023911148309707642,
+    "build_pipelines": 0.25854539312422276,
+    "run_pipelines": 2.5096327513456345,
+    "total": 2.768417307175696
+  },
+  "instances_d10_ord29_MAL": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.0002457462251186371,
+    "build_pipelines": 0.2595843654125929,
+    "run_pipelines": 9.041596158407629,
+    "total": 9.301426329649985
+  },
+  "instances_d20_ord43_MAL": {
+    "load_domain": 6.891787052154541e-08,
+    "filter_and_import": 0.00027539581060409546,
+    "build_pipelines": 0.26143184304237366,
+    "run_pipelines": 13.583398210816085,
+    "total": 13.845105518586934
+  },
+  "instances_d5_ord23_MAL": {
+    "load_domain": 4.842877388000488e-08,
+    "filter_and_import": 0.0002449527382850647,
+    "build_pipelines": 0.260712088085711,
+    "run_pipelines": 5.951894913800061,
+    "total": 6.212852003052831
+  },
+  "instances_d10_ord24_MAL": {
+    "load_domain": 3.3527612686157227e-08,
+    "filter_and_import": 0.00024029426276683807,
+    "build_pipelines": 0.26215639989823103,
+    "run_pipelines": 9.693000692874193,
+    "total": 9.955397420562804
+  },
+  "instances_d10_ord31_MAL": {
+    "load_domain": 5.8673322200775146e-08,
+    "filter_and_import": 0.0002444731071591377,
+    "build_pipelines": 0.2562485132366419,
+    "run_pipelines": 9.598263057880104,
+    "total": 9.854756102897227
+  },
+  "instances_d5_ord11_MAL": {
+    "load_domain": 6.05359673500061e-08,
+    "filter_and_import": 0.0002485886216163635,
+    "build_pipelines": 0.2636637231335044,
+    "run_pipelines": 3.0118210781365633,
+    "total": 3.2757334504276514
+  },
+  "instances_d10_ord33_MAL": {
+    "load_domain": 5.960464477539063e-08,
+    "filter_and_import": 0.00034407898783683777,
+    "build_pipelines": 0.27938444074243307,
+    "run_pipelines": 10.171290562488139,
+    "total": 10.451019141823053
+  },
+  "instances_d20_ord46_MAL": {
+    "load_domain": 6.891787052154541e-08,
+    "filter_and_import": 0.000241757370531559,
+    "build_pipelines": 0.26753334794193506,
+    "run_pipelines": 14.379157092422247,
+    "total": 14.646932266652584
+  },
+  "instances_d5_ord9_MAL": {
+    "load_domain": 4.190951585769653e-08,
+    "filter_and_import": 0.00028676167130470276,
+    "build_pipelines": 0.2632470205426216,
+    "run_pipelines": 2.345015441067517,
+    "total": 2.608549265190959
+  },
+  "instances_d5_ord21_MAL": {
+    "load_domain": 5.774199962615967e-08,
+    "filter_and_import": 0.0002488531172275543,
+    "build_pipelines": 0.27284764405339956,
+    "run_pipelines": 5.590281086973846,
+    "total": 5.863377641886473
+  },
+  "instances_d20_ord29_MAL": {
+    "load_domain": 7.636845111846924e-08,
+    "filter_and_import": 0.0002453327178955078,
+    "build_pipelines": 0.2640073820948601,
+    "run_pipelines": 10.48779381532222,
+    "total": 10.752046606503427
+  },
+  "instances_d20_ord48_MAL": {
+    "load_domain": 7.916241884231567e-08,
+    "filter_and_import": 0.00024229008704423904,
+    "build_pipelines": 0.26760037802159786,
+    "run_pipelines": 17.835148809477687,
+    "total": 18.102991556748748
+  },
+  "instances_d10_ord32_MAL": {
+    "load_domain": 4.0046870708465576e-08,
+    "filter_and_import": 0.00023822393268346786,
+    "build_pipelines": 0.2599760331213474,
+    "run_pipelines": 9.873758713714778,
+    "total": 10.13397301081568
+  },
+  "instances_d5_ord43_MAL": {
+    "load_domain": 6.984919309616089e-08,
+    "filter_and_import": 0.0002408679574728012,
+    "build_pipelines": 0.27011858206242323,
+    "run_pipelines": 10.141194922849536,
+    "total": 10.411554442718625
+  },
+  "instances_d20_ord21_MAL": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.00024307332932949066,
+    "build_pipelines": 0.2616590354591608,
+    "run_pipelines": 8.504391165450215,
+    "total": 8.766293321736157
+  },
+  "instances_d5_ord25_MAL": {
+    "load_domain": 8.195638656616211e-08,
+    "filter_and_import": 0.0003238776698708534,
+    "build_pipelines": 0.2654671287164092,
+    "run_pipelines": 6.780258822254837,
+    "total": 7.046049910597503
+  },
+  "instances_d20_ord13_MAL": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.000247136689722538,
+    "build_pipelines": 0.26881922502070665,
+    "run_pipelines": 5.404726669192314,
+    "total": 5.673793077468872
+  },
+  "instances_d5_ord24_MAL": {
+    "load_domain": 4.842877388000488e-08,
+    "filter_and_import": 0.00026772264391183853,
+    "build_pipelines": 0.2700428878888488,
+    "run_pipelines": 6.383851608261466,
+    "total": 6.6541622672230005
+  },
+  "instances_d10_ord14_MAL": {
+    "load_domain": 5.122274160385132e-08,
+    "filter_and_import": 0.0002489490434527397,
+    "build_pipelines": 0.2596816113218665,
+    "run_pipelines": 5.320457616820931,
+    "total": 5.580388228408992
+  },
+  "instances_d10_ord34_MAL": {
+    "load_domain": 6.426125764846802e-08,
+    "filter_and_import": 0.00032173097133636475,
+    "build_pipelines": 0.26561122946441174,
+    "run_pipelines": 10.631440212018788,
+    "total": 10.897373236715794
+  },
+  "instances_d5_ord15_MAL": {
+    "load_domain": 7.078051567077637e-08,
+    "filter_and_import": 0.00025671161711215973,
+    "build_pipelines": 0.267647516913712,
+    "run_pipelines": 4.00687104370445,
+    "total": 4.27477534301579
+  },
+  "instances_d10_ord47_MAL": {
+    "load_domain": 4.563480615615845e-08,
+    "filter_and_import": 0.00024281442165374756,
+    "build_pipelines": 0.2754789274185896,
+    "run_pipelines": 12.15554084815085,
+    "total": 12.431262635625899
+  },
+  "instances_d10_ord9_MAL": {
+    "load_domain": 4.7497451305389404e-08,
+    "filter_and_import": 0.0002566874027252197,
+    "build_pipelines": 0.2614056533202529,
+    "run_pipelines": 3.3995416844263673,
+    "total": 3.6612040726467967
+  },
+  "instances_d10_ord23_MAL": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.00024047866463661194,
+    "build_pipelines": 0.2683170363306999,
+    "run_pipelines": 7.836619607172906,
+    "total": 8.105177168734372
+  },
+  "instances_d10_ord40_MAL": {
+    "load_domain": 5.8673322200775146e-08,
+    "filter_and_import": 0.0002520466223359108,
+    "build_pipelines": 0.26859911251813173,
+    "run_pipelines": 11.28610790334642,
+    "total": 11.55495912116021
+  },
+  "instances_d20_ord44_MAL": {
+    "load_domain": 4.284083843231201e-08,
+    "filter_and_import": 0.00024590548127889633,
+    "build_pipelines": 0.26986514311283827,
+    "run_pipelines": 13.95490993745625,
+    "total": 14.225021028891206
+  },
+  "instances_d20_ord34_MAL": {
+    "load_domain": 4.842877388000488e-08,
+    "filter_and_import": 0.00023719947785139084,
+    "build_pipelines": 0.268663770519197,
+    "run_pipelines": 12.233955935575068,
+    "total": 12.50285695400089
+  },
+  "instances_d5_ord10_MAL": {
+    "load_domain": 4.6566128730773926e-08,
+    "filter_and_import": 0.000255330465734005,
+    "build_pipelines": 0.26971138548105955,
+    "run_pipelines": 5.9728979067876935,
+    "total": 6.242864669300616
+  },
+  "instances_d20_ord49_MAL": {
+    "load_domain": 4.284083843231201e-08,
+    "filter_and_import": 0.00023756641894578934,
+    "build_pipelines": 0.2688144985586405,
+    "run_pipelines": 14.827245242893696,
+    "total": 15.09629735071212
+  }
+}

@@ -11,12 +11,16 @@ from cls.fcl import FiniteCombinatoryLogic
 from cls.subtypes import Subtypes
 from cls_luigi.inhabitation_task import RepoMeta
 from cls_luigi.unique_task_pipeline_validator import UniqueTaskPipelineValidator
+from gurobipy._core import defaultdict
 
 from ware_ops_algos.data_loaders import DataLoader
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_algos.taxonomy.taxonomy import TAXONOMY
 from ware_ops_algos.domain_algo_mapper.domain_algo_mapper import DomainAlgorithmMapper
 from ware_ops_algos.algorithms.algorithm_cards import import_algo_class, load_packaged_algo_cards
+from ware_ops_pipes.pipelines.subproblems.batching.generated.index import (
+    CONFIGURED_COMPONENT_MODULES,
+)
 
 from ware_ops_pipes.ranking.ranking import RankingEvaluator
 from ware_ops_pipes.pipelines import set_pipeline_params, inhabit, print_tree
@@ -28,31 +32,31 @@ class PipelineRunner(ABC):
             self,
             instance_set_name: str,
             instances_dir: Path,
-            cache_dir: Path,
             project_root: Path,
             data_card,
             excluded: list = [],
             max_pipelines: int = 10,
             verbose: bool = True,
-            cleanup: bool = True,
             ranker=RankingEvaluator,
             time_limit_sec: int | None = None,
-            gen_tour: bool = False
+            gen_tour: bool = False,
+            loader_kwargs: dict = defaultdict(),
+            loader_cls=None,
+            workers: int = 1,
     ):
         self.instance_set_name = instance_set_name
         self.instances_dir = Path(instances_dir)
-        self.cache_dir = Path(cache_dir)
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
-        self.cache_path: Path | None = None
+        self.loader_kwargs = loader_kwargs
+        self.loader_cls = loader_cls
 
         self.project_root = Path(project_root)
         self.src_dir = project_root / "src" / "warehouse_algos"
         self.max_pipelines = max_pipelines
         self.verbose = verbose
-        self.cleanup = cleanup
         self.pipeline_runtimes = {}
         self.time_limit_sec = time_limit_sec
         self.gen_tour = gen_tour
+        self.workers = workers
 
         # Component implementations
         self.implementation_module = {
@@ -74,19 +78,9 @@ class PipelineRunner(ABC):
             "DueDate": "ware_ops_pipes.pipelines.subproblems.batching.due_date",
             "Random": "ware_ops_pipes.pipelines.subproblems.batching.random",
             "CombinedBatchingRoutingAssigning": "ware_ops_pipes.pipelines.subproblems.routing.joint_batching_routing_assigning",
-            "ClosestDepotMinDistanceSeedBatching": "ware_ops_pipes.pipelines.subproblems.batching.seed",
-            "ClosestDepotMaxSharedArticlesSeedBatching": "ware_ops_pipes.pipelines.subproblems.batching.seed_shared_articles",
-            "ClarkAndWrightSShape": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_sshape",
-            "ClarkAndWrightNN": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_nn",
-            "ClarkAndWrightRR": "ware_ops_pipes.pipelines.subproblems.batching.clark_and_wright_rr",
-            "LSBatchingRR": "ware_ops_pipes.pipelines.subproblems.batching.ls_rr",
-            "LSBatchingNNRand": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_rand",
-            "LSBatchingNNDueDate": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_due",
-            "LSBatchingNNFiFo": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo",
-            "LSBatchingNNFiFoOrderNr": "ware_ops_pipes.pipelines.subproblems.batching.ls_nn_fifo_ord_nr",
-            "SPTScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.spt_scheduling",
-            "LPTScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.lpt_scheduling",
-            "EDDScheduling": "ware_ops_pipes.pipelines.subproblems.scheduling.edd_scheduling",
+            "SPTScheduler": "ware_ops_pipes.pipelines.subproblems.scheduling.spt_scheduling",
+            "LPTScheduler": "ware_ops_pipes.pipelines.subproblems.scheduling.lpt_scheduling",
+            "EDDScheduler": "ware_ops_pipes.pipelines.subproblems.scheduling.edd_scheduling",
         }
         self.algos = load_packaged_algo_cards()
         if self.verbose:
@@ -100,13 +94,6 @@ class PipelineRunner(ABC):
     def discover_instances(self) -> list[Tuple[str, list[Path]]]:
         """
         Discover instances in the directory.
-        """
-        pass
-
-    @abstractmethod
-    def load_domain(self, instance_name: str, file_paths: list[Path]) -> BaseWarehouseDomain:
-        """
-        Load domain for an instance.
         """
         pass
 
@@ -137,9 +124,7 @@ class PipelineRunner(ABC):
         print(f"Processing: {instance_name}")
         print(f"{'=' * 80}\n")
         timings = {}
-        # Load domain (with caching)
         t0 = time.perf_counter()
-        domain = self.load_domain(instance_name, file_paths)
         timings["load_domain"] = time.perf_counter() - t0
 
         # Filter applicable algorithms
@@ -170,18 +155,19 @@ class PipelineRunner(ABC):
         )
         output_folder.mkdir(parents=True, exist_ok=True)
 
-        # Get cache path for domain
-        # cache_path = self.cache_dir / f"{instance_name}_domain.pkl"
-
-        # Set pipeline parameters
         set_pipeline_params(
             output_folder=str(output_folder),
+            data_cache_folder=str(
+                self.project_root / "experiments" / "output" / "_data_cache"
+            ),
             instance_set_name=self.instance_set_name,
             instance_name=instance_name,
             instance_path=str(file_paths[0]),
-            domain_path=str(self.loader.cache_path),
+            instances_dir=str(self.instances_dir),
+            loader_cls=self.loader_cls,
+            loader_kwargs=self.loader_kwargs,
             time_limit_seconds=self.time_limit_sec,
-            gen_tour=self.gen_tour
+            gen_tour=self.gen_tour,
         )
 
         # Build and run pipelines
@@ -193,19 +179,17 @@ class PipelineRunner(ABC):
 
         t0 = time.perf_counter()
         if pipelines:
-            print(f"\n✓ Running {len(pipelines)} pipelines...\n")
+            print(f"\n✓ Running {len(pipelines)} pipelines with {self.workers} worker(s)...\n")
             luigi.interface.InterfaceLogging.setup(type('opts',
                                                         (),
                                                         {'background': None,
                                                          'logdir': None,
                                                          'logging_conf_file': None,
-                                                         'log_level': 'CRITICAL'
+                                                         'log_level': 'DEBUG'
                                                          }))
-            luigi.build(pipelines, local_scheduler=True)
+            luigi.build(pipelines, local_scheduler=True, workers=self.workers)
 
             self.create_ranking(instance_name, output_folder)
-            if self.cleanup:
-                self._cleanup(output_folder)
             timings["run_pipelines"] = time.perf_counter() - t0
             timings["total"] = sum(timings.values())
             self.pipeline_runtimes[instance_name] = timings
@@ -213,27 +197,55 @@ class PipelineRunner(ABC):
             print("⚠ No valid pipelines found!")
 
     def _import_models(self, algos_applicable):
-        """Import applicable model implementations"""
-        for algo in algos_applicable:
-            algo_name = algo.algo_name
-            if algo_name not in self.implementation_module:
-                if self.verbose:
-                    print(f"⚠ Unknown model: {algo_name}, skipping...")
-                continue
+        """Import applicable concrete CLS-Luigi components."""
 
+        for card in algos_applicable:
             try:
-                module_path = self.implementation_module[algo_name]
-                cls = import_algo_class(algo_name, module_path)
+                configured_module = CONFIGURED_COMPONENT_MODULES.get(
+                    card.algo_name
+                )
+
+                if configured_module is not None:
+                    import_algo_class(
+                        card.algo_name,
+                        configured_module,
+                    )
+
+                    if self.verbose:
+                        print(
+                            f"✅ {card.algo_name} "
+                            f"from {configured_module}"
+                        )
+
+                    continue
+
+                module_path = self.implementation_module.get(
+                    card.algo_name
+                )
+                if module_path is None:
+                    if self.verbose:
+                        print(
+                            f"⚠ Unknown model: "
+                            f"{card.algo_name}, skipping..."
+                        )
+                    continue
+                import_algo_class(
+                    card.algo_name,
+                    module_path,
+                )
                 if self.verbose:
-                    print(f"✅ {algo_name}")
-            except Exception as e:
+                    print(f"✅ {card.algo_name}")
+            except Exception as exc:
                 if self.verbose:
-                    print(f"❌ Failed to import {algo_name}: {e}")
+                    print(
+                        f"❌ Failed to import "
+                        f"{card.algo_name}: {exc}"
+                    )
 
     def _build_pipelines(self):
         """Build valid pipelines using inhabitation"""
         from ware_ops_pipes.pipelines.templates.template_1 import (
-            InstanceLoader, AbstractItemAssignment, AbstractBatching,
+            LayoutLoader, InstanceLoader, AbstractItemAssignment, AbstractBatching,
             MultiOrderBatching, AbstractPickerRouting,
             AbstractScheduling, AbstractResultAggregation
         )
@@ -246,6 +258,7 @@ class PipelineRunner(ABC):
         max_results = self.max_pipelines if inhabitation_size == 0 else inhabitation_size
 
         validator = UniqueTaskPipelineValidator([
+            LayoutLoader,
             InstanceLoader,
             AbstractItemAssignment,
             AbstractBatching,
@@ -263,20 +276,10 @@ class PipelineRunner(ABC):
 
         if self.verbose and pipelines:
             print(f"✓ Found {len(pipelines)} valid pipelines")
-            for i, pipeline in enumerate(pipelines[:3], 1):  # Show first 3
+            for i, pipeline in enumerate(pipelines, 1):  # Show first 3
                 print(f"\nPipeline {i}:")
                 print(print_tree(pipeline))
         return pipelines
-
-    def _cleanup(self, output_folder: Path):
-        """Clean up intermediate files"""
-        try:
-            for file_path in output_folder.glob("InstanceLoader__*.pkl"):
-                file_path.unlink()
-                if self.verbose:
-                    print(f"Deleted {file_path.name}")
-        except Exception as e:
-            print(f"Cleanup failed: {e}")
 
     def create_ranking(self, instance_name: str, output_folder: Path):
         """Create ranking for this instance"""

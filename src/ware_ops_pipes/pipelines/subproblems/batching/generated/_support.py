@@ -1,0 +1,24 @@
+# This file is generated. Do not edit manually.
+
+from functools import lru_cache
+
+from ware_ops_algos.algorithms.algorithm_cards import (
+    load_packaged_algo_cards,
+)
+
+
+@lru_cache(maxsize=1)
+def _cards_by_name():
+    return {
+        card.algo_name: card
+        for card in load_packaged_algo_cards()
+    }
+
+
+def get_algorithm_card(name: str):
+    try:
+        return _cards_by_name()[name]
+    except KeyError as exc:
+        raise ValueError(
+            f"Configured algorithm card {name!r} was not found."
+        ) from exc

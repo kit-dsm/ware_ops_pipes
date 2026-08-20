@@ -1,4 +1,10 @@
 import os
+import hashlib
+import json
+import time
+from pathlib import Path
+
+import luigi
 import pandas as pd
 from cls_luigi.inhabitation_task import ClsParameter
 
@@ -11,40 +17,150 @@ from ware_ops_algos.domain_models import OrdersDomain, Resources, LayoutData, Ar
 from ware_ops_algos.domain_models.base_domain import BaseWarehouseDomain
 from ware_ops_pipes.pipelines import BaseComponent
 from ware_ops_pipes.pipelines.io_helpers import dump_pickle, load_pickle, load_json, dump_json
+from ware_ops_pipes.pipelines.pipeline_params import get_loader_cls
 from ware_ops_pipes.synthesis.pipeline_provenance import collect_from_graph
+
+
+class LayoutLoader(BaseComponent):
+    abstract = False
+
+    def _loader(self):
+        if not self.pipeline_params.loader_name:
+            raise ValueError("Pipeline parameter 'loader_name' is not set.")
+
+        if not self.pipeline_params.instances_dir:
+            raise ValueError("Pipeline parameter 'instances_dir' is not set.")
+
+        loader_cls = get_loader_cls(self.pipeline_params.loader_name)
+
+        return loader_cls(
+            instances_dir=Path(self.pipeline_params.instances_dir),
+            **self.pipeline_params.loader_kwargs()
+        )
+
+    def _layout_key(self) -> str:
+        loader = self._loader()
+        parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
+
+        payload = {
+            "loader": self.pipeline_params.loader_name,
+            "loader_kwargs": self.pipeline_params.loader_kwargs(),
+            "layout_signature": loader.layout_signature(parsed),
+        }
+
+        raw = json.dumps(payload, sort_keys=True, default=str)
+        return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+
+    def output(self):
+        if not self.pipeline_params.data_cache_folder:
+            raise ValueError("Pipeline parameter 'data_cache_folder' is not set.")
+
+        return {
+            "layout": luigi.LocalTarget(
+                os.path.join(
+                    self.pipeline_params.data_cache_folder,
+                    f"layout__{self._layout_key()}.pkl",
+                )
+            )
+        }
+
+    def run(self):
+        loader = self._loader()
+
+        t0 = time.perf_counter()
+        parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
+        t_parse = time.perf_counter() - t0
+
+        t1 = time.perf_counter()
+        layout = loader.build_layout(parsed)
+        t_build = time.perf_counter() - t1
+
+        if not self.pipeline_params.gen_tour:
+            # layout.layout_network.graph = None
+            layout.layout_network.predecessor_matrix = None
+
+        target = self.output()["layout"]
+        os.makedirs(os.path.dirname(target.path), exist_ok=True)
+
+        tmp_path = f"{target.path}.tmp.{os.getpid()}"
+        dump_pickle(tmp_path, layout)
+        os.replace(tmp_path, target.path)
+
+        dump_json(
+            f"{target.path}.timing.json",
+            {
+                "parse_time": t_parse,
+                "build_time": t_build,
+                "total_time": t_parse + t_build,
+            },
+        )
 
 
 class InstanceLoader(BaseComponent):
     abstract = False
 
+    layout_loader = ClsParameter(tpe=LayoutLoader.return_type())
+
+    def requires(self):
+        return {
+            "layout_loader": self.layout_loader(),
+        }
+
+    def _loader(self):
+        loader_cls = get_loader_cls(self.pipeline_params.loader_name)
+
+        return loader_cls(
+            instances_dir=Path(self.pipeline_params.instances_dir),
+            **self.pipeline_params.loader_kwargs(),
+        )
     def output(self):
         return {
-            "domain": self.get_luigi_local_target_with_task_id("domain.pkl"),
             "orders": self.get_luigi_local_target_with_task_id("orders.pkl"),
             "resources": self.get_luigi_local_target_with_task_id("resources.pkl"),
-            "layout": self.get_luigi_local_target_with_task_id("layout.pkl"),
+            "layout": self.layout_loader().output()["layout"],
             "articles": self.get_luigi_local_target_with_task_id("articles.pkl"),
             "storage": self.get_luigi_local_target_with_task_id("storage.pkl"),
             "warehouse_info": self.get_luigi_local_target_with_task_id("warehouse_info.pkl"),
         }
 
     def run(self):
-        domain_path = self.pipeline_params.domain_path
-        print("Path", domain_path)
-        if not domain_path:
-            raise ValueError("Pipeline parameter 'domain_path' is not set.")
+        loader = self._loader()
 
-        # Load cached domain object
-        domain: BaseWarehouseDomain = load_pickle(domain_path)
-        for target in self.output().values():
-            os.makedirs(os.path.dirname(target.path), exist_ok=True)
-        dump_pickle(self.output()["domain"].path, domain)
-        dump_pickle(self.output()["orders"].path, domain.orders)
-        dump_pickle(self.output()["resources"].path, domain.resources)
-        dump_pickle(self.output()["layout"].path, domain.layout)
-        dump_pickle(self.output()["articles"].path, domain.articles)
-        dump_pickle(self.output()["storage"].path, domain.storage)
-        dump_pickle(self.output()["warehouse_info"].path, domain.warehouse_info)
+        t0 = time.perf_counter()
+        parsed = loader.parse_instance(Path(self.pipeline_params.instance_path))
+        t_parse = time.perf_counter() - t0
+
+        layout = load_pickle(
+            self.input()["layout_loader"]["layout"].path
+        )
+
+        t1 = time.perf_counter()
+        domain: BaseWarehouseDomain = loader.build_domain_with_layout(
+            parsed,
+            layout,
+        )
+        t_build = time.perf_counter() - t1
+
+        self._dump("orders", domain.orders)
+        self._dump("resources", domain.resources)
+        self._dump("articles", domain.articles)
+        self._dump("storage", domain.storage)
+        self._dump("warehouse_info", domain.warehouse_info)
+
+        orders_target = self.output()["orders"]
+        dump_json(
+            f"{orders_target.path}.timing.json",
+            {
+                "parse_time": t_parse,
+                "build_time": t_build,
+                "total_time": t_parse + t_build,
+            },
+        )
+
+    def _dump(self, key: str, obj) -> None:
+        target = self.output()[key]
+        os.makedirs(os.path.dirname(target.path), exist_ok=True)
+        dump_pickle(target.path, obj)
 
 
 class AbstractItemAssignment(BaseComponent):
@@ -356,7 +472,7 @@ class AbstractResultAggregation(BaseComponent):
         provenance_list = []
         for stage_name in [
             "item_assignment", "batching", "routing",
-            "assignment", "scheduling", "scheduling",
+            "assignment", "scheduling"
         ]:
             if stage_name in collected:
                 entry = collected[stage_name]
@@ -365,12 +481,100 @@ class AbstractResultAggregation(BaseComponent):
                     "algo": entry["algo"],
                     "time": entry["time"],
                     "task_class": entry["task_class"],
+                    "task_module": entry.get("task_module", ""),
                 })
                 summary[f"{stage_name}_algo"] = entry["algo"]
                 summary[f"{stage_name}_time"] = entry["time"]
 
         summary["provenance"] = provenance_list
+
+        # Log instance features from the cached domain objects so downstream
+        # analysis can group by instance characteristics without reloading.
+        # The InstanceLoader may be a direct dependency (DueDate aggregation)
+        # or a grandchild (Distance aggregation), so we walk the full graph.
+        try:
+            instance_task = self._find_instance_task(self)
+            if instance_task is not None:
+                orders = load_pickle(instance_task.output()["orders"].path)
+                resources = load_pickle(instance_task.output()["resources"].path)
+                storage = load_pickle(instance_task.output()["storage"].path)
+                layout = load_pickle(instance_task.output()["layout"].path)
+
+                gd = getattr(layout, "graph_data", None)
+                features = {
+                    "n_orders": len(orders.orders),
+                    "n_pick_locations": getattr(gd, "n_pick_locations", None),
+                    "n_aisles": getattr(gd, "n_aisles", None),
+                    "n_blocks": getattr(gd, "n_blocks", None),
+                    "n_resources": len(resources.resources),
+                    "storage_type": getattr(storage, "get_type_value", lambda: None)(),
+                }
+                total_lines = 0
+                for order in orders.orders:
+                    total_lines += len(order.order_positions) if hasattr(order, "order_positions") else 0
+                features["n_order_lines"] = total_lines
+                summary["instance_features"] = features
+
+                # Loader timing: read sidecar JSONs written by LayoutLoader.run()
+                # and InstanceLoader.run().  Absent sidecar means the task was
+                # skipped by Luigi (cache hit) — report zero time.
+                loader_timing: dict[str, float | bool] = {}
+                for kind, task in (
+                    ("layout", instance_task.requires().get("layout_loader")),
+                    ("instance", instance_task),
+                ):
+                    if task is None:
+                        continue
+                    out = task.output()
+                    if kind == "layout":
+                        timing_path = f"{out['layout'].path}.timing.json"
+                    else:
+                        timing_path = f"{out['orders'].path}.timing.json"
+                    try:
+                        timing = load_json(timing_path)
+                        loader_timing[f"{kind}_parse_time"] = timing.get("parse_time", 0.0)
+                        loader_timing[f"{kind}_build_time"] = timing.get("build_time", 0.0)
+                        loader_timing[f"{kind}_load_time"] = timing.get("total_time", 0.0)
+                        loader_timing[f"{kind}_cache_hit"] = False
+                    except Exception:
+                        loader_timing[f"{kind}_parse_time"] = 0.0
+                        loader_timing[f"{kind}_build_time"] = 0.0
+                        loader_timing[f"{kind}_load_time"] = 0.0
+                        loader_timing[f"{kind}_cache_hit"] = True
+                if loader_timing:
+                    summary["loader_timing"] = loader_timing
+        except Exception:
+            pass
+
         return collected
+
+    @staticmethod
+    def _find_instance_task(task=None, visited=None):
+        """Recursively walk the task graph to find the InstanceLoader task
+        (any task with an 'orders' output).  Returns None if not found."""
+        from luigi.task import flatten as _flatten
+        if task is None:
+            return None
+        if visited is None:
+            visited = set()
+        tid = id(task)
+        if tid in visited:
+            return None
+        visited.add(tid)
+
+        if hasattr(task, "output"):
+            try:
+                outputs = task.output()
+                if isinstance(outputs, dict) and "orders" in outputs:
+                    return task
+            except Exception:
+                pass
+
+        for dep in _flatten(task.requires()):
+            result = AbstractResultAggregation._find_instance_task(dep, visited)
+            if result is not None:
+                return result
+        return None
 
     @staticmethod
     def _compute_tour_summary_from_list(routing_sols: list[RoutingSolution]) -> dict:
@@ -381,13 +585,13 @@ class AbstractResultAggregation(BaseComponent):
 
         for tour_id, sol in enumerate(routing_sols):
             routing_times[f"tour_{tour_id}_time"] = sol.execution_time
-            distance = sol.route.distance
+            distance = float(sol.route.distance)
             tour_distances[f"tour_{tour_id}_distance"] = distance
             total_distance += distance
 
         return {
             "tour_distances": tour_distances,
-            "total_distance": total_distance,
+            "total_distance": float(total_distance),
             "time_per_tour": routing_times,
         }
 
@@ -397,13 +601,13 @@ class AbstractResultAggregation(BaseComponent):
         tour_distances = {}
         total_distance = 0
         for tour_id, sol in enumerate(combined_sol.routes):
-            distance = sol.distance
+            distance = float(sol.distance)
             tour_distances[f"tour_{tour_id}_distance"] = distance
             total_distance += distance
 
         return {
             "tour_distances": tour_distances,
-            "total_distance": total_distance,
+            "total_distance": float(total_distance),
             "execution_time": combined_sol.execution_time,
         }
 
@@ -551,6 +755,9 @@ class ResultAggregationDueDate(AbstractResultAggregation):
         df_jobs = self._scheduled_jobs_to_frame(scheduled_jobs)
 
         summary["makespan"] = float(df_jobs["end_time"].max())
+        resources = load_pickle(self.input()["instance"]["resources"].path)
+        setup = resources.resources[0].tour_setup_time
+        summary["total_time"] = float(df_jobs["processing_time"].sum() + setup * len(df_jobs))
 
         picker_util = (
             df_jobs.groupby("picker_id")["processing_time"]

@@ -119,3 +119,8 @@ outputs/
 
 /cls-luigi/
 experiments/output/
+.agent/
+agent_notes/
+experiments/evaluation/df_results.parquet
+data/instances/*
+!data/instances/README.md

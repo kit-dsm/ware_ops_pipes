@@ -1,0 +1,21 @@
+\begin{table}[tbp]
+\centering
+\caption{Regret of the SBS relative to the VBS.}
+\label{tab:selection}
+\small
+\begin{tabular}{@{}lllrrr@{}}
+\toprule
+Instance Set & Objective & SBS & Mean & $p_{90}$ & Max \\
+\midrule
+\textit{SPRP} & distance & GIA + SingleOrderBatching + RR & 0.00 & 0.00 & 0.00 \\
+\textit{SPRP-SS} & distance & RR-NF & 0.00 & 0.00 & 0.00 \\
+\textit{BahceciOencan} & distance & GIA + CBR & 0.09 & 0.00 & 6.86 \\
+\textit{HennWaescher} & distance & GIA + LSBatchingRROrderNrFiFo + RR & 0.55 & 1.98 & 14.16 \\
+\textit{MuterOencan} & distance & GIA + LSBatchingRROrderNrFiFo + RR & 0.88 & 2.71 & 10.88 \\
+\textit{Foodmart} & distance & GIA + LSOrdNrNN + NN & 1.05 & 0.00 & 64.42 \\
+\textit{Kris} & total picking time & GIA + SavingsNN + NN + SPT & 0.95 & 2.85 & 23.93 \\
+ & makespan & GIA + SavingsNN + NN + LPT & 2.28 & 5.63 & 51.00 \\
+ & on-time rate (pp) & GIA + DueDate + NN + EDD & 1.65 & 5.00 & 38.00 \\
+\bottomrule
+\end{tabular}
+\end{table}

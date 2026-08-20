@@ -1,3 +1,4 @@
+import json
 from typing import Union, List
 
 from luigi.task import flatten
@@ -6,7 +7,7 @@ from cls.fcl import FiniteCombinatoryLogic
 from cls.subtypes import Subtypes
 from cls_luigi.inhabitation_task import RepoMeta
 
-from ware_ops_pipes.pipelines.pipeline_params import PipelineParams
+from ware_ops_pipes.pipelines.pipeline_params import PipelineParams, loader_name_from_cls
 
 
 def inhabit(start: Union[RepoMeta, List[RepoMeta]]):
@@ -41,21 +42,33 @@ def print_tree(task, indent='', last=True):
 
 
 def set_pipeline_params(
-    instance_set_name,
-    instance_name,
-    instance_path,
-    output_folder,
-    domain_path,
-    time_limit_seconds=None,
-    gen_tour=False
+    instance_set_name: str,
+    instance_name: str,
+    instance_path: str,
+    instances_dir: str,
+    output_folder: str,
+    data_cache_folder: str,
+    loader_cls: type,
+    loader_kwargs: dict | None = None,
+    time_limit_seconds: int | None = None,
+    gen_tour: bool = False,
 ) -> None:
-
-
     global_parameters = PipelineParams()
+
     global_parameters.output_folder = output_folder
+    global_parameters.data_cache_folder = data_cache_folder
+
     global_parameters.instance_set_name = instance_set_name
     global_parameters.instance_name = instance_name
     global_parameters.instance_path = instance_path
-    global_parameters.domain_path = domain_path
+    global_parameters.instances_dir = instances_dir
+
+    global_parameters.loader_name = loader_name_from_cls(loader_cls)
+    global_parameters.loader_kwargs_json = json.dumps(
+        loader_kwargs or {},
+        sort_keys=True,
+    )
+
+    global_parameters.domain_path = None
     global_parameters.time_limit_sec = time_limit_seconds
     global_parameters.gen_tour = gen_tour

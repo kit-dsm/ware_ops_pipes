@@ -1,0 +1,4 @@
+benchmark_variant,rows,proven_optima,input_kind
+HennWaescher,5760,5458,raw machine-readable
+MuterOencanWG,270,234,raw machine-readable
+Foodmart,42,42,manual Table B.15 transcription
