@@ -38,8 +38,8 @@ def main():
     dc = load_and_flatten_data_card(DATA_DIR / "data_cards" / "foodmart.yaml")
     runner = FoodmartRunner("FoodmartData", instances_base / "FoodmartData",
                             PROJECT_ROOT, data_card=dc,
-                            excluded=["ExactSolving",
-                                      "CombinedBatchingRoutingAssigning"], verbose=True,
+                            excluded=["ExactSolving"],
+                            verbose=True,
                             time_limit_sec=240, loader_cls=FoodmartLoader,
                             workers=args.workers)
     runner.run_all()
