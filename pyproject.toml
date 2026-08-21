@@ -7,10 +7,10 @@ name = "ware-ops-pipes"
 version = "0.2.0"
 description = "Context-aware synthesis of optimization pipelines for warehouse optimization."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.13, <3.14"
 license = { file = "LICENSE" }
 dependencies = [
-    "ware-ops-algos @ git+https://github.com/kit-dsm/ware_ops_algos.git@486d40ebbe569938ba27dfa9fbc3b8963538be1e",
+    "ware-ops-algos @ git+https://github.com/kit-dsm/ware_ops_algos.git@1b46952d6632ac645c54ab599e004c40220477bf",
     "cls-luigi==0.1.1",
     "luigi==3.6.0",
     "pandas"
