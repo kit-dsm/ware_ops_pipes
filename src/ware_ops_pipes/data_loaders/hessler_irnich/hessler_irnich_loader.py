@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import Counter
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -198,6 +199,17 @@ class HesslerIrnichLoader(DataLoader):
             else StorageType.SCATTERED
         )
 
+        # JOBPRP benchmark pick positions are assumed to hold enough units to
+        # fulfil any feasible selection of orders.  In some converted files
+        # the SKU quantity is nevertheless 1 while an order requests 2 or 3
+        # units.  Represent the published assumption explicitly instead of
+        # exposing that format field as a false stock constraint.
+        total_demand = Counter()
+        if storage_type == StorageType.DEDICATED:
+            for order_positions in parsed["orders"]:
+                for position in order_positions:
+                    total_demand[position["article_id"]] += position["amount"]
+
         storage_raw = StorageLocations(
             tpe=storage_type,
             locations=[
@@ -205,7 +217,14 @@ class HesslerIrnichLoader(DataLoader):
                     x=sku["aisle"] + 1,
                     y=sku["cell"],
                     article_id=sku["article_id"],
-                    amount=sku["quantity"],
+                    amount=(
+                        max(
+                            sku["quantity"],
+                            total_demand[sku["article_id"]],
+                        )
+                        if storage_type == StorageType.DEDICATED
+                        else sku["quantity"]
+                    ),
                 )
                 for sku in parsed["skus"]
             ],
