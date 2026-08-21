@@ -67,6 +67,8 @@ resources:
             - name: capacities
             - name: dimensions_type
               value: [items]
+            - name: n_boxes
+              value: 1
 
 storage:
   type: dedicated
